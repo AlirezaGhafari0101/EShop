@@ -1,4 +1,4 @@
-﻿using EShop.Domain.Models;
+﻿using EShop.Domain.Models.Users;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
