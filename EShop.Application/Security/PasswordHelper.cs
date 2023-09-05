@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EShop.Application.Security
 {
-    public class PasswordHelper
+    public static class PasswordHelper
     {
         public static string EncodePasswordMd5(string pass) //Encrypt using MD5   
         {
