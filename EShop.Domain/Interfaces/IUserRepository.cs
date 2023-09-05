@@ -11,7 +11,7 @@ namespace EShop.Domain.Interfaces
     {
         void Register(User user);
 
-        User Login(string email,  string password);
+        Task<User> Login(string email,  string password);
 
         Task<User> GetUserById(int UserId);
         void CreateUser(User user);
