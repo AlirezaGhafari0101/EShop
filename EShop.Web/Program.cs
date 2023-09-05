@@ -1,5 +1,7 @@
 using EShop.Data.Context;
+using EShop.Ioc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,8 @@ builder.Services.AddDbContext<EshopDBContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("EshopConnection"));
 });
+
+DependencyContainer.UserServices(builder.Services);
 
 
 var app = builder.Build();
@@ -42,3 +46,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+
+
