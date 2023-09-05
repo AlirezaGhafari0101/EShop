@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EShop.Domain.Models.Users
 {
-    public class User:UserContentBaseClass
+    public class User
     {
         [Key]
         public int Id { get; set; }
