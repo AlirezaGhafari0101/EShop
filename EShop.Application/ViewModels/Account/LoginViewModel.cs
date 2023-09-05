@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EShop.Application.ViewModels.Users
+namespace EShop.Application.ViewModels.Account
 {
     public class LoginViewModel
     {

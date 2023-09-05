@@ -1,4 +1,5 @@
-﻿@{
+﻿@model EShop.Application.ViewModels.Account.RegisterViewModel;
+@{
     ViewData["Title"] = "ثیت نام";
     Layout = "_AuthenticationLayout";
 }
@@ -9,22 +10,22 @@
         <!-- start of auth-box -->
         <div class="auth-box ui-box">
             <!-- start of auth-form -->
-            <form action="#" class="auth-form">
+            <form asp-action="Register" method="post" class="auth-form">
                 <!-- start of form-element -->
                 <div class="form-element-row mb-5">
-                    <input type="text" class="form-control" placeholder="ایمیل">
+                    <input type="text" asp-for=Email class="form-control" placeholder="ایمیل">
                 </div>
                 <div class="form-element-row mb-5">
-                    <input type="text" class="form-control" placeholder="نام">
+                    <input type="text" asp-for=FirstName class="form-control" placeholder="نام">
                 </div>
                 <div class="form-element-row mb-5">
-                    <input type="text" class="form-control" placeholder="نام خانوادگی">
+                    <input type="text" asp-for=LastName class="form-control" placeholder="نام خانوادگی">
                 </div>
                 <div class="form-element-row mb-5">
-                    <input type="password" class="form-control" placeholder="رمز عبور">
+                    <input type="password" asp-for=Password class="form-control" placeholder="رمز عبور">
                 </div>
                 <div class="form-element-row mb-5">
-                    <input type="password" class="form-control" placeholder="تکرار رمز عبور">
+                    <input type="password" asp-for=RepeatPassword class="form-control" placeholder="تکرار رمز عبور">
                 </div>
                 <!-- end of form-element -->
                 <!-- start of form-element -->

@@ -2,6 +2,7 @@
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Users;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +55,22 @@ namespace EShop.Data.Repository
             User user = await GetUserById(userId);
             _ctx.Users.Remove(user);
             _ctx.SaveChangesAsync();
+        }
+
+        public async Task<bool> IsExistUserEmail(string email)
+        {
+            return await _ctx.Users.AnyAsync(u => u.Email == email);
+        }
+
+        public async Task<User> GetUserByActiveCode(string activeCode)
+        {
+            return await _ctx.Users.SingleOrDefaultAsync(u => u.ActiveCode == activeCode);
+        }
+
+        public async Task ActiveAccount(User user)
+        {
+            _ctx.Update(user);
+            await _ctx.SaveChangesAsync();
         }
         #endregion
     }

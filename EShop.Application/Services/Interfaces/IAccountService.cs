@@ -1,4 +1,4 @@
-﻿using EShop.Application.ViewModels.Users;
+﻿using EShop.Application.ViewModels.Account;
 using EShop.Domain.Models.Users;
 using System;
 using System.Collections.Generic;
@@ -10,8 +10,12 @@ namespace EShop.Application.Services.Interfaces
 {
     public interface IAccountService
     {
-        void UserRegister(RegisterViewModel registerViewModel);
+        Task<User> UserRegister(RegisterViewModel registerViewModel);
         Task<User> UserLogin(LoginViewModel loginViewModel);
+
+        Task<bool> IsExistUserEmailService(string email);
+
+        Task<bool> ActiveAccountService(string activeCode);
 
     }
 }

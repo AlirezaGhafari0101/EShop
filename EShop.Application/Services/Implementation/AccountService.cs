@@ -1,6 +1,8 @@
-﻿using EShop.Application.Security;
+﻿using EShop.Application.Convertors;
+using EShop.Application.Generator;
+using EShop.Application.Security;
 using EShop.Application.Services.Interfaces;
-using EShop.Application.ViewModels.Users;
+using EShop.Application.ViewModels.Account;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Users;
 using System;
@@ -18,6 +20,30 @@ namespace EShop.Application.Services.Implementation
         {
             _userRepository = userRepository;
         }
+
+        public async Task<bool> ActiveAccountService(string activeCode)
+        {
+            var user = await _userRepository.GetUserByActiveCode(activeCode);
+
+            if (user == null || user.IsActive)
+            {
+                return false;
+            }
+
+            user.IsActive = true;
+            user.ActiveCode = NameGenerator.GenerateUniqCode();
+
+            await _userRepository.ActiveAccount(user);
+
+            return true;
+            
+        }
+
+        public async Task<bool> IsExistUserEmailService(string email)
+        {
+            return await _userRepository.IsExistUserEmail(email);
+        }
+
         public async Task<User> UserLogin(LoginViewModel loginViewModel)
         {
             string password = PasswordHelper.EncodePasswordMd5(loginViewModel.Password);
@@ -25,7 +51,7 @@ namespace EShop.Application.Services.Implementation
             return await _userRepository.Login(loginViewModel.Email, password);
         }
 
-        public void UserRegister(RegisterViewModel registerViewModel)
+        public async Task<User> UserRegister(RegisterViewModel registerViewModel)
         {
             var hashedPassword = PasswordHelper.EncodePasswordMd5(registerViewModel.Password);
             var userModel = new User()
@@ -33,12 +59,16 @@ namespace EShop.Application.Services.Implementation
             {
                 FirstName = registerViewModel.FirstName,
                 LastName = registerViewModel.LastName,
-                Email = registerViewModel.Email,
+                Email = FixedText.FixEmail(registerViewModel.Email),
                 Password = hashedPassword,
+                ActiveCode = NameGenerator.GenerateUniqCode()
+
+
 
             };
 
             _userRepository.Register(userModel);
+            return userModel;
         }
     }
 }

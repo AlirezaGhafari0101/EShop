@@ -9,9 +9,18 @@ namespace EShop.Domain.Interfaces
 {
     public interface IUserRepository
     {
+        //Account Roles
         void Register(User user);
 
-        Task<User> Login(string email,  string password);
+        Task<User> Login(string email, string password);
+
+        Task<bool> IsExistUserEmail(string email);
+
+        Task<User> GetUserByActiveCode(string activeCode);
+
+        Task ActiveAccount(User user);
+
+        //End Account Roles
 
         Task<User> GetUserById(int UserId);
         void CreateUser(User user);

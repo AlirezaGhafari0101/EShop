@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EShop.Application.ViewModels.Users
+namespace EShop.Application.ViewModels.Account
 {
     public class RegisterViewModel
     {
@@ -24,5 +24,6 @@ namespace EShop.Application.ViewModels.Users
         [Required]
         [StringLength(50)]
         public string LastName { get; set; }
+        public string ActiveCode { get; set; }
     }
 }
