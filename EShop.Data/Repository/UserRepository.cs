@@ -19,6 +19,7 @@ namespace EShop.Data.Repository
         {
             _ctx = ctx;
         }
+
         public User Login(string email, string password)
 
         {
@@ -31,5 +32,31 @@ namespace EShop.Data.Repository
             _ctx.Users.Add(user);
             _ctx.SaveChanges();
         }
+
+        #region CRUD User
+        public async Task<User> GetUserById(int userId)
+        {
+            return await _ctx.Users.FindAsync(userId);
+        }
+
+        public async void UpdateUser(User user)
+        {
+            _ctx.Users.Update(user);
+            _ctx.SaveChangesAsync();
+        }
+
+        public async void CreateUser(User user)
+        {
+            _ctx.Users.Add(user);
+            _ctx.SaveChangesAsync();
+        }
+
+        public async void DeleteUser(int userId)
+        {
+            User user = await GetUserById(userId);
+            _ctx.Users.Remove(user);
+            _ctx.SaveChangesAsync();
+        }
+        #endregion
     }
 }

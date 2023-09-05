@@ -13,6 +13,10 @@ namespace EShop.Domain.Interfaces
 
         User Login(string email,  string password);
 
+        Task<User> GetUserById(int UserId);
+        void CreateUser(User user);
+        void UpdateUser(User user);
+        void DeleteUser(int userId);
 
     }
 }
