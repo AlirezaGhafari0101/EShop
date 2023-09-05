@@ -1,5 +1,5 @@
-﻿using EShop.Application.Interfaces;
-using EShop.Application.Services;
+﻿using EShop.Application.Services.Implementation;
+using EShop.Application.Services.Interfaces;
 using EShop.Data.Repository;
 using EShop.Domain.Interfaces;
 using Microsoft.Extensions.DependencyInjection;

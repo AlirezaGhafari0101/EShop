@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EShop.Application.Interfaces
+namespace EShop.Application.Services.Interfaces
 {
     public interface IAccountService
     {

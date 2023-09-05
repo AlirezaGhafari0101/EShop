@@ -1,5 +1,5 @@
-﻿using EShop.Application.Interfaces;
-using EShop.Application.Security;
+﻿using EShop.Application.Security;
+using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels.Users;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Users;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EShop.Application.Services
+namespace EShop.Application.Services.Implementation
 {
     public class AccountService : IAccountService
     {
