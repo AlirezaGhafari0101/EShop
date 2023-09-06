@@ -63,6 +63,7 @@ namespace EShop.Application.Services.Implementation
                 Password = hashedPassword,
                 ActiveCode = NameGenerator.GenerateUniqCode(),
                 RegisterDate = DateTime.Now,
+                Avatar = "Defult.jpg"
 
 
 

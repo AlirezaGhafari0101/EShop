@@ -16,6 +16,7 @@ namespace EShop.Domain.Models.Users
         public string Email { get; set; }
         [Required]
         [StringLength(50)]
+        [ErrorMessage]
         public string Password { get; set; }
         [Required]
         [StringLength(50)]
@@ -30,7 +31,7 @@ namespace EShop.Domain.Models.Users
         public bool IsActive { get; set; }
         public bool IsAdmin { get; set; }
         public bool IsDelete { get; set; }
-
+      
         public DateTime RegisterDate { get; set; }
     }
 }

@@ -38,23 +38,23 @@ namespace EShop.Web.Controllers
 
 
             User user = await _accountService.UserRegister(register);
-            //region Send Activation Email
+          
 
-            //string body = _viewRender.RenderToStringAsync("_ActiveEmail", user);
-            //SendEmail.Send(user.Email, "فعالسازی", body);
-
-
+            string body = _viewRender.RenderToStringAsync("_ActiveEmail", user);
+            SendEmail.Send(user.Email, "فعالسازی", body);
 
 
 
-            return View("SuccessRegister");
+
+
+            return View("SuccessRegister",user);
         }
 
         #region Active Account
-        [Route("ActiveAccount")]
-        public IActionResult ActiveAccount(string id)
+        [Route("ActiveAccount/{id}")]
+        public async Task<IActionResult> ActiveAccount(string id)
         {
-            ViewBag.IsActive = _accountService.ActiveAccountService(id);
+            ViewBag.IsActive =await _accountService.ActiveAccountService(id);
             return View();
         }
         #endregion
