@@ -26,10 +26,11 @@ namespace EShop.Data.Repository
             return await _ctx.Users.SingleOrDefaultAsync(u => u.Email == email && u.Password == password);
         }
 
-        public async void Register(User user)
+        public async Task<User> Register(User user)
         {
             _ctx.Users.Add(user);
-            _ctx.SaveChangesAsync();
+          await  _ctx.SaveChangesAsync();
+            return user;
         }
 
         #region CRUD User

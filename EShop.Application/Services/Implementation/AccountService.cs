@@ -36,7 +36,7 @@ namespace EShop.Application.Services.Implementation
             await _userRepository.ActiveAccount(user);
 
             return true;
-            
+
         }
 
         public async Task<bool> IsExistUserEmailService(string email)
@@ -54,21 +54,23 @@ namespace EShop.Application.Services.Implementation
         public async Task<User> UserRegister(RegisterViewModel registerViewModel)
         {
             var hashedPassword = PasswordHelper.EncodePasswordMd5(registerViewModel.Password);
-            var userModel = new User()
+            User userModel = new User()
 
             {
                 FirstName = registerViewModel.FirstName,
                 LastName = registerViewModel.LastName,
                 Email = FixedText.FixEmail(registerViewModel.Email),
                 Password = hashedPassword,
-                ActiveCode = NameGenerator.GenerateUniqCode()
+                ActiveCode = NameGenerator.GenerateUniqCode(),
+                RegisterDate = DateTime.Now,
+
 
 
 
             };
 
-            _userRepository.Register(userModel);
-            return userModel;
+            User registredUser = await _userRepository.Register(userModel);
+            return registredUser;
         }
     }
 }

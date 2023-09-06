@@ -24,7 +24,7 @@ namespace EShop.Application.Senders
             // mail.Attachments.Add(attachment);
 
             SmtpServer.Port = 587;
-            SmtpServer.Credentials = new System.Net.NetworkCredential("hajizadesaeed.78@gmail.com", "****");
+            SmtpServer.Credentials = new System.Net.NetworkCredential("hajizadesaeed.78@gmail.com", "@sa$ee#D%1378");
             SmtpServer.EnableSsl = true;
 
             SmtpServer.Send(mail);

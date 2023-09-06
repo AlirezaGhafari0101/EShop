@@ -10,7 +10,7 @@ namespace EShop.Domain.Interfaces
     public interface IUserRepository
     {
         //Account Roles
-        void Register(User user);
+        Task<User> Register(User user);
 
         Task<User> Login(string email, string password);
 

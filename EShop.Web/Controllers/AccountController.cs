@@ -28,7 +28,8 @@ namespace EShop.Web.Controllers
         {
             if (!ModelState.IsValid) { View(register); }
 
-            if (!await _accountService.IsExistUserEmailService(FixedText.FixEmail(register.Email)))
+
+            if (await _accountService.IsExistUserEmailService(register.Email))
             {
                 ModelState.AddModelError("Email", "ایمیل وارد معتبرنمی باشد");
                 return View(register);
@@ -39,8 +40,8 @@ namespace EShop.Web.Controllers
             User user = await _accountService.UserRegister(register);
             //region Send Activation Email
 
-            string body = _viewRender.RenderToStringAsync("_ActiveEmail", user);
-            SendEmail.Send(user.Email, "فعالسازی", body);
+            //string body = _viewRender.RenderToStringAsync("_ActiveEmail", user);
+            //SendEmail.Send(user.Email, "فعالسازی", body);
 
 
 
