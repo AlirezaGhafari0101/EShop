@@ -21,21 +21,21 @@ namespace EShop.Application.Services.Implementation
             _userRepository = userRepository;
         }
 
-        public async Task<bool> ActiveAccountService(string activeCode)
+        public async Task<User> ActiveAccountService(string activeCode)
         {
             var user = await _userRepository.GetUserByActiveCode(activeCode);
 
             if (user == null || user.IsActive)
             {
-                return false;
+                return null;
             }
 
             user.IsActive = true;
-            user.ActiveCode = NameGenerator.GenerateUniqCode();
+            user.ActiveCode = NameGenerator.GenerateUnipNDigitCode(6);
 
             await _userRepository.ActiveAccount(user);
 
-            return true;
+            return user;
 
         }
 
@@ -54,6 +54,7 @@ namespace EShop.Application.Services.Implementation
         public async Task<User> UserRegister(RegisterViewModel registerViewModel)
         {
             var hashedPassword = PasswordHelper.EncodePasswordMd5(registerViewModel.Password);
+            var hashedActiveCode = PasswordHelper.EncodePasswordMd5(NameGenerator.GenerateUnipNDigitCode(6));
             User userModel = new User()
 
             {
@@ -61,7 +62,7 @@ namespace EShop.Application.Services.Implementation
                 LastName = registerViewModel.LastName,
                 Email = FixedText.FixEmail(registerViewModel.Email),
                 Password = hashedPassword,
-                ActiveCode = NameGenerator.GenerateUniqCode(),
+                ActiveCode = NameGenerator.GenerateUnipNDigitCode(6),
                 RegisterDate = DateTime.Now,
                 Avatar = "Defult.jpg"
 

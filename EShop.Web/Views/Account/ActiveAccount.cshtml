@@ -1,28 +1,99 @@
-﻿@{
+﻿@model EShop.Application.ViewModels.Account.ActiveAccountViewModel
+@{
     ViewData["Title"] = "فعالسازی";
+    Layout = "_AuthenticationLayout";
 }
 
-<nav aria-label="breadcrumb">
-    <ul class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">یکتا کالا</a></li>
-        <li class="breadcrumb-item active" aria-current="page">فعالسازی حساب کاربری</li>
-    </ul>
-</nav>
+<main class="page-content page-auth">
 
-<div class="container">
-    @if (ViewBag.IsActive)
-    {
-        <div class="alert alert-success">
-            <p>حساب کاربری شما با موفقیت فعال شد</p>
-            <p>
-                <a href="/Login">ورود به سایت</a>
-            </p>
+
+    <!-- start of auth-container -->
+    <div class="auth-container">
+        <div class="auth-title mb-3">فعالسازی حساب کاربری</div>
+        <!-- start of auth-box -->
+        <div class="auth-box ui-box">
+            @if (ViewBag.IsSuccess != null)
+            {
+
+                <div class="alert alert-warning">
+                    <p class="help-block">عملیات فعالسازی با مشکل مواجه شد</p>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-primary">
+                    <p class="help-block">کاربر عزیز ما کدفعالسازی را به ایمیل شما ارسال کردیم.</p>
+                </div>
+            }
+
+
+       
+
+            <!-- start of auth-form -->
+            <form asp-action="ActiveAccount" method="post" class="auth-form">
+                <!-- start of form-element -->
+                <div class="form-element-row mb-5">
+                    <input type="text" class="form-control" asp-for=ActiveCode placeholder="کدفعالسازی">
+                    <span asp-validation-for="ActiveCode"></span>
+                </div>
+
+                <div class="text-center">
+                    <p id="demo">
+
+                    </p>
+
+                </div>
+
+                <!-- end of form-element -->
+                <!-- start of form-element -->
+                <div class="form-element-row mb-3">
+                    <button class="btn btn-primary">تایید</button>
+                </div>
+                <!-- end of form-element -->
+                <!-- start of form-element -->
+                <!-- end of form-element -->
+            </form>
+            <!-- end of auth-form -->
         </div>
-    }
-    else
-    {
-        <div class="alert alert-danger">
-            <p>حساب کاربری با مشخصات ارسال شده یافت نشد</p>
-        </div>
-    }
-</div>
+        <!-- end of auth-box -->
+    </div>
+    <!-- start of auth-container -->
+</main>
+
+<script>
+    // Set the date we're counting down to
+    var countDownDate = new Date().getTime() + 90000;
+
+
+    // Update the count down every 1 second
+    var x = setInterval(function () {
+
+        // Get today's date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        // var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        // var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Display the result in the element with id="demo"
+        document.getElementById("demo").innerHTML = minutes + ":" + seconds;
+
+        // If the count down is finished, write some text
+        if (distance <0) {
+            clearInterval(x);
+
+            var a = document.createElement('a');
+            var linkText = document.createTextNode("ارسال مجدد کد");
+            a.appendChild(linkText);
+
+            a.href = "/ActiveAccount";
+            document.getElementById("demo").innerHTML = "";
+            document.getElementById("demo").appendChild(a);
+        }
+    }, 1000);
+</script>

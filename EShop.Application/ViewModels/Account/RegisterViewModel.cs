@@ -18,7 +18,7 @@ namespace EShop.Application.ViewModels.Account
         public string Password { get; set; }
         [Required]
         [StringLength(50)]
-        [Compare("Password")]
+        [Compare("Password",ErrorMessage ="تکرار رمز عبور با رمز عبور مغایرت دارد")]
         public string RepeatPassword { get; set; }
         public string FirstName { get; set; }
         [Required]

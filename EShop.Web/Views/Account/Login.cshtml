@@ -1,0 +1,48 @@
+﻿@model EShop.Application.ViewModels.Account.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_AuthenticationLayout";
+}
+<main class="page-content page-auth">
+    <!-- start of auth-container -->
+    <div class="auth-container">
+        <div class="auth-title mb-3"><span>ورود</span> / <span class=""><a href="/Register" class="text-decoration-none">ثبت نام</a></span></div>
+        <!-- start of auth-box -->
+        <div class="auth-box ui-box">
+            <!-- start of auth-form -->
+            <form asp-action="Login" method="post" class="auth-form">
+                <!-- start of form-element -->
+                <div class="form-element-row mb-5">
+                    <input type="text" class="form-control" placeholder="ایمیل">
+                    <span asp-validation-for="Email"></span>
+                </div>
+                <div class="form-element-row mb-5">
+                    <input type="password" class="form-control" placeholder="رمز عبور">
+                    <span asp-validation-for="Password"></span>
+                </div>
+                <!-- end of form-element -->
+                <!-- start of form-element -->
+                <div class="form-element-row mb-3">
+                    <button class="btn btn-primary">ادامه</button>
+                </div>
+                <!-- end of form-element -->
+                <!-- start of form-element -->
+                <div class="form-element-row">
+                    <div>
+                        با ورود و یا ثبت نام در سایت شما <a href="#" class="link">
+                            شرایط و
+                            قوانین
+                        </a> استفاده
+                        از تمام سرویس های
+                        سایت و <a href="#" class="link">قوانین حریم خصوصی</a> آن را می‌پذیرید.
+                    </div>
+                </div>
+                <!-- end of form-element -->
+            </form>
+            <!-- end of auth-form -->
+        </div>
+        <!-- end of auth-box -->
+    </div>
+    <!-- start of auth-container -->
+</main>
+

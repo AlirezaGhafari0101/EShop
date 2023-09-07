@@ -16,6 +16,7 @@ namespace EShop.Web.Controllers
             _accountService = accountService;
             _viewRender = viewRenderService;
         }
+        #region SignUp
         [Route("Register")]
         public IActionResult Register()
         {
@@ -38,26 +39,64 @@ namespace EShop.Web.Controllers
 
 
             User user = await _accountService.UserRegister(register);
-          
+
 
             string body = _viewRender.RenderToStringAsync("_ActiveEmail", user);
             SendEmail.Send(user.Email, "فعالسازی", body);
 
+            ViewBag.IsSuccess = true;
 
 
 
+            //return View("SuccessRegister", user);
+            return View();
 
-            return View("SuccessRegister",user);
         }
 
         #region Active Account
-        [Route("ActiveAccount/{id}")]
-        public async Task<IActionResult> ActiveAccount(string id)
+        //[Route("ActiveAccount/{id}")]
+        //public async Task<IActionResult> ActiveAccount(string id)
+        //{
+        //    ViewBag.IsActive = await _accountService.ActiveAccountService(id);
+        //    return View();
+        //}
+
+        [Route("ActiveAccount")]
+        public async Task<IActionResult> ActiveAccount()
         {
-            ViewBag.IsActive =await _accountService.ActiveAccountService(id);
+
+            return View();
+        }
+
+        [Route("ActiveAccount")]
+        [HttpPost]
+        public async Task<IActionResult> ActiveAccount(ActiveAccountViewModel activeAccount)
+        {
+            if (!ModelState.IsValid) { View(activeAccount); }
+
+            User user = await _accountService.ActiveAccountService(activeAccount.ActiveCode);
+            if (user == null)
+            {
+                ViewBag.IsSuccess = false;
+                return View();
+            }
+
+            return View("SuccessRegister", user);
+        }
+        #endregion
+
+        #endregion
+
+
+        #region SingIn
+        [Route("Login")]
+        [HttpGet]
+        public IActionResult Login()
+        {
             return View();
         }
         #endregion
+
 
 
     }

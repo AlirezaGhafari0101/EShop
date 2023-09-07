@@ -15,7 +15,7 @@ namespace EShop.Application.Services.Interfaces
 
         Task<bool> IsExistUserEmailService(string email);
 
-        Task<bool> ActiveAccountService(string activeCode);
+        Task<User> ActiveAccountService(string activeCode);
 
     }
 }
