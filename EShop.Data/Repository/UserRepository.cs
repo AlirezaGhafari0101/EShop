@@ -29,7 +29,7 @@ namespace EShop.Data.Repository
         public async Task<User> Register(User user)
         {
             _ctx.Users.Add(user);
-          await  _ctx.SaveChangesAsync();
+            await _ctx.SaveChangesAsync();
             return user;
         }
 
@@ -76,7 +76,17 @@ namespace EShop.Data.Repository
 
         public async Task<User> LoginUser(string Email, string Password)
         {
-            return await _ctx.Users.SingleOrDefaultAsync(u=> u.Email==Email && u.Password==Password);
+            return await _ctx.Users.SingleOrDefaultAsync(u => u.Email == Email && u.Password == Password);
+        }
+
+        public async Task<User> ForgotPassword(string email)
+        {
+            return await _ctx.Users.SingleOrDefaultAsync(u => u.Email == email);
+        }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            return await _ctx.Users.SingleOrDefaultAsync(u => u.Email == email);
         }
         #endregion
     }

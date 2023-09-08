@@ -19,5 +19,10 @@ namespace EShop.Application.Services.Interfaces
 
         Task<User> LoginUserService(LoginViewModel loginViewModel);
 
+        Task<User> ForgotPasswordService(string email);
+        Task<User> CheckForgotPassword(string code);
+
+        Task ChangeUserPassword(ChangePasswordViewModel viewMode);
+
     }
 }

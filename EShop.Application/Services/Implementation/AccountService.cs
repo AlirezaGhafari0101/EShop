@@ -5,6 +5,7 @@ using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels.Account;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Users;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,36 @@ namespace EShop.Application.Services.Implementation
 
         }
 
+        public async Task ChangeUserPassword(ChangePasswordViewModel viewMode)
+        {
+            User user = await _userRepository.GetUserByEmail(viewMode.Email);
+
+            string hashedPassword = PasswordHelper.EncodePasswordMd5(viewMode.Password);
+
+            user.Password = hashedPassword;
+
+            _userRepository.UpdateUser(user);
+
+        }
+
+        public async Task<User> CheckForgotPassword(string code)
+        {
+            User user = await _userRepository.GetUserByActiveCode(code);
+
+            user.ActiveCode = NameGenerator.GenerateUnipNDigitCode(6);
+            _userRepository.UpdateUser(user);
+
+            return user;
+        }
+
+        public async Task<User> ForgotPasswordService(string email)
+        {
+            string Fixedemail = FixedText.FixEmail(email);
+            User user = await _userRepository.ForgotPassword(Fixedemail);
+
+            return user;
+        }
+
         public async Task<bool> IsExistUserEmailService(string email)
         {
             return await _userRepository.IsExistUserEmail(email);
@@ -46,10 +77,10 @@ namespace EShop.Application.Services.Implementation
 
         public async Task<User> LoginUserService(LoginViewModel loginViewModel)
         {
-            string password=PasswordHelper.EncodePasswordMd5(loginViewModel.Password);
-            string email=FixedText.FixEmail(loginViewModel.Email);
+            string password = PasswordHelper.EncodePasswordMd5(loginViewModel.Password);
+            string email = FixedText.FixEmail(loginViewModel.Email);
 
-            var user=await _userRepository.LoginUser(email, password);
+            var user = await _userRepository.LoginUser(email, password);
             return user;
         }
 

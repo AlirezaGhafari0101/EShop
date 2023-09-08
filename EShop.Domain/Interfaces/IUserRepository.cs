@@ -17,10 +17,17 @@ namespace EShop.Domain.Interfaces
         Task<bool> IsExistUserEmail(string email);
 
         Task<User> GetUserByActiveCode(string activeCode);
+        Task<User> GetUserByEmail(string email);
 
         Task ActiveAccount(User user);
 
         Task<User> LoginUser(string Email,string Password);
+
+        Task<User> ForgotPassword( string email);
+
+        
+
+
 
         //End Account Roles
 

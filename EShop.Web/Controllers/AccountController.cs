@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using EShop.Data.Migrations;
 
 namespace EShop.Web.Controllers
 {
@@ -146,6 +147,76 @@ namespace EShop.Web.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect("/Login");
+        }
+        #endregion
+
+
+        #region ForGotPassword
+        [Route("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword()
+        {
+            return View();
+        }
+
+        [Route("ForgotPassword")]
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel forgotPassword)
+        {
+            if (!ModelState.IsValid) { return View(forgotPassword); };
+
+            User user=await _accountService.ForgotPasswordService(forgotPassword.Email);
+
+            if (user!=null)
+            {
+                string body = _viewRender.RenderToStringAsync("_ForgotPasswordEmail", user);
+                SendEmail.Send(user.Email, "فعالسازی", body);
+
+                return Redirect($"/CheckForgotPassword");
+            }
+            ModelState.AddModelError("Email", "حساب کاربری یافت نشد");
+            return View(forgotPassword);
+        }
+
+
+        [Route("CheckForgotPassword")]
+        public async Task<IActionResult> CheckForgotPassword()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        [Route("CheckForgotPassword")]
+        public async Task<IActionResult> CheckForgotPassword(ActiveAccountViewModel viewModel)
+        {
+            if (!ModelState.IsValid) { return View(viewModel); };
+
+            User user = await _accountService.CheckForgotPassword(viewModel.ActiveCode);
+
+            if(user!=null)
+            {
+                return Redirect($"/Account/ChangePassword/{user.Email}");
+            }
+            ModelState.AddModelError("ActiveCode", "کد وارد شده صحیح نمی باشد");
+            return View(viewModel);
+        }
+
+       
+        public  IActionResult ChangePassword(string id)
+        {
+            
+            return View(new ChangePasswordViewModel() { Email=id});
+        }
+
+      
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel viewModel)
+        {
+         
+            if (!ModelState.IsValid) { return View(viewModel); };
+
+            await _accountService.ChangeUserPassword(viewModel);
+            ViewBag.IsSuccess=true;
+            return View();
         }
         #endregion
 
