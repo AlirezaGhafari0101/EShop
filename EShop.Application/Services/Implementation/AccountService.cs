@@ -44,6 +44,15 @@ namespace EShop.Application.Services.Implementation
             return await _userRepository.IsExistUserEmail(email);
         }
 
+        public async Task<User> LoginUserService(LoginViewModel loginViewModel)
+        {
+            string password=PasswordHelper.EncodePasswordMd5(loginViewModel.Password);
+            string email=FixedText.FixEmail(loginViewModel.Email);
+
+            var user=await _userRepository.LoginUser(email, password);
+            return user;
+        }
+
         public async Task<User> UserLogin(LoginViewModel loginViewModel)
         {
             string password = PasswordHelper.EncodePasswordMd5(loginViewModel.Password);

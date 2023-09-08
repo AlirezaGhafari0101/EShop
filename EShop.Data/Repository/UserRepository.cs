@@ -73,6 +73,11 @@ namespace EShop.Data.Repository
             _ctx.Update(user);
             await _ctx.SaveChangesAsync();
         }
+
+        public async Task<User> LoginUser(string Email, string Password)
+        {
+            return await _ctx.Users.SingleOrDefaultAsync(u=> u.Email==Email && u.Password==Password);
+        }
         #endregion
     }
 }

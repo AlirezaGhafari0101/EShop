@@ -20,6 +20,8 @@ namespace EShop.Domain.Interfaces
 
         Task ActiveAccount(User user);
 
+        Task<User> LoginUser(string Email,string Password);
+
         //End Account Roles
 
         Task<User> GetUserById(int UserId);

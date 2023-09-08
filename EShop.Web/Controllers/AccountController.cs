@@ -3,7 +3,10 @@ using EShop.Application.Senders;
 using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels.Account;
 using EShop.Domain.Models.Users;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace EShop.Web.Controllers
 {
@@ -95,8 +98,56 @@ namespace EShop.Web.Controllers
         {
             return View();
         }
+
+        [Route("Login")]
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel login)
+        {
+            if (!ModelState.IsValid) { return View(); }
+
+            User user = await _accountService.LoginUserService(login);
+            if (user != null)
+            {
+                if (user.IsActive)
+                {
+                    var claims = new List<Claim>()
+                    {
+                        new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
+                        new Claim(ClaimTypes.Name,user.Email)
+                    };
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(identity);
+
+                    var properties = new AuthenticationProperties
+                    {
+                        IsPersistent = true
+                    };
+                    await HttpContext.SignInAsync(principal, properties);
+                    ViewBag.IsSuccess = true;
+                    return View();
+
+                }
+                else
+                {
+                    ModelState.AddModelError("Email", "حساب کاربری شما فعال نمی باشد");
+
+                }
+
+            }
+            ModelState.AddModelError("Email", "کاربری با مشخصات وارد شده یافت نشد");
+            return View(login);
+        }
         #endregion
 
+
+        #region LogOut
+        [Route("LogOut")]
+        public async Task<IActionResult> LogOut()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Redirect("/Login");
+        }
+        #endregion
 
 
     }

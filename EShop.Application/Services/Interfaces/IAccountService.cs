@@ -17,5 +17,7 @@ namespace EShop.Application.Services.Interfaces
 
         Task<User> ActiveAccountService(string activeCode);
 
+        Task<User> LoginUserService(LoginViewModel loginViewModel);
+
     }
 }
