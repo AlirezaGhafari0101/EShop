@@ -5,12 +5,6 @@ using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels.Account;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Users;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EShop.Application.Services.Implementation
 {
@@ -34,8 +28,8 @@ namespace EShop.Application.Services.Implementation
             user.IsActive = true;
             user.ActiveCode = NameGenerator.GenerateUnipNDigitCode(6);
 
-            _userRepository.UpdateUser(user);
-           await _userRepository.SaveChangeAsync();
+            await _userRepository.UpdateUserAsync(user);
+            await _userRepository.SaveChangeAsync();
 
             return user;
 
@@ -49,7 +43,7 @@ namespace EShop.Application.Services.Implementation
 
             user.Password = hashedPassword;
 
-            _userRepository.UpdateUser(user);
+            await _userRepository.UpdateUserAsync(user);
             await _userRepository.SaveChangeAsync();
 
         }
@@ -59,7 +53,7 @@ namespace EShop.Application.Services.Implementation
             User user = await _userRepository.GetUserByActiveCodeAsync(code);
 
             user.ActiveCode = NameGenerator.GenerateUnipNDigitCode(6);
-            _userRepository.UpdateUser(user);
+            await _userRepository.UpdateUserAsync(user);
             await _userRepository.SaveChangeAsync();
 
             return user;
@@ -114,8 +108,8 @@ namespace EShop.Application.Services.Implementation
 
             };
 
-           
-         
+
+
 
             User registredUser = await _userRepository.RegisterAsync(userModel);
             await _userRepository.SaveChangeAsync();
