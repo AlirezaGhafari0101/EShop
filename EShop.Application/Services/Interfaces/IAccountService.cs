@@ -10,19 +10,19 @@ namespace EShop.Application.Services.Interfaces
 {
     public interface IAccountService
     {
-        Task<User> UserRegister(RegisterViewModel registerViewModel);
-        Task<User> UserLogin(LoginViewModel loginViewModel);
+        Task<User> UserRegisterAsync(RegisterViewModel registerViewModel);
+        Task<User> UserLoginAsync(LoginViewModel loginViewModel);
 
-        Task<bool> IsExistUserEmailService(string email);
+        Task<bool> IsExistUserEmailServiceAsync(string email);
 
-        Task<User> ActiveAccountService(string activeCode);
+        Task<User> ActiveAccountServiceAsync(string activeCode);
 
-        Task<User> LoginUserService(LoginViewModel loginViewModel);
+        Task<User> LoginUserServiceAsync(LoginViewModel loginViewModel);
 
-        Task<User> ForgotPasswordService(string email);
-        Task<User> CheckForgotPassword(string code);
+        Task<User> ForgotPasswordServiceAsync(string email);
+        Task<User> CheckForgotPasswordAsync(string code);
 
-        Task ChangeUserPassword(ChangePasswordViewModel viewMode);
+        Task ChangeUserPasswordAsync(ChangePasswordViewModel viewMode);
 
     }
 }

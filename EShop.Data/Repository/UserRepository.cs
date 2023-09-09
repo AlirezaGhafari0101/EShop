@@ -14,15 +14,13 @@ namespace EShop.Data.Repository
         {
             _ctx = ctx;
         }
-        public async Task<User> Login(string email, string password)
+        public async Task<User> LoginAsync(string email, string password)
             => await _ctx.Users.SingleOrDefaultAsync(u => u.Email == email && u.Password == password);
 
 
-        public async Task<User> Register(User user)
+        public async Task<User> RegisterAsync(User user)
         {
             _ctx.Users.Add(user);
-
-            await _ctx.SaveChangesAsync();
             return user;
         }
 
@@ -52,33 +50,33 @@ namespace EShop.Data.Repository
 
         }
 
-        public async Task<bool> IsExistUserEmail(string email)
+        public async Task<bool> IsExistUserEmailAsync(string email)
         {
             return await _ctx.Users.AnyAsync(u => u.Email == email);
         }
 
-        public async Task<User> GetUserByActiveCode(string activeCode)
+        public async Task<User> GetUserByActiveCodeAsync(string activeCode)
         {
             return await _ctx.Users.SingleOrDefaultAsync(u => u.ActiveCode == activeCode);
         }
 
-        public async Task ActiveAccount(User user)
+        public async Task ActiveAccountAsync(User user)
         {
             _ctx.Update(user);
 
         }
 
-        public async Task<User> LoginUser(string Email, string Password)
+        public async Task<User> LoginUserAsync(string Email, string Password)
         {
             return await _ctx.Users.SingleOrDefaultAsync(u => u.Email == Email && u.Password == Password);
         }
 
-        public async Task<User> ForgotPassword(string email)
+        public async Task<User> ForgotPasswordAsync(string email)
         {
             return await _ctx.Users.SingleOrDefaultAsync(u => u.Email == email);
         }
 
-        public async Task<User> GetUserByEmail(string email)
+        public async Task<User> GetUserByEmailAsync(string email)
         {
             return await _ctx.Users.SingleOrDefaultAsync(u => u.Email == email);
         }
