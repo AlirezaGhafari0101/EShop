@@ -21,6 +21,8 @@ namespace EShop.Ioc
             service.AddScoped<IAccountService, AccountService>();
 
             service.AddScoped<IViewRenderService, RenderViewToString>();
+
+            service.AddScoped<IUserService, UserService>();
         }
     }
 }

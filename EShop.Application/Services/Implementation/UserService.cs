@@ -34,7 +34,8 @@ namespace EShop.Application.Services.Implementation
                 IsActive = true,
                 Password = PasswordHelper.EncodePasswordMd5(userViewModel.Password),
             };
-            await _userRepository.CreateUserAsync(user);
+              await _userRepository.CreateUserAsync(user);
+              await _userRepository.SaveChangeAsync();
         }
     }
 }
