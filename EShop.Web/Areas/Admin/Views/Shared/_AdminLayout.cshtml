@@ -7,10 +7,10 @@ Purchase: https://wrapbootstrap.com/theme/beyondadmin-adminapp-angularjs-mvc-WB0
 <html xmlns="http://www.w3.org/1999/xhtml">
 <!-- Head -->
 <head>
-<title>داشبورد</title>
-   <!-- Start Header Refrences -->
+    <title>داشبورد</title>
+    <!-- Start Header Refrences -->
     <partial name="_HeaderRefrences">
-   <!-- End Header Refrences -->
+        <!-- End Header Refrences -->
 </head>
 <!-- /Head -->
 <!-- Body -->
@@ -22,37 +22,40 @@ Purchase: https://wrapbootstrap.com/theme/beyondadmin-adminapp-angularjs-mvc-WB0
     <!--  /Loading Container -->
     <!-- Navbar -->
     <partial name="_Navbar">
-    <!-- /Navbar -->
-    <!-- Main Container -->
-    <div class="main-container container-fluid">
-        <!-- Page Container -->
-        <div class="page-container">
-            <!-- Page Sidebar -->
-                <partial name="_Sidebar">
-            <!-- /Page Sidebar -->
-            <!-- Chat Bar -->
-            <partial name="_Chatbar">
-            <!-- /Chat Bar -->
-            <!-- Page Content -->
-            <div class="page-content">
-                <!-- Page Breadcrumb -->
-                        <partial name="_BreadCrumb">
-                <!-- /Page Breadcrumb -->
-                <!-- Page Header -->
-                            <partial name="_PageHeader">
-                <!-- /Page Header -->
-                <!-- Page Body -->
-               @RenderBody()
-                <!-- /Page Body -->
-            </div>
-            <!-- /Page Content -->
-        </div>
-        <!-- /Page Container -->
+        <!-- /Navbar -->
         <!-- Main Container -->
-    </div>
-    <!--Start Scripts-->
-    <partial name="_FooterRefrences">
-    <!--End Scripts--> 
+        <div class="main-container container-fluid">
+            <!-- Page Container -->
+            <div class="page-container">
+                <!-- Page Sidebar -->
+                <partial name="_Sidebar">
+                    <!-- /Page Sidebar -->
+                    <!-- Chat Bar -->
+                    <partial name="_Chatbar">
+                        <!-- /Chat Bar -->
+                        <!-- Page Content -->
+                        <div class="page-content">
+                            <!-- Page Breadcrumb -->
+                            <partial name="_BreadCrumb">
+                                <!-- /Page Breadcrumb -->
+                                <!-- Page Header -->
+                                <partial name="_PageHeader">
+                                    <!-- /Page Header -->
+                                    <!-- Page Body -->
+                                    <div class="page-body">
+                                        @RenderBody()
+                                    </div>
+
+                                    <!-- /Page Body -->
+                        </div>
+                        <!-- /Page Content -->
+            </div>
+            <!-- /Page Container -->
+            <!-- Main Container -->
+        </div>
+        <!--Start Scripts-->
+        <partial name="_FooterRefrences">
+            <!--End Scripts-->
 </body>
 <!--  /Body -->
 </html>
