@@ -2,6 +2,7 @@
 using EShop.Application.Generator;
 using EShop.Application.Security;
 using EShop.Application.Services.Interfaces;
+using EShop.Application.ViewModels;
 using EShop.Application.ViewModels.Account;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Users;
@@ -16,7 +17,7 @@ namespace EShop.Application.Services.Implementation
             _userRepository = userRepository;
         }
 
-        public async Task<User> ActiveAccountServiceAsync(string activeCode)
+        public async Task<UserViewModel> ActiveAccountServiceAsync(string activeCode)
         {
             var user = await _userRepository.GetUserByActiveCodeAsync(activeCode);
 
@@ -31,7 +32,13 @@ namespace EShop.Application.Services.Implementation
             await _userRepository.UpdateUserAsync(user);
             await _userRepository.SaveChangeAsync();
 
-            return user;
+            var userViewModel = new UserViewModel()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+            };
+
+            return userViewModel;
 
         }
 
@@ -48,7 +55,7 @@ namespace EShop.Application.Services.Implementation
 
         }
 
-        public async Task<User> CheckForgotPasswordAsync(string code)
+        public async Task<UserViewModel> CheckForgotPasswordAsync(string code)
         {
             User user = await _userRepository.GetUserByActiveCodeAsync(code);
 
@@ -56,15 +63,24 @@ namespace EShop.Application.Services.Implementation
             await _userRepository.UpdateUserAsync(user);
             await _userRepository.SaveChangeAsync();
 
-            return user;
+            var userViewModel = new UserViewModel()
+            {
+                Email = user.Email
+            };
+
+            return userViewModel;
         }
 
-        public async Task<User> ForgotPasswordServiceAsync(string email)
+        public async Task<UserViewModel> ForgotPasswordServiceAsync(string email)
         {
             string Fixedemail = FixedText.FixEmail(email);
             User user = await _userRepository.ForgotPasswordAsync(Fixedemail);
+            UserViewModel userViewModel = new UserViewModel() {
+                Email = user.Email,
+                ActiveCode = user.ActiveCode,
+            };
 
-            return user;
+            return userViewModel;
         }
 
         public async Task<bool> IsExistUserEmailServiceAsync(string email)
@@ -72,13 +88,20 @@ namespace EShop.Application.Services.Implementation
             return await _userRepository.IsExistUserEmailAsync(email);
         }
 
-        public async Task<User> LoginUserServiceAsync(LoginViewModel loginViewModel)
+        public async Task<UserViewModel> LoginUserServiceAsync(LoginViewModel loginViewModel)
         {
             string password = PasswordHelper.EncodePasswordMd5(loginViewModel.Password);
             string email = FixedText.FixEmail(loginViewModel.Email);
 
             var user = await _userRepository.LoginUserAsync(email, password);
-            return user;
+
+            UserViewModel userViewModel = new UserViewModel()
+            {
+                Id = user.Id,
+                IsActive = user.IsActive,
+                Email = user.Email,
+            };
+            return userViewModel;
         }
 
         public async Task<User> UserLoginAsync(LoginViewModel loginViewModel)
@@ -88,11 +111,10 @@ namespace EShop.Application.Services.Implementation
             return await _userRepository.LoginAsync(loginViewModel.Email, password);
         }
 
-        public async Task<User> UserRegisterAsync(RegisterViewModel registerViewModel)
+        public async Task<UserViewModel> UserRegisterAsync(RegisterViewModel registerViewModel)
         {
             var hashedPassword = PasswordHelper.EncodePasswordMd5(registerViewModel.Password);
-            var hashedActiveCode = PasswordHelper.EncodePasswordMd5(NameGenerator.GenerateUnipNDigitCode(6));
-            User userModel = new User()
+            User user = new User()
 
             {
                 FirstName = registerViewModel.FirstName,
@@ -108,13 +130,20 @@ namespace EShop.Application.Services.Implementation
 
             };
 
+         
 
 
-
-            User registredUser = await _userRepository.RegisterAsync(userModel);
+            await _userRepository.RegisterAsync(user);
             await _userRepository.SaveChangeAsync();
 
-            return registredUser;
+            var userViewModel = new UserViewModel()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                ActiveCode = user.ActiveCode,
+            };
+
+            return userViewModel;
         }
     }
 }

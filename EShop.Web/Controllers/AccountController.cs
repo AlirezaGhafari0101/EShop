@@ -1,11 +1,11 @@
 ﻿using EShop.Application.Convertors;
 using EShop.Application.Senders;
 using EShop.Application.Services.Interfaces;
-using EShop.Application.ViewModels.Account;
+using EShop.Application.ViewModels;
 using EShop.Application.ViewModels.Account;
 using EShop.Domain.Models.Users;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -22,14 +22,13 @@ namespace EShop.Web.Controllers
             _viewRender = viewRenderService;
         }
         #region SignUp
-        [Route("Register")]
+        [Route("register")]
         public IActionResult Register()
         {
             return View();
         }
 
-        [Route("Register")]
-        [HttpPost]
+        [HttpPost("register")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel register)
         {
@@ -44,7 +43,7 @@ namespace EShop.Web.Controllers
 
 
 
-            User user = await _accountService.UserRegisterAsync(register);
+            UserViewModel user = await _accountService.UserRegisterAsync(register);
 
 
             string body = _viewRender.RenderToStringAsync("_ActiveEmail", user);
@@ -60,27 +59,22 @@ namespace EShop.Web.Controllers
         }
 
         #region Active Account
-        //[Route("ActiveAccount/{id}")]
-        //public async Task<IActionResult> ActiveAccount(string id)
-        //{
-        //    ViewBag.IsActive = await _accountService.ActiveAccountService(id);
-        //    return View();
-        //}
 
-        [Route("ActiveAccount")]
-        public async Task<IActionResult> ActiveAccount()
+
+        [Route("activeaccount")]
+        public IActionResult ActiveAccount()
         {
 
             return View();
         }
 
-        [Route("ActiveAccount")]
-        [HttpPost]
+        [HttpPost("activeaccount")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ActiveAccount(ActiveAccountViewModel activeAccount)
         {
             if (!ModelState.IsValid) { View(activeAccount); }
 
-            User user = await _accountService.ActiveAccountServiceAsync(activeAccount.ActiveCode);
+            UserViewModel user = await _accountService.ActiveAccountServiceAsync(activeAccount.ActiveCode);
             if (user == null)
             {
                 ViewBag.IsSuccess = false;
@@ -95,20 +89,19 @@ namespace EShop.Web.Controllers
 
 
         #region SingIn
-        [Route("Login")]
-        [HttpGet]
+        [Route("login")]
         public IActionResult Login()
         {
             return View();
         }
 
-        [Route("Login")]
-        [HttpPost]
+
+        [HttpPost("login")]
         public async Task<IActionResult> Login(LoginViewModel login)
         {
             if (!ModelState.IsValid) { return View(); }
 
-            User user = await _accountService.LoginUserServiceAsync(login);
+            UserViewModel user = await _accountService.LoginUserServiceAsync(login);
             if (user != null)
             {
                 if (user.IsActive)
@@ -144,7 +137,7 @@ namespace EShop.Web.Controllers
 
 
         #region LogOut
-        [Route("LogOut")]
+        [Route("logout")]
         public async Task<IActionResult> LogOut()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -154,21 +147,20 @@ namespace EShop.Web.Controllers
 
 
         #region ForGotPassword
-        [Route("ForgotPassword")]
-        public async Task<IActionResult> ForgotPassword()
+        [Route("forgotpassword")]
+        public IActionResult ForgotPassword()
         {
             return View();
         }
 
-        [Route("ForgotPassword")]
-        [HttpPost]
+        [HttpPost("forgotpassword")]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel forgotPassword)
         {
             if (!ModelState.IsValid) { return View(forgotPassword); };
 
-            User user=await _accountService.ForgotPasswordServiceAsync(forgotPassword.Email);
+            User user = await _accountService.ForgotPasswordServiceAsync(forgotPassword.Email);
 
-            if (user!=null)
+            if (user != null)
             {
                 string body = _viewRender.RenderToStringAsync("_ForgotPasswordEmail", user);
                 SendEmail.Send(user.Email, "فعالسازی", body);
@@ -180,44 +172,43 @@ namespace EShop.Web.Controllers
         }
 
 
-        [Route("CheckForgotPassword")]
-        public async Task<IActionResult> CheckForgotPassword()
+        [Route("checkforgotpassword")]
+        public IActionResult CheckForgotPassword()
         {
 
             return View();
         }
-        [HttpPost]
-        [Route("CheckForgotPassword")]
+        [HttpPost("checkforgotpassword")]
         public async Task<IActionResult> CheckForgotPassword(ActiveAccountViewModel viewModel)
         {
             if (!ModelState.IsValid) { return View(viewModel); };
 
-            User user = await _accountService.CheckForgotPasswordAsync(viewModel.ActiveCode);
+            UserViewModel user = await _accountService.CheckForgotPasswordAsync(viewModel.ActiveCode);
 
-            if(user!=null)
+            if (user != null)
             {
-                return Redirect($"/Account/ChangePassword/{user.Email}");
+                return RedirectToAction("changepassword", user.Email);
             }
             ModelState.AddModelError("ActiveCode", "کد وارد شده صحیح نمی باشد");
             return View(viewModel);
         }
 
-       
-        public  IActionResult ChangePassword(string id)
+        [HttpGet("changepassword")]
+        public IActionResult ChangePassword(string Email)
         {
-            
-            return View(new ChangePasswordViewModel() { Email=id});
+
+            return View(new ChangePasswordViewModel() { Email = Email });
         }
 
-      
-        [HttpPost]
+
+        [HttpPost("changepassword")]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel viewModel)
         {
-         
+
             if (!ModelState.IsValid) { return View(viewModel); };
 
             await _accountService.ChangeUserPasswordAsync(viewModel);
-            ViewBag.IsSuccess=true;
+            ViewBag.IsSuccess = true;
             return View();
         }
         #endregion

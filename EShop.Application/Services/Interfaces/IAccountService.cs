@@ -1,4 +1,5 @@
-﻿using EShop.Application.ViewModels.Account;
+﻿using EShop.Application.ViewModels;
+using EShop.Application.ViewModels.Account;
 using EShop.Domain.Models.Users;
 using System;
 using System.Collections.Generic;
@@ -10,17 +11,17 @@ namespace EShop.Application.Services.Interfaces
 {
     public interface IAccountService
     {
-        Task<User> UserRegisterAsync(RegisterViewModel registerViewModel);
+        Task<UserViewModel> UserRegisterAsync(RegisterViewModel registerViewModel);
         Task<User> UserLoginAsync(LoginViewModel loginViewModel);
 
         Task<bool> IsExistUserEmailServiceAsync(string email);
 
-        Task<User> ActiveAccountServiceAsync(string activeCode);
+        Task<UserViewModel> ActiveAccountServiceAsync(string activeCode);
 
-        Task<User> LoginUserServiceAsync(LoginViewModel loginViewModel);
+        Task<UserViewModel> LoginUserServiceAsync(LoginViewModel loginViewModel);
 
         Task<User> ForgotPasswordServiceAsync(string email);
-        Task<User> CheckForgotPasswordAsync(string code);
+        Task<UserViewModel> CheckForgotPasswordAsync(string code);
 
         Task ChangeUserPasswordAsync(ChangePasswordViewModel viewMode);
 
