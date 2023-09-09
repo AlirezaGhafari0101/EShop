@@ -12,7 +12,7 @@ namespace EShop.Application.Senders
         public static void Send(string to, string subject, string body)
         {
             MailMessage mail = new MailMessage();
-            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com",587);
             mail.From = new MailAddress("hajizadesaeed.78@gmail.com", "یکتاکالا");
             mail.To.Add(to);
             mail.Subject = subject;
@@ -24,7 +24,7 @@ namespace EShop.Application.Senders
             // mail.Attachments.Add(attachment);
 
             SmtpServer.Port = 587;
-            SmtpServer.Credentials = new System.Net.NetworkCredential("hajizadesaeed.78@gmail.com", "****");
+            SmtpServer.Credentials = new System.Net.NetworkCredential("hajizadesaeed.78@gmail.com", "rhxkzovdxgnhsfyv");
             SmtpServer.EnableSsl = true;
 
             SmtpServer.Send(mail);

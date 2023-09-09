@@ -15,7 +15,14 @@ namespace EShop.Application.Services.Interfaces
 
         Task<bool> IsExistUserEmailService(string email);
 
-        Task<bool> ActiveAccountService(string activeCode);
+        Task<User> ActiveAccountService(string activeCode);
+
+        Task<User> LoginUserService(LoginViewModel loginViewModel);
+
+        Task<User> ForgotPasswordService(string email);
+        Task<User> CheckForgotPassword(string code);
+
+        Task ChangeUserPassword(ChangePasswordViewModel viewMode);
 
     }
 }

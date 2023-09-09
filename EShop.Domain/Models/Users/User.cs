@@ -25,12 +25,12 @@ namespace EShop.Domain.Models.Users
         public string LastName { get; set; }
         [StringLength(150)]
         public string Avatar { get; set; }
-        [StringLength(10)]
+        [StringLength(150)]
         public string ActiveCode { get; set; }
         public bool IsActive { get; set; }
         public bool IsAdmin { get; set; }
         public bool IsDelete { get; set; }
-
-        public DateTime CreateDate { get; set; }
+      
+        public DateTime RegisterDate { get; set; }
     }
 }

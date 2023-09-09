@@ -1,4 +1,5 @@
-﻿using EShop.Application.Services.Implementation;
+﻿using EShop.Application.Convertors;
+using EShop.Application.Services.Implementation;
 using EShop.Application.Services.Interfaces;
 using EShop.Data.Repository;
 using EShop.Domain.Interfaces;
@@ -19,7 +20,7 @@ namespace EShop.Ioc
 
             service.AddScoped<IAccountService, AccountService>();
 
-            service.AddScoped<IUserService, UserService>();
+            service.AddScoped<IViewRenderService, RenderViewToString>();
         }
     }
 }

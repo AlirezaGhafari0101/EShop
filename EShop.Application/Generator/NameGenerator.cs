@@ -13,5 +13,20 @@ namespace EShop.Application.Generator
         {
             return Guid.NewGuid().ToString().Replace("-", "");
         }
+
+        public static string GenerateUnipNDigitCode(int randomDigit)
+        {
+            // Number of digits for random number to generate
+
+            int _max = (int)Math.Pow(10, randomDigit);
+            Random _rdm = new Random();
+            int _out = _rdm.Next(0, _max);
+
+            while (randomDigit != _out.ToString().ToArray().Distinct().Count())
+            {
+                _out = _rdm.Next(0, _max);
+            }
+            return _out.ToString();
+        }
     }
 }
