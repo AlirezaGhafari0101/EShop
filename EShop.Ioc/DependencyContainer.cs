@@ -18,6 +18,8 @@ namespace EShop.Ioc
             service.AddScoped<IUserRepository, UserRepository>();
 
             service.AddScoped<IAccountService, AccountService>();
+
+            service.AddScoped<IUserService, UserService>();
         }
     }
 }

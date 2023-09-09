@@ -1,0 +1,51 @@
+﻿@model EShop.Application.ViewModels.User.AddUserViewModel
+
+<div class="col-12">
+    <div class="widget flat radius-bordered">
+        <div class="widget-header bg-blue">
+            <span class="widget-caption">افزودن کاربر</span>
+        </div>
+        <div class="widget-body">
+            <div id="registration-form">
+                <form  asp-controller="User" asp-action="AddUser" method="post">
+                    <div class="form-title">
+                        اطلاعات کاربر
+                    </div>
+
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input asp-for="Name" type="text" class="form-control" id="namelInput" placeholder="نام">
+                            <i class="fa fa-envelope-o circular"></i>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input asp-for="Family" type="text" class="form-control" id="familyInput" placeholder="نام خانوادگی">
+                            <i class="fa fa-envelope-o circular"></i>
+                        </span>
+                    </div> <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input asp-for="Email" type="text" class="form-control" id="emailInput" placeholder="ایمیل">
+                            <i class="fa fa-envelope-o circular"></i>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input asp-for="Password" type="text" class="form-control" id="passwordInput" placeholder="رمز عبور">
+                            <i class="fa fa-lock circular"></i>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input asp-for="RepeatPassword" type="text" class="form-control" id="confirmPasswordInput" placeholder="تکرار رمز عبور">
+                            <i class="fa fa-lock circular"></i>
+                        </span>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-blue">افزودن</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

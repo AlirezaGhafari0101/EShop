@@ -14,8 +14,4 @@
     <ProjectReference Include="..\EShop.Data\EShop.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ViewModels\User\" />
-  </ItemGroup>
-
 </Project>
