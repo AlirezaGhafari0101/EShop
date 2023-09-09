@@ -40,6 +40,7 @@ namespace EShop.Application.Services.Implementation
                 Password = PasswordHelper.EncodePasswordMd5(userViewModel.Password),
             };
               await _userRepository.CreateUserAsync(user);
+              await _userRepository.SaveChangeAsync();
         }
     }
 }
