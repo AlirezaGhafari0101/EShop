@@ -22,9 +22,9 @@ namespace EShop.Application.Services.Implementation
             _userRepository = userRepository;
         }
 
-        public async Task<User> ActiveAccountService(string activeCode)
+        public async Task<User> ActiveAccountServiceAsync(string activeCode)
         {
-            var user = await _userRepository.GetUserByActiveCode(activeCode);
+            var user = await _userRepository.GetUserByActiveCodeAsync(activeCode);
 
             if (user == null || user.IsActive)
             {
@@ -34,64 +34,67 @@ namespace EShop.Application.Services.Implementation
             user.IsActive = true;
             user.ActiveCode = NameGenerator.GenerateUnipNDigitCode(6);
 
-            await _userRepository.ActiveAccount(user);
+            _userRepository.UpdateUser(user);
+           await _userRepository.SaveChangeAsync();
 
             return user;
 
         }
 
-        public async Task ChangeUserPassword(ChangePasswordViewModel viewMode)
+        public async Task ChangeUserPasswordAsync(ChangePasswordViewModel viewMode)
         {
-            User user = await _userRepository.GetUserByEmail(viewMode.Email);
+            User user = await _userRepository.GetUserByEmailAsync(viewMode.Email);
 
             string hashedPassword = PasswordHelper.EncodePasswordMd5(viewMode.Password);
 
             user.Password = hashedPassword;
 
             _userRepository.UpdateUser(user);
+            await _userRepository.SaveChangeAsync();
 
         }
 
-        public async Task<User> CheckForgotPassword(string code)
+        public async Task<User> CheckForgotPasswordAsync(string code)
         {
-            User user = await _userRepository.GetUserByActiveCode(code);
+            User user = await _userRepository.GetUserByActiveCodeAsync(code);
 
             user.ActiveCode = NameGenerator.GenerateUnipNDigitCode(6);
             _userRepository.UpdateUser(user);
+            await _userRepository.SaveChangeAsync();
 
             return user;
         }
 
-        public async Task<User> ForgotPasswordService(string email)
+        public async Task<User> ForgotPasswordServiceAsync(string email)
         {
             string Fixedemail = FixedText.FixEmail(email);
-            User user = await _userRepository.ForgotPassword(Fixedemail);
+            User user = await _userRepository.ForgotPasswordAsync(Fixedemail);
 
             return user;
         }
 
-        public async Task<bool> IsExistUserEmailService(string email)
+        public async Task<bool> IsExistUserEmailServiceAsync(string email)
         {
-            return await _userRepository.IsExistUserEmail(email);
+            return await _userRepository.IsExistUserEmailAsync(email);
         }
 
-        public async Task<User> LoginUserService(LoginViewModel loginViewModel)
+        public async Task<User> LoginUserServiceAsync(LoginViewModel loginViewModel)
         {
             string password = PasswordHelper.EncodePasswordMd5(loginViewModel.Password);
             string email = FixedText.FixEmail(loginViewModel.Email);
 
-            var user = await _userRepository.LoginUser(email, password);
+            var user = await _userRepository.LoginUserAsync(email, password);
             return user;
         }
 
-        public async Task<User> UserLogin(LoginViewModel loginViewModel)
+        public async Task<User> UserLoginAsync(LoginViewModel loginViewModel)
         {
             string password = PasswordHelper.EncodePasswordMd5(loginViewModel.Password);
 
-            return await _userRepository.Login(loginViewModel.Email, password);
+            return await _userRepository.LoginAsync(loginViewModel.Email, password);
         }
 
-        public async Task<User> UserRegister(RegisterViewModel registerViewModel)
+        public async Task<User> UserRegisterAsync(RegisterViewModel registerViewModel)
         {
             var hashedPassword = PasswordHelper.EncodePasswordMd5(registerViewModel.Password);
             var hashedActiveCode = PasswordHelper.EncodePasswordMd5(NameGenerator.GenerateUnipNDigitCode(6));
@@ -103,7 +106,7 @@ namespace EShop.Application.Services.Implementation
                 Email = FixedText.FixEmail(registerViewModel.Email),
                 Password = hashedPassword,
                 ActiveCode = NameGenerator.GenerateUnipNDigitCode(6),
-                RegisterDate = DateTime.Now,
+                CreateDate = DateTime.Now,
                 Avatar = "Defult.jpg"
 
 
@@ -111,7 +114,12 @@ namespace EShop.Application.Services.Implementation
 
             };
 
-            User registredUser = await _userRepository.Register(userModel);
+           
+         
+
+            User registredUser = await _userRepository.RegisterAsync(userModel);
+            await _userRepository.SaveChangeAsync();
+
             return registredUser;
         }
     }

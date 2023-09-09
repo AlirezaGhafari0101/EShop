@@ -5,12 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EShop.Domain.Models.Users
+namespace EShop.Application.ViewModels
 {
-    public class User
+    public class UserViewModel
     {
-        [Key]
-        public int Id { get; set; }
         [Required]
         [StringLength(150)]
         public string Email { get; set; }
@@ -30,7 +28,7 @@ namespace EShop.Domain.Models.Users
         public bool IsActive { get; set; }
         public bool IsAdmin { get; set; }
         public bool IsDelete { get; set; }
-      
+
         public DateTime CreateDate { get; set; }
     }
 }

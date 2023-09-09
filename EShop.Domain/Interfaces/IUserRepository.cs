@@ -12,20 +12,20 @@ namespace EShop.Domain.Interfaces
 
         Task SaveChangeAsync();
         //Account Roles
-        Task<User> Register(User user);
+        Task<User> RegisterAsync(User user);
 
-        Task<User> Login(string email, string password);
+        Task<User> LoginAsync(string email, string password);
 
-        Task<bool> IsExistUserEmail(string email);
+        Task<bool> IsExistUserEmailAsync(string email);
 
-        Task<User> GetUserByActiveCode(string activeCode);
-        Task<User> GetUserByEmail(string email);
+        Task<User> GetUserByActiveCodeAsync(string activeCode);
+        Task<User> GetUserByEmailAsync(string email);
 
-        Task ActiveAccount(User user);
+        Task ActiveAccountAsync(User user);
 
-        Task<User> LoginUser(string Email,string Password);
+        Task<User> LoginUserAsync(string Email,string Password);
 
-        Task<User> ForgotPassword( string email);
+        Task<User> ForgotPasswordAsync( string email);
 
         
 

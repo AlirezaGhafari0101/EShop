@@ -35,7 +35,7 @@ namespace EShop.Web.Controllers
             if (!ModelState.IsValid) { View(register); }
 
 
-            if (await _accountService.IsExistUserEmailService(register.Email))
+            if (await _accountService.IsExistUserEmailServiceAsync(register.Email))
             {
                 ModelState.AddModelError("Email", "ایمیل وارد معتبرنمی باشد");
                 return View(register);
@@ -43,7 +43,7 @@ namespace EShop.Web.Controllers
 
 
 
-            User user = await _accountService.UserRegister(register);
+            User user = await _accountService.UserRegisterAsync(register);
 
 
             string body = _viewRender.RenderToStringAsync("_ActiveEmail", user);
@@ -79,7 +79,7 @@ namespace EShop.Web.Controllers
         {
             if (!ModelState.IsValid) { View(activeAccount); }
 
-            User user = await _accountService.ActiveAccountService(activeAccount.ActiveCode);
+            User user = await _accountService.ActiveAccountServiceAsync(activeAccount.ActiveCode);
             if (user == null)
             {
                 ViewBag.IsSuccess = false;
@@ -107,7 +107,7 @@ namespace EShop.Web.Controllers
         {
             if (!ModelState.IsValid) { return View(); }
 
-            User user = await _accountService.LoginUserService(login);
+            User user = await _accountService.LoginUserServiceAsync(login);
             if (user != null)
             {
                 if (user.IsActive)
@@ -165,7 +165,7 @@ namespace EShop.Web.Controllers
         {
             if (!ModelState.IsValid) { return View(forgotPassword); };
 
-            User user=await _accountService.ForgotPasswordService(forgotPassword.Email);
+            User user=await _accountService.ForgotPasswordServiceAsync(forgotPassword.Email);
 
             if (user!=null)
             {
@@ -191,7 +191,7 @@ namespace EShop.Web.Controllers
         {
             if (!ModelState.IsValid) { return View(viewModel); };
 
-            User user = await _accountService.CheckForgotPassword(viewModel.ActiveCode);
+            User user = await _accountService.CheckForgotPasswordAsync(viewModel.ActiveCode);
 
             if(user!=null)
             {
@@ -215,7 +215,7 @@ namespace EShop.Web.Controllers
          
             if (!ModelState.IsValid) { return View(viewModel); };
 
-            await _accountService.ChangeUserPassword(viewModel);
+            await _accountService.ChangeUserPasswordAsync(viewModel);
             ViewBag.IsSuccess=true;
             return View();
         }
