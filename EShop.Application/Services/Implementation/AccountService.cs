@@ -34,7 +34,7 @@ namespace EShop.Application.Services.Implementation
             user.IsActive = true;
             user.ActiveCode = NameGenerator.GenerateUnipNDigitCode(6);
 
-            _userRepository.UpdateUser(user);
+            _userRepository.UpdateUserAsync(user);
            await _userRepository.SaveChangeAsync();
 
             return user;
@@ -49,7 +49,7 @@ namespace EShop.Application.Services.Implementation
 
             user.Password = hashedPassword;
 
-            _userRepository.UpdateUser(user);
+            _userRepository.UpdateUserAsync(user);
             await _userRepository.SaveChangeAsync();
 
         }
@@ -59,7 +59,7 @@ namespace EShop.Application.Services.Implementation
             User user = await _userRepository.GetUserByActiveCodeAsync(code);
 
             user.ActiveCode = NameGenerator.GenerateUnipNDigitCode(6);
-            _userRepository.UpdateUser(user);
+            _userRepository.UpdateUserAsync(user);
             await _userRepository.SaveChangeAsync();
 
             return user;

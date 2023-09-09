@@ -23,7 +23,7 @@ namespace EShop.Application.Services.Implementation
 
         public async Task<bool> IsExistUserEmailService(string email)
         {
-            return await _userRepository.IsExistUserEmail(email);
+            return await _userRepository.IsExistUserEmailAsync(email);
         }
 
         public async Task CreateUserAsync(AddUserViewModel userViewModel)
@@ -34,7 +34,7 @@ namespace EShop.Application.Services.Implementation
                 LastName = userViewModel.Family,
                 Email= userViewModel.Email,
                 ActiveCode = NameGenerator.GenerateUniqCode(),
-                RegisterDate = DateTime.Now,
+                CreateDate = DateTime.Now,
                 Avatar = "Default.jpg",
                 IsActive = true,
                 Password = PasswordHelper.EncodePasswordMd5(userViewModel.Password),

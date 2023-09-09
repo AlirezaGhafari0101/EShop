@@ -33,13 +33,13 @@ namespace EShop.Data.Repository
         public async Task UpdateUserAsync(User user)
         {
             _ctx.Users.Update(user);
-            _ctx.SaveChangesAsync();
+            
         }
 
         public async Task CreateUserAsync(User user)
         {
             _ctx.Users.Add(user);
-            _ctx.SaveChangesAsync();
+        
         }
 
         public async Task DeleteUserAsync(int userId)
