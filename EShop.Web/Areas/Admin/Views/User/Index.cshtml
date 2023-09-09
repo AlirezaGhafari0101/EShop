@@ -1,0 +1,168 @@
+﻿<div class="col-xs-12 col-md-12">
+    <div class="widget">
+        <div class="widget-header ">
+            <span class="widget-caption">لیست کاربران</span>
+            <div class="widget-buttons">
+                <a href="#" data-toggle="maximize">
+                    <i class="fa fa-expand"></i>
+                </a>
+                <a href="#" data-toggle="collapse">
+                    <i class="fa fa-minus"></i>
+                </a>
+                <a href="#" data-toggle="dispose">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+        <div class="widget-body">
+            <div class="table-toolbar">
+                <a id="editabledatatable_new" asp-area="Admin" asp-controller="User" asp-action="AddUser" class="btn btn-default">
+                   افزودن کاربر جدید
+                </a>
+                <div class="btn-group pull-right">
+                   
+                  
+                    <ul class="dropdown-menu dropdown-default">
+                        <li>
+                            <a href="javascript:void(0);">Action</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">Another action</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">Something else here</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="javascript:void(0);">Separated link</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
+                <table class="table table-striped table-hover table-bordered dataTable no-footer" id="editabledatatable" role="grid" aria-describedby="editabledatatable_info">
+                    <thead>
+                        <tr role="row">
+                            <th class="sorting_asc" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="
+                                                    Username
+                                                : activate to sort column descending" style="width: 193.4px;">
+                              نام کاربری
+                            </th>
+                            <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
+                                                    Full Name
+                                                : activate to sort column ascending" style="width: 287.4px;">
+                                نام کامل
+                            </th>
+                            <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
+                                                    Points
+                                                : activate to sort column ascending" style="width: 127.4px;">
+                                امتیاز
+                            </th>
+                            <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
+                                                    Notes
+                                                : activate to sort column ascending" style="width: 203.4px;">
+                               توضیحات
+                            </th>
+                            <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="
+
+                                                " style="width: 332.4px;">
+
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+
+
+
+
+
+                        <tr role="row" class="odd">
+                            <td class="sorting_1">alex</td>
+                            <td>Alex Nilson</td>
+                            <td>1234</td>
+                            <td class="center ">power user</td>
+                            <td>
+                                <a href="#" class="btn btn-info btn-xs edit"><i class="fa fa-edit"></i> ویرایش</a>
+                                <a href="#" class="btn btn-danger btn-xs delete"><i class="fa fa-trash-o"></i> حذف</a>
+                            </td>
+                        </tr>
+                        <tr role="row" class="even">
+                            <td class="sorting_1">
+                                gist124
+                            </td>
+                            <td>
+                                Nick Roberts
+                            </td>
+                            <td>
+                                62
+                            </td>
+                            <td class="center ">
+                                new user
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-info btn-xs edit"><i class="fa fa-edit"></i> ویرایش</a>
+                                <a href="#" class="btn btn-danger btn-xs delete"><i class="fa fa-trash-o"></i> حذف</a>
+                            </td>
+                        </tr>
+                        <tr role="row" class="odd">
+                            <td class="sorting_1">
+                                goldweb
+                            </td>
+                            <td>
+                                Sergio Jackson
+                            </td>
+                            <td>
+                                132
+                            </td>
+                            <td class="center ">
+                                elite user
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-info btn-xs edit"><i class="fa fa-edit"></i> ویرایش</a>
+                                <a href="#" class="btn btn-danger btn-xs delete"><i class="fa fa-trash-o"></i> حذف</a>
+                            </td>
+                        </tr>
+                        <tr role="row" class="even">
+                            <td class="sorting_1">
+                                lisa
+                            </td>
+                            <td>
+                                Lisa Wong
+                            </td>
+                            <td>
+                                434
+                            </td>
+                            <td class="center ">
+                                new user
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-info btn-xs edit"><i class="fa fa-edit"></i> ویرایش</a>
+                                <a href="#" class="btn btn-danger btn-xs delete"><i class="fa fa-trash-o"></i> حذف</a>
+                            </td>
+                        </tr>
+                        <tr role="row" class="odd">
+                            <td class="sorting_1">
+                                nick12
+                            </td>
+                            <td>
+                                Nick Roberts
+                            </td>
+                            <td>
+                                232
+                            </td>
+                            <td class="center ">
+                                power user
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-info btn-xs edit"><i class="fa fa-edit"></i> ویرایش</a>
+                                <a href="#" class="btn btn-danger btn-xs delete"><i class="fa fa-trash-o"></i> حذف</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table><div class="row DTTTFooter"><div class="col-sm-6"><div class="dataTables_info" id="editabledatatable_info" role="status" aria-live="polite">Showing 1 to 5 of 6 entries</div></div><div class="col-sm-6"><div class="dataTables_paginate paging_bootstrap" id="editabledatatable_paginate"><ul class="pagination"><li class="prev disabled"><a href="#">Prev</a></li><li class="active"><a href="#">1</a></li><li><a href="#">2</a></li><li class="next"><a href="#">Next</a></li></ul></div></div></div>
+            </div>
+        </div>
+    </div>
+</div>

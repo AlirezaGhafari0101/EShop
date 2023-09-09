@@ -25,28 +25,29 @@ namespace EShop.Data.Repository
         }
 
         #region CRUD User
-        public async Task<User> GetUserById(int userId)
+        public async Task<User> GetUserByIdAsync(int userId)
         {
             return await _ctx.Users.FindAsync(userId);
         }
 
-        public async void UpdateUser(User user)
+        public async Task UpdateUserAsync(User user)
         {
             _ctx.Users.Update(user);
             _ctx.SaveChangesAsync();
         }
 
-        public async void CreateUser(User user)
+        public async Task CreateUserAsync(User user)
         {
             _ctx.Users.Add(user);
             _ctx.SaveChangesAsync();
         }
 
-        public async void DeleteUser(int userId)
+        public async Task DeleteUserAsync(int userId)
         {
-            User user = await GetUserById(userId);
+            User user = await GetUserByIdAsync(userId);
             _ctx.Users.Remove(user);
             _ctx.SaveChangesAsync();
+
         }
 
         public async Task<bool> IsExistUserEmailAsync(string email)
@@ -62,7 +63,7 @@ namespace EShop.Data.Repository
         public async Task ActiveAccountAsync(User user)
         {
             _ctx.Update(user);
-            await _ctx.SaveChangesAsync();
+
         }
 
         public async Task<User> LoginUserAsync(string Email, string Password)
@@ -84,6 +85,10 @@ namespace EShop.Data.Repository
         {
             await _ctx.SaveChangesAsync();
         }
+
+      
+
+
         #endregion
     }
 }
