@@ -9,6 +9,8 @@ namespace EShop.Domain.Interfaces
 {
     public interface IUserRepository
     {
+
+        Task SaveChangeAsync();
         //Account Roles
         Task<User> Register(User user);
 

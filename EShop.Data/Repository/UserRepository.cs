@@ -2,12 +2,6 @@
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Users;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace EShop.Data.Repository
@@ -21,10 +15,8 @@ namespace EShop.Data.Repository
             _ctx = ctx;
         }
         public async Task<User> Login(string email, string password)
-        {
+            => await _ctx.Users.SingleOrDefaultAsync(u => u.Email == email && u.Password == password);
 
-            return await _ctx.Users.SingleOrDefaultAsync(u => u.Email == email && u.Password == password);
-        }
 
         public async Task<User> Register(User user)
         {
@@ -87,6 +79,11 @@ namespace EShop.Data.Repository
         public async Task<User> GetUserByEmail(string email)
         {
             return await _ctx.Users.SingleOrDefaultAsync(u => u.Email == email);
+        }
+
+        public async Task SaveChangeAsync()
+        {
+            await _ctx.SaveChangesAsync();
         }
         #endregion
     }

@@ -29,6 +29,7 @@ namespace EShop.Web.Controllers
 
         [Route("Register")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel register)
         {
             if (!ModelState.IsValid) { View(register); }
