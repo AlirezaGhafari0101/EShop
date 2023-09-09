@@ -48,7 +48,7 @@ namespace EShop.Application.Services.Implementation
 
             user.Password = hashedPassword;
 
-            _userRepository.UpdateUser(user);
+            await _userRepository.UpdateUserAsync(user);
 
         }
 
@@ -57,7 +57,7 @@ namespace EShop.Application.Services.Implementation
             User user = await _userRepository.GetUserByActiveCode(code);
 
             user.ActiveCode = NameGenerator.GenerateUnipNDigitCode(6);
-            _userRepository.UpdateUser(user);
+            await  _userRepository.UpdateUserAsync(user);
 
             return user;
         }

@@ -21,8 +21,35 @@ namespace EShop.Data.Repository
         public async Task<User> Register(User user)
         {
             _ctx.Users.Add(user);
+
             await _ctx.SaveChangesAsync();
             return user;
+        }
+
+        #region CRUD User
+        public async Task<User> GetUserByIdAsync(int userId)
+        {
+            return await _ctx.Users.FindAsync(userId);
+        }
+
+        public async Task UpdateUserAsync(User user)
+        {
+            _ctx.Users.Update(user);
+            _ctx.SaveChangesAsync();
+        }
+
+        public async Task CreateUserAsync(User user)
+        {
+            _ctx.Users.Add(user);
+            _ctx.SaveChangesAsync();
+        }
+
+        public async Task DeleteUserAsync(int userId)
+        {
+            User user = await GetUserByIdAsync(userId);
+            _ctx.Users.Remove(user);
+            _ctx.SaveChangesAsync();
+
         }
 
         public async Task<bool> IsExistUserEmail(string email)
@@ -38,32 +65,6 @@ namespace EShop.Data.Repository
         public async Task ActiveAccount(User user)
         {
             _ctx.Update(user);
-
-        }
-
-        #region CRUD User
-        public async Task<User> GetUserByIdAsync(int userId)
-        {
-            return await _ctx.Users.FindAsync(userId);
-        }
-
-        public async Task UpdateUserAsync(User user)
-        {
-            _ctx.Users.Update(user);
-
-        }
-
-        public async Task CreateUserAsync(User user)
-        {
-            _ctx.Users.Add(user);
-            await _ctx.SaveChangesAsync();
-
-        }
-
-        public async Task DeleteUserAsync(int userId)
-        {
-            User user = await GetUserByIdAsync(userId);
-            _ctx.Users.Remove(user);
 
         }
 
@@ -86,6 +87,10 @@ namespace EShop.Data.Repository
         {
             await _ctx.SaveChangesAsync();
         }
+
+      
+
+
         #endregion
     }
 }

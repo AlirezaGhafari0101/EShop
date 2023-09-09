@@ -34,7 +34,7 @@ namespace EShop.Application.Services.Implementation
                 LastName = userViewModel.Family,
                 Email= userViewModel.Email,
                 ActiveCode = NameGenerator.GenerateUniqCode(),
-                CreateDate = DateTime.Now,
+                RegisterDate = DateTime.Now,
                 Avatar = "Default.jpg",
                 IsActive = true,
                 Password = PasswordHelper.EncodePasswordMd5(userViewModel.Password),

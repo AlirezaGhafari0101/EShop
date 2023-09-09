@@ -2,6 +2,7 @@
 using EShop.Application.Senders;
 using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels.Account;
+using EShop.Application.ViewModels.Account;
 using EShop.Domain.Models.Users;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
