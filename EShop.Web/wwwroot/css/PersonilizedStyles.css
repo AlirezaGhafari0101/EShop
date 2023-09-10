@@ -11,3 +11,9 @@
 .page-header--middle .signin-up-box a {
     color: #080a38;
 }
+
+.field-validation-error{
+    color:red;
+}
+
+

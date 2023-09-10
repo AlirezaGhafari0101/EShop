@@ -68,7 +68,8 @@ namespace EShop.Data.Repository
 
         public async Task<User> LoginUserAsync(string Email, string Password)
         {
-            return await _ctx.Users.SingleOrDefaultAsync(u => u.Email == Email && u.Password == Password);
+            
+            return await _ctx.Users.FirstOrDefaultAsync(u => u.Email == Email && u.Password == Password);
         }
 
         public async Task<User> ForgotPasswordAsync(string email)

@@ -22,22 +22,25 @@ namespace EShop.Web.Controllers
             _viewRender = viewRenderService;
         }
         #region SignUp
-        [Route("register")]
+        [HttpGet("register")]
         public IActionResult Register()
         {
             return View();
         }
-
         [HttpPost("register")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel register)
         {
-            if (!ModelState.IsValid) { View(register); }
+            if (!ModelState.IsValid) {
+
+               return View(register);
+            
+            }
 
 
-            if (await _accountService.IsExistUserEmailServiceAsync(register.Email))
+            if (await _accountService.IsExistUserEmailServiceAsync(register.Email)==true)
             {
-                ModelState.AddModelError("Email", "ایمیل وارد معتبرنمی باشد");
+                ModelState.AddModelError("Email", "حساب کاربری با این ایمیل موجود می باشد");
                 return View(register);
             };
 
@@ -49,40 +52,23 @@ namespace EShop.Web.Controllers
             string body = _viewRender.RenderToStringAsync("_ActiveEmail", user);
             SendEmail.Send(user.Email, "فعالسازی", body);
 
-            ViewBag.IsSuccess = true;
+            return View("SuccessRegister",user);
 
-
-
-            //return View("SuccessRegister", user);
-            return View();
 
         }
 
         #region Active Account
 
 
-        [Route("activeaccount")]
-        public IActionResult ActiveAccount()
+        [Route("activeaccount/{id}")]
+        public async Task<IActionResult> ActiveAccount(string id)
         {
+            UserViewModel user = await _accountService.ActiveAccountServiceAsync(id);
 
-            return View();
+            return RedirectToAction("login",user.IsActive);
         }
 
-        [HttpPost("activeaccount")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ActiveAccount(ActiveAccountViewModel activeAccount)
-        {
-            if (!ModelState.IsValid) { View(activeAccount); }
 
-            UserViewModel user = await _accountService.ActiveAccountServiceAsync(activeAccount.ActiveCode);
-            if (user == null)
-            {
-                ViewBag.IsSuccess = false;
-                return View();
-            }
-
-            return View("SuccessRegister", user);
-        }
         #endregion
 
         #endregion
@@ -90,8 +76,9 @@ namespace EShop.Web.Controllers
 
         #region SingIn
         [Route("login")]
-        public IActionResult Login()
+        public IActionResult Login(bool IsActive=false)
         {
+            ViewBag.IsActive = IsActive;
             return View();
         }
 
@@ -158,59 +145,44 @@ namespace EShop.Web.Controllers
         {
             if (!ModelState.IsValid) { return View(forgotPassword); };
 
-            User user = await _accountService.ForgotPasswordServiceAsync(forgotPassword.Email);
+            UserViewModel user = await _accountService.ForgotPasswordServiceAsync(forgotPassword.Email);
 
             if (user != null)
             {
                 string body = _viewRender.RenderToStringAsync("_ForgotPasswordEmail", user);
                 SendEmail.Send(user.Email, "فعالسازی", body);
-
-                return Redirect($"/CheckForgotPassword");
+                ViewBag.IsSended = true;
+                return View();
             }
             ModelState.AddModelError("Email", "حساب کاربری یافت نشد");
             return View(forgotPassword);
         }
 
 
-        [Route("checkforgotpassword")]
-        public IActionResult CheckForgotPassword()
+        
+        public IActionResult ResetPassword(string id)
         {
-
-            return View();
-        }
-        [HttpPost("checkforgotpassword")]
-        public async Task<IActionResult> CheckForgotPassword(ActiveAccountViewModel viewModel)
-        {
-            if (!ModelState.IsValid) { return View(viewModel); };
-
-            UserViewModel user = await _accountService.CheckForgotPasswordAsync(viewModel.ActiveCode);
-
-            if (user != null)
+            return View(new ResetPasswordViewModel()
             {
-                return RedirectToAction("changepassword", user.Email);
-            }
-            ModelState.AddModelError("ActiveCode", "کد وارد شده صحیح نمی باشد");
-            return View(viewModel);
+                ActiveCode = id
+            });
+
         }
 
-        [HttpGet("changepassword")]
-        public IActionResult ChangePassword(string Email)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPasswordViewModel)
         {
+           
+            if (!ModelState.IsValid) { return View(resetPasswordViewModel); };
 
-            return View(new ChangePasswordViewModel() { Email = Email });
+            await _accountService.ResetPasswordAsync(resetPasswordViewModel);
+
+            return Redirect("/Login");  
+
+
         }
 
-
-        [HttpPost("changepassword")]
-        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel viewModel)
-        {
-
-            if (!ModelState.IsValid) { return View(viewModel); };
-
-            await _accountService.ChangeUserPasswordAsync(viewModel);
-            ViewBag.IsSuccess = true;
-            return View();
-        }
         #endregion
 
 

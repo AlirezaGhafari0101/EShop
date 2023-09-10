@@ -9,8 +9,19 @@
         <div class="auth-title mb-3"><span>ورود</span> / <span class=""><a href="/Register" class="text-decoration-none">ثبت نام</a></span></div>
         <!-- start of auth-box -->
         <div class="auth-box ui-box">
+
+            @if (ViewBag.IsActive == true)
+            {
+                <div class="alert alert-success">
+
+                    <p class="help-block">عملیات فعالسازی حساب کاربری باموفقییت انجام شد</p>
+                    <p class="help-block">اکتون میتوانیدواردحساب کاربری خود شوید</p>
+                </div>
+            }
+
             @if (ViewBag.IsSuccess != null)
             {
+                ViewBag.IsActive = false;
                 <div class="alert alert-success">
                     <p class="help-block">ورود موفقییت آمیز</p>
                     <p class="help-block">لطفا چند لحظه صبر کنید</p>

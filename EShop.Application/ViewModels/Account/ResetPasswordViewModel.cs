@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EShop.Application.ViewModels.Account
 {
-    public class ChangePasswordViewModel
+    public class ResetPasswordViewModel
     {
         [Display(Name ="رمز عبور")]
         [Required(ErrorMessage ="وارد کردن {0}الزامی می باشد")]
@@ -19,6 +19,8 @@ namespace EShop.Application.ViewModels.Account
         [Compare("Password", ErrorMessage = "تکرار رمز عبور با رمز عبور مغایرت دارد")]
         public string RepeatPassword { get; set; }
 
-        public string Email { get; set; }
+        public string ActiveCode { get; set; }
+
+
     }
 }

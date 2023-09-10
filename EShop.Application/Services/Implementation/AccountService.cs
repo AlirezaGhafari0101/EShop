@@ -27,7 +27,7 @@ namespace EShop.Application.Services.Implementation
             }
 
             user.IsActive = true;
-            user.ActiveCode = NameGenerator.GenerateUnipNDigitCode(6);
+            user.ActiveCode = NameGenerator.GenerateUniqCode();
 
             await _userRepository.UpdateUserAsync(user);
             await _userRepository.SaveChangeAsync();
@@ -42,13 +42,14 @@ namespace EShop.Application.Services.Implementation
 
         }
 
-        public async Task ChangeUserPasswordAsync(ChangePasswordViewModel viewMode)
+        public async Task ResetPasswordAsync(ResetPasswordViewModel resetPasswordViewModel)
         {
-            User user = await _userRepository.GetUserByEmailAsync(viewMode.Email);
+            User user = await _userRepository.GetUserByActiveCodeAsync(resetPasswordViewModel.ActiveCode);
 
-            string hashedPassword = PasswordHelper.EncodePasswordMd5(viewMode.Password);
+            string hashedPassword = PasswordHelper.EncodePasswordMd5(resetPasswordViewModel.Password);
 
             user.Password = hashedPassword;
+            user.ActiveCode = NameGenerator.GenerateUniqCode();
 
             await _userRepository.UpdateUserAsync(user);
             await _userRepository.SaveChangeAsync();
@@ -121,7 +122,7 @@ namespace EShop.Application.Services.Implementation
                 LastName = registerViewModel.LastName,
                 Email = FixedText.FixEmail(registerViewModel.Email),
                 Password = hashedPassword,
-                ActiveCode = NameGenerator.GenerateUnipNDigitCode(6),
+                ActiveCode = NameGenerator.GenerateUniqCode(),
                 CreateDate = DateTime.Now,
                 Avatar = "Defult.jpg"
 
@@ -138,6 +139,7 @@ namespace EShop.Application.Services.Implementation
 
             var userViewModel = new UserViewModel()
             {
+                Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 ActiveCode = user.ActiveCode,
