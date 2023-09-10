@@ -1,6 +1,7 @@
 ﻿using EShop.Application.Generator;
 using EShop.Application.Security;
 using EShop.Application.Services.Interfaces;
+using EShop.Application.ViewModels;
 using EShop.Application.ViewModels.User;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Users;
@@ -21,6 +22,19 @@ namespace EShop.Application.Services.Implementation
             return await _userRepository.IsExistUserEmailAsync(email);
         }
 
+        public async Task<List<UserViewModel>> GetAllUsersAsync()
+        {
+           var users = await _userRepository.GetAllUsersAsync();
+            return  users.Select(u=>new UserViewModel
+            {
+                Email = u.Email,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                IsActive = u.IsActive,
+                IsAdmin = u.IsAdmin,
+                CreateDate = u.CreateDate
+            }).ToList();
+        }
         public async Task CreateUserAsync(AddUserViewModel userViewModel)
         {
             User user = new User()

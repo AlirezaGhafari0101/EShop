@@ -14,9 +14,10 @@ namespace EShop.Web.Areas.Admin.Controllers
         {
             _userService = userService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var users = await _userService.GetAllUsersAsync();
+            return View(users);
         }
 
         public IActionResult AddUser()

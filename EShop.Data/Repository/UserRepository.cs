@@ -3,7 +3,6 @@ using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Users;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace EShop.Data.Repository
 {
     public class UserRepository : IUserRepository
@@ -28,6 +27,11 @@ namespace EShop.Data.Repository
         public async Task<User> GetUserByIdAsync(int userId)
         {
             return await _ctx.Users.FindAsync(userId);
+        }
+
+        public async Task<List<User>> GetAllUsersAsync()
+        {
+            return await _ctx.Users.ToListAsync();
         }
 
         public async Task UpdateUserAsync(User user)
@@ -88,6 +92,8 @@ namespace EShop.Data.Repository
         }
 
       
+       
+
 
 
         #endregion
