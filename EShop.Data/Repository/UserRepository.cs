@@ -14,7 +14,7 @@ namespace EShop.Data.Repository
             _ctx = ctx;
         }
         public async Task<User> LoginAsync(string email, string password)
-            => await _ctx.Users.SingleOrDefaultAsync(u => u.Email == email && u.Password == password);
+            => await _ctx.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
 
 
         public async Task<User> RegisterAsync(User user)
@@ -61,7 +61,7 @@ namespace EShop.Data.Repository
 
         public async Task<User> GetUserByActiveCodeAsync(string activeCode)
         {
-            return await _ctx.Users.SingleOrDefaultAsync(u => u.ActiveCode == activeCode);
+            return await _ctx.Users.FirstOrDefaultAsync(u => u.ActiveCode == activeCode);
         }
 
         public async Task ActiveAccountAsync(User user)
@@ -78,12 +78,12 @@ namespace EShop.Data.Repository
 
         public async Task<User> ForgotPasswordAsync(string email)
         {
-            return await _ctx.Users.SingleOrDefaultAsync(u => u.Email == email);
+            return await _ctx.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task<User> GetUserByEmailAsync(string email)
         {
-            return await _ctx.Users.SingleOrDefaultAsync(u => u.Email == email);
+            return await _ctx.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task SaveChangeAsync()

@@ -9,7 +9,8 @@ namespace EShop.Application.ViewModels
 {
     public class UserViewModel
     {
-      
+        public int Id { get; set; }
+
         [StringLength(150)]
         public string Email { get; set; }
         
