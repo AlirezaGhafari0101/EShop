@@ -8,7 +8,7 @@ using EShop.Domain.Models.Users;
 
 namespace EShop.Application.Services.Implementation
 {
-    public class UserService: IUserService
+    public class UserService : IUserService
     {
         private IUserRepository _userRepository;
 
@@ -38,10 +38,10 @@ namespace EShop.Application.Services.Implementation
         public async Task CreateUserAsync(AddUserViewModel userViewModel)
         {
             User user = new User()
-            { 
-                FirstName= userViewModel.Name,
+            {
+                FirstName = userViewModel.Name,
                 LastName = userViewModel.Family,
-                Email= userViewModel.Email,
+                Email = userViewModel.Email,
                 ActiveCode = NameGenerator.GenerateUniqCode(),
                 CreateDate = DateTime.Now,
                 Avatar = "Default.jpg",
