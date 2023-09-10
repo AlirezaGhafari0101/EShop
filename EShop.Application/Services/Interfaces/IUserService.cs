@@ -18,6 +18,12 @@ namespace EShop.Application.Services.Interfaces
         Task CreateUserAsync(AddUserViewModel userViewModel);
 
         Task<List<UserViewModel>> GetAllUsersAsync();
+
+
+
+        //Start User Panel
+        Task<UserViewModel> GetUserInforServiceAsync(string email);
+        //End User Panel
       
     }
 }

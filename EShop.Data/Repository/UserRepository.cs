@@ -91,8 +91,13 @@ namespace EShop.Data.Repository
             await _ctx.SaveChangesAsync();
         }
 
-      
-       
+        public async Task<User> GetUserInforAsync(string id)
+        {
+            return await _ctx.Users.FirstOrDefaultAsync(u => u.Email == id);
+        }
+
+
+
 
 
 

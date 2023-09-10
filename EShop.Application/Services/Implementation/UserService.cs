@@ -51,5 +51,20 @@ namespace EShop.Application.Services.Implementation
               await _userRepository.CreateUserAsync(user);
               await _userRepository.SaveChangeAsync();
         }
+
+        public async Task<UserViewModel> GetUserInforServiceAsync(string email)
+        {
+            User user = await _userRepository.GetUserInforAsync(email);
+
+            UserViewModel viewModel = new UserViewModel()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                CreateDate = user.CreateDate
+            };
+
+            return viewModel;
+        }
     }
 }
