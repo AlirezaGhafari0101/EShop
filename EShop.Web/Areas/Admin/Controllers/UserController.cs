@@ -40,7 +40,21 @@ namespace EShop.Web.Areas.Admin.Controllers
 
             await _userService.CreateUserAsync(addUserViewModel);
             ViewBag.IsSuccess = true;
-            return View( addUserViewModel);
+            return RedirectToAction("Index");
+        }
+
+
+       
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            await _userService.DeleteUserByIdAsync(id);
+            return Json(new {status="success"});
+        }
+
+        public async Task<ActionResult> EditUser(int id)
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+            return View(user);
         }
     }
 }

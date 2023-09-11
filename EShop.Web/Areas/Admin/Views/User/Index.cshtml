@@ -1,6 +1,26 @@
-﻿@model List<EShop.Application.ViewModels.UserViewModel> 
+﻿@model List<EShop.Application.ViewModels.UserViewModel>
 @using EShop.Application.Convertors
 <div class="col-xs-12 col-md-12">
+   
+
+    <!-- Modal -->
+    <div class="modal fade" id="editusermodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+               
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+                    <button type="submit" class="btn btn-blue">ویرایش</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="widget">
         <div class="widget-header ">
             <span class="widget-caption">لیست کاربران</span>
@@ -18,12 +38,12 @@
         </div>
         <div class="widget-body">
             <div class="table-toolbar">
-                <a id="editabledatatable_new" asp-area="Admin" asp-controller="User" asp-action="AddUser" class="btn btn-default">
-                   افزودن کاربر جدید
+                <a id="editabledatatable_new" asp-area="Admin" asp-controller="User" asp-action="AddUser" class="btn btn-primary">
+                    افزودن کاربر جدید
                 </a>
                 <div class="btn-group pull-right">
-                   
-                  
+
+
                     <ul class="dropdown-menu dropdown-default">
                         <li>
                             <a href="javascript:void(0);">Action</a>
@@ -48,12 +68,12 @@
                             <th class="sorting_asc" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="
                                                     Username
                                                 : activate to sort column descending" style="width: 193.4px;">
-                            ایمیل
+                                ایمیل
                             </th>
                             <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
                                                     Full Name
                                                 : activate to sort column ascending" style="width: 287.4px;">
-                                نام 
+                                نام
                             </th>
                             <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
                                                     Full Name
@@ -63,19 +83,19 @@
                             <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
                                                     Points
                                                 : activate to sort column ascending" style="width: 127.4px;">
-                               فعال
+                                فعال
                             </th>
                             <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
                                                     Notes
                                                 : activate to sort column ascending" style="width: 203.4px;">
-                               ادمین
+                                ادمین
                             </th>
                             <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
                                                     Notes
                                                 : activate to sort column ascending" style="width: 203.4px;">
                                 تاریخ ثبت نام
                             </th>
-                            
+
                             <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="
 
                                                 " style="width: 332.4px;">
@@ -91,43 +111,108 @@
 
 
                         @{
-                            for(var i =0; i < Model.Count(); i++)
+                            for (var i = 0; i < Model.Count(); i++)
                             {
-                                <tr role="row" class="@((i + 1)%2 == 0) ? 'odd' : 'even' ">
-                                   
-                                    <td class="sorting_1">@Model[i].Email</td>
-                                    <td>@Model[i].FirstName</td>
-                                    <td class="center ">@Model[i].LastName</td>
-                                    @if (Model[i].IsActive)
+                                    <tr role="row" class="@((i + 1)%2 == 0) ? 'odd' : 'even' " id="@Model[i].Id">
+
+                                        <td class="sorting_1">@Model[i].Email</td>
+                                        <td>@Model[i].FirstName</td>
+                                        <td class="center ">@Model[i].LastName</td>
+                                        @if (Model[i].IsActive)
                                     {
-                                        <td><i class="fa fa-check"></i></td>
+                                            <td><i class="fa fa-check"></i></td>
                                     }
                                     else
                                     {
-                                        <td><i class="fa fa-close"></i></td>
+                                            <td><i class="fa fa-close"></i></td>
                                     }
-                                    @if(Model[i].IsAdmin){
-                                        <td><i class="fa fa-check"></i></td>
+                                        @if (Model[i].IsAdmin)
+                                    {
+                                            <td><i class="fa fa-check"></i></td>
                                     }
                                     else
                                     {
-                                        <td><i class="fa fa-close"></i></td>
+                                            <td><i class="fa fa-close"></i></td>
                                     }
-                                    <td>@FixedText.FixDateToShamsi(Model[i].CreateDate)</td>
-                                    
-                                    <td>
-                                        <a href="#" class="btn btn-info btn-xs edit"><i class="fa fa-edit"></i> ویرایش</a>
-                                        <a href="#" class="btn btn-danger btn-xs delete"><i class="fa fa-trash-o"></i> حذف</a>
-                                    </td>
-                                </tr>
+                                        <td>@FixedText.FixDateToShamsi(Model[i].CreateDate)</td>
+
+                                        <td>
+                                        <a href="/Admin/User/EditUser/@Model[i].Id"   class="btn btn-info btn-xs edit"  ><i class="fa fa-edit"></i> ویرایش</a>
+                                            <button type="button" class="btn btn-danger btn-xs delete" onclick="DeleteUser('@Model[i].FirstName', '@Model[i].LastName', '@Model[i].Id')"><i class="fa fa-trash-o"></i> حذف</button>
+
+                                        </td>
+                                    </tr>
                             }
                         }
-                       
-          
-                        
+
+
+
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+
+@section FooterReferences {
+
+    <script>
+
+        function DeleteUser(firstname, lastname, id) {
+          
+            Swal.fire({
+                title: `آیا از حذف ${firstname} ${lastname} مطمئن هستید؟`,
+
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: "حذف",
+                cancelButtonText: "خیر"
+
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "GET",
+                        url: `/Admin/User/DeleteUser/${id}`,
+                        success: function (response) {
+                            if (response.status == "success") {
+                                document.getElementById(id).remove()
+                            }
+
+                        },
+                       
+                    });
+                }
+            })
+        }
+
+        // function EditUser  ()  {
+        //     console.log("alireza")
+        //     $.ajax({
+        //         type: "GET",
+        //         url: '/Admin/User/EditUser',
+        //         data: {id},
+
+
+        //         beforeSend: function () {
+             
+        //         },
+        //         success: function (response) {
+
+        //             const modal = document.getElementById("editusermodal");
+        //             modal.innerHTML = response;
+                 
+                   
+                    
+        //         },
+        //         complete: function () {
+                   
+        //         },
+        //         failure: function (jqXHR, textStatus, errorThrown) {
+        //             alert("HTTP Status: " + jqXHR.status + "; Error Text: " + jqXHR.responseText); // Display error message
+        //         }
+        //     });
+        // }
+    </script>
+}

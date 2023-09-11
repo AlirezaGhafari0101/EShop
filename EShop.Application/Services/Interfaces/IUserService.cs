@@ -17,7 +17,10 @@ namespace EShop.Application.Services.Interfaces
 
         Task CreateUserAsync(AddUserViewModel userViewModel);
 
+        Task DeleteUserByIdAsync(int id);
         Task<List<UserViewModel>> GetAllUsersAsync();
+
+        Task<EditUserViewModel> GetUserByIdAsync(int id);
       
     }
 }

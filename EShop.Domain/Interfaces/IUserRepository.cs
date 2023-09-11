@@ -34,10 +34,10 @@ namespace EShop.Domain.Interfaces
         //End Account Roles
 
         Task<User> GetUserByIdAsync(int userId);
-        Task<List<User>> GetAllUsersAsync();
+        Task<List<User>> GetAllUsersAsync();  
         Task CreateUserAsync(User user);
         Task UpdateUserAsync(User user);
-        Task DeleteUserAsync(int userId);
+        Task DeleteUserByIdAsync(int userId);
 
     }
 }

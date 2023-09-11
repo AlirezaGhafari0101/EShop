@@ -27,6 +27,7 @@ namespace EShop.Application.Services.Implementation
            var users = await _userRepository.GetAllUsersAsync();
             return  users.Select(u=>new UserViewModel
             {
+                Id = u.Id,
                 Email = u.Email,
                 FirstName = u.FirstName,
                 LastName = u.LastName,
@@ -50,6 +51,27 @@ namespace EShop.Application.Services.Implementation
             };
               await _userRepository.CreateUserAsync(user);
               await _userRepository.SaveChangeAsync();
+        }
+
+        public async Task DeleteUserByIdAsync(int id)
+        {
+            await _userRepository.DeleteUserByIdAsync(id);
+            await _userRepository.SaveChangeAsync();
+        }
+
+        public async Task<EditUserViewModel> GetUserByIdAsync(int id)
+        {
+            var user = await _userRepository.GetUserByIdAsync(id);
+            return new EditUserViewModel()
+            {
+                Name=user.FirstName,
+                Family=user.LastName,
+                Email=user.Email,
+                Avatar=user.Avatar,
+                Password=user.Password,
+                IsActive=user.IsActive,
+                IsAdmin=user.IsAdmin,
+            } ;
         }
     }
 }

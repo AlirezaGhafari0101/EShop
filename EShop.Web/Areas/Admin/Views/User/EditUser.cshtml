@@ -1,4 +1,51 @@
-﻿@model EShop.Application.ViewModels.User.AddUserViewModel
+﻿@* @model EShop.Application.ViewModels.User.EditUserViewModel
+
+<div class="modal-body">
+    <form asp-controller="User" asp-action="EditUser" method="post">
+        <div class="form-title">
+            اطلاعات کاربر
+        </div>
+
+        <div class="form-group">
+            <label>نام:</label>
+            <span class="input-icon icon-right">
+               
+                <input asp-for="Name" type="text" class="form-control" id="namelInput" placeholder="نام">
+                <i class="fa fa-envelope-o circular"></i>
+            </span>
+        </div>
+        <div class="form-group">
+            <label>نام خانوداگی:</label>
+            <span class="input-icon icon-right">
+                <input asp-for="Family" type="text" class="form-control" id="familyInput" placeholder="نام خانوادگی">
+                <i class="fa fa-envelope-o circular"></i>
+            </span>
+        </div> <div class="form-group">
+            <label>ایمیل:</label>
+            <span class="input-icon icon-right">
+                <input asp-for=Email type="email" class="form-control" id="emailInput" placeholder="ایمیل">
+                <i class="fa fa-envelope-o circular"></i>
+            </span>
+        </div>
+        <div class="form-group">
+            <label>رمز عبور:</label>
+            <span class="input-icon icon-right">
+                <input asp-for="Password" type="password" class="form-control" id="passwordInput" placeholder="رمز عبور">
+                <i class="fa fa-lock circular"></i>
+            </span>
+        </div>
+       <div class="form-group">
+            <span class="input-icon icon-right">
+                <input type="file" class="form-control" id="confirmPasswordInput">
+                <i class="fa fa-box circular"></i>
+            </span>
+        </div>
+
+    </form>
+</div>
+
+ *@
+@model EShop.Application.ViewModels.User.EditUserViewModel
 
 <div class="col-12">
     <div class="widget flat radius-bordered">
@@ -6,7 +53,7 @@
             <span class="widget-caption">افزودن کاربر</span>
         </div>
 
-        <form asp-controller="User" asp-action="AddUser" method="post">
+        <form asp-controller="User" asp-action="EditUser" method="post">
 
             <div class="form-title">
                 اطلاعات کاربر
@@ -43,12 +90,12 @@
                             </div>
                             <div class="form-group">
                                 <span class="input-icon icon-right">
-                                    <input asp-for="Password" type="text" class="form-control" id="passwordInput" placeholder="رمز عبور">
+                                    <input asp-for="Password" type="password" class="form-control" id="passwordInput" placeholder="رمز عبور">
                                     <i class="fa fa-lock circular"></i>
                                 </span>
                                 <span class="text-danger py-2" asp-validation-for="Password"></span>
                             </div>
-                           
+                       
 
                             <button type="submit" class="btn btn-danger">افزودن</button>
                         </div>
@@ -69,7 +116,7 @@
 
 
 
-         
+
         </form>
     </div>
 
