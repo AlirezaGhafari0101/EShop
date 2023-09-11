@@ -1,8 +1,10 @@
-﻿using EShop.Application.Generator;
+﻿using EShop.Application.Convertors;
+using EShop.Application.Generator;
 using EShop.Application.Security;
 using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels;
 using EShop.Application.ViewModels.User;
+using EShop.Application.ViewModels.User.UserPanel;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Users;
 
@@ -52,9 +54,9 @@ namespace EShop.Application.Services.Implementation
               await _userRepository.SaveChangeAsync();
         }
 
-        public async Task<UserViewModel> GetUserInforServiceAsync(string email)
+        public async Task<UserViewModel> GetUserInforServiceAsync(int id)
         {
-            User user = await _userRepository.GetUserInforAsync(email);
+            User user = await _userRepository.GetUserInforAsync(id);
 
             UserViewModel viewModel = new UserViewModel()
             {
@@ -65,6 +67,51 @@ namespace EShop.Application.Services.Implementation
             };
 
             return viewModel;
+        }
+
+        public async Task<UserViewModel> GetSideBarUserPanelDataAsync(int id)
+        {
+            User user = await _userRepository.GetUserInforAsync(id);
+
+            UserViewModel viewModel = new UserViewModel()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Avatar=user.Avatar,
+              
+            };
+
+            return viewModel;
+        }
+
+        public async Task<EditProfileViewModel> GetDataForEditProfileUserAsync(int id)
+        {
+            User user = await _userRepository.GetUserInforAsync(id);
+
+            EditProfileViewModel viewModel = new EditProfileViewModel()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                AvatarName=user.Avatar,
+
+            };
+
+            return viewModel;
+        }
+
+        public async Task EditUserProfileAsync(EditProfileViewModel profileViewModel, int id)
+        {
+            User user=await _userRepository.GetUserByIdAsync(id);
+
+            user.FirstName = profileViewModel.FirstName;
+            user.LastName = profileViewModel.LastName;
+            user.Email = profileViewModel.Email;
+            user.Avatar=ImageService.CreateImage(profileViewModel.Avatar,user.Avatar);
+
+            _userRepository.UpdateUserAsync(user);
+
         }
     }
 }

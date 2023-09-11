@@ -8,12 +8,44 @@
     border-radius: 10px;
 }
 
-.page-header--middle .signin-up-box a {
-    color: #080a38;
+    .page-header--middle .signin-up-box a {
+        color: #080a38;
+    }
+
+.field-validation-error {
+    color: red;
 }
 
-.field-validation-error{
-    color:red;
+#File_Uploader_BT {
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-family: 'Helvetica', sans-serif;
+    transition: .5s;
 }
 
+    #File_Uploader_BT:hover {
+        background-color: #eee;
+    }
 
+#user_avatar_container {
+    width: 150px;
+    height: 150px;
+    position: relative
+}
+
+#avatar_cleaner_btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: #eee;
+    opacity: 0;
+    transition: .5s;
+    cursor: pointer
+}
+
+    #avatar_cleaner_btn:hover {
+        opacity: .5
+    }

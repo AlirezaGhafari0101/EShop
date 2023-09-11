@@ -34,7 +34,8 @@ namespace EShop.Domain.Interfaces
         //End Account Roles
 
         //User Panel Role
-        Task<User> GetUserInforAsync(string id);
+        Task<User> GetUserInforAsync(int id);
+        
         //End User Panel Role
 
         Task<User> GetUserByIdAsync(int userId);

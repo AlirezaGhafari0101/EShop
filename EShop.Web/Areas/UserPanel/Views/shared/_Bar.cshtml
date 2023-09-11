@@ -1,4 +1,16 @@
-﻿@model EShop.Application.ViewModels.UserViewModel;
+﻿@using EShop.Application.ViewModels;
+@using EShop.Application.Services.Interfaces;
+@inject IUserService _userService;
+@using  System.Security.Claims;
+@using Microsoft.AspNetCore.Mvc;
+
+
+@{
+   
+    int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+    UserViewModel user = await _userService.GetSideBarUserPanelDataAsync(userId);
+}
 
 <div class="col-xl-3 col-lg-4 col-md-5 mb-md-0 mb-4">
     <div class="ui-sticky ui-sticky-top">
@@ -6,13 +18,14 @@
             <div class="profile-detail">
                 <div class="d-flex align-items-center">
                     <div class="profile-avatar me-3">
-                        <img src="/images/avatar/default.png" alt="avatar">
+                        <img src="/images/UserAvatar/@user.Avatar" alt="avatar">
                     </div>
                     <div class="profile-info">
                         <a href="#" class="text-decoration-none text-dark fw-bold mb-2">
-                            @Model.FirstName @Model.LastName
+                            @user.FirstName @user.LastName
+                            
                         </a>
-                        <div class="text-muted fs-7 fw-bold">@Model.Email</div>
+                        <div class="text-muted fs-7 fw-bold">@user.Email</div>
                     </div>
                 </div>
                 <div class="user-options">
@@ -42,7 +55,7 @@
             </div>
             <ul class="nav nav-items-with-icon flex-column">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="/UserPanel/Home/Index">
                         <i class="nav-link-icon ri-user-line"></i> اطلاعات
                         حساب
                     </a>

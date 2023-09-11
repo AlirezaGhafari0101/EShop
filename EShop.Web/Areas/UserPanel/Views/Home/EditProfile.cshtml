@@ -1,0 +1,158 @@
+﻿@model EShop.Application.ViewModels.User.UserPanel.EditProfileViewModel;
+@using System.Security.Claims;
+@{
+    ViewData["Title"] = "EditProfile";
+
+    int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+}
+
+
+
+<main class="page-content">
+    <div class="container">
+        <div class="row mb-5">
+            <partial name="_Bar" />
+            <div class="col-xl-9 col-lg-8 col-md-7">
+                <div class="alert alert-warning alert-dismissible fade show mb-5" role="alert">
+                    <div>
+                        سفارش شما در انتظار پرداخت است. برای جلوگیری از لغو سفارش، لطفا پرداخت را انجام دهید.
+                        <a href="#" class="btn btn-sm btn-primary mx-3">سفارش های من</a>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div class="ui-box bg-white mb-5">
+                    <div class="ui-box-title">ویرایش حساب کاربری</div>
+                    @*    <div class="ui-box-subtitle">
+                    فرم زیر را پر کنید (توضیحات کامل تر روند پاسخ دهی را کوتاه تر
+                    می
+                    کند.)
+                    </div> *@
+                    <div class="ui-box-content" data-select2-id="select2-data-8-si85">
+                        <!-- start of add-ticket-form -->
+                        <form asp-action="EditProfile" method="post" class="add-ticket-form" data-select2-id="select2-data-7-i3w9" enctype="multipart/form-data">
+                            <input type="number" value="@userId" name="Id" hidden />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <!-- start of form-element -->
+                                    <div class="form-element-row mb-5">
+                                        <label class="label">نام</label>
+                                        <input type="text" asp-for="FirstName" class="form-control" placeholder="">
+                                    </div>
+                                    <span asp-validation-for="FirstName"></span>
+                                    <!-- end of form-element -->
+                                </div>
+
+                                <div class="col-md-6">
+                                    <!-- start of form-element -->
+                                    <div class="form-element-row mb-5">
+                                        <label class="label">نام خانوادگی</label>
+                                        <input type="text" asp-for="LastName" class="form-control" placeholder="">
+                                    </div>
+                                    <span asp-validation-for="LastName"></span>
+
+                                    <!-- end of form-element -->
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <!-- start of form-element -->
+                                    <div class="form-element-row mb-5">
+                                        <label class="label">نام</label>
+                                        <input type="text" asp-for="Email" class="form-control" placeholder="">
+                                    </div>
+                                    <span asp-validation-for="Email"></span>
+
+                                    <!-- end of form-element -->
+                                </div>
+
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 ">
+                                    <div class="form-element-row mb-5">
+                                        <p class="help-block">
+                                            تصویر پروفایل
+                                        </p>
+
+                                        <p>لطفا فقط تصویر انتخاب کنید</p>
+                                        <div id="user_avatar_container">
+                                            <img class="thumbnail w-100 h-100" id="imgAvatar" src="/images/UserAvatar/@Model.AvatarName"  />
+
+                                            <div id="avatar_cleaner_btn" class="d-flex justify-content-center align-items-center" onclick="cleaner_avatar()">
+                                                <i class="fa fa-close">
+                                                    حذف تصویر
+                                                </i>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-element-row mb-5">
+                                        <label for="Avatar" id="File_Uploader_BT" class="btn">اینجا کلیک کنید</label>
+                                        <input type="file" asp-for="Avatar" hidden />
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-7 col-sm-8 col-xs-12">
+                                    <button class="btn btn-success"> ویرایش اطلاعات </button>
+                                </div>
+                            </div>
+
+
+
+
+
+
+                        </form>
+                        <!-- end of add-ticket-form -->
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+@section Scripts{
+    <script>
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgAvatar').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#Avatar").change(function () {
+            readURL(this);
+        });
+
+        var cleaner_avatar = () => {
+            $("#Avatar").val('');
+            $('#imgAvatar').attr('src', '/images/UserAvatar/@Model.AvatarName');
+        }
+
+       
+    </script>
+}
+
+
+
+
+

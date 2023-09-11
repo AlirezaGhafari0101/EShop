@@ -1,5 +1,6 @@
 ﻿using EShop.Application.ViewModels;
 using EShop.Application.ViewModels.User;
+using EShop.Application.ViewModels.User.UserPanel;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Users;
 using System;
@@ -22,7 +23,11 @@ namespace EShop.Application.Services.Interfaces
 
 
         //Start User Panel
-        Task<UserViewModel> GetUserInforServiceAsync(string email);
+        Task<UserViewModel> GetUserInforServiceAsync(int id);
+        Task<UserViewModel> GetSideBarUserPanelDataAsync(int id);
+        Task<EditProfileViewModel> GetDataForEditProfileUserAsync(int id);
+        Task EditUserProfileAsync(EditProfileViewModel profileViewModel,int id);
+
         //End User Panel
       
     }
