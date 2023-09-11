@@ -27,11 +27,16 @@ namespace EShop.Domain.Interfaces
 
         Task<User> ForgotPasswordAsync( string email);
 
-        
+
 
 
 
         //End Account Roles
+
+        //User Panel Role
+        Task<User> GetUserInforAsync(int id);
+        
+        //End User Panel Role
 
         Task<User> GetUserByIdAsync(int userId);
         Task<List<User>> GetAllUsersAsync();  

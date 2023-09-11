@@ -1,8 +1,10 @@
-﻿using EShop.Application.Generator;
+﻿using EShop.Application.Convertors;
+using EShop.Application.Generator;
 using EShop.Application.Security;
 using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels;
 using EShop.Application.ViewModels.User;
+using EShop.Application.ViewModels.User.UserPanel;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Users;
 
@@ -53,25 +55,64 @@ namespace EShop.Application.Services.Implementation
               await _userRepository.SaveChangeAsync();
         }
 
-        public async Task DeleteUserByIdAsync(int id)
+        public async Task<UserViewModel> GetUserInforServiceAsync(int id)
         {
-            await _userRepository.DeleteUserByIdAsync(id);
-            await _userRepository.SaveChangeAsync();
+            User user = await _userRepository.GetUserInforAsync(id);
+
+            UserViewModel viewModel = new UserViewModel()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                CreateDate = user.CreateDate
+            };
+
+            return viewModel;
         }
 
-        public async Task<EditUserViewModel> GetUserByIdAsync(int id)
+        public async Task<UserViewModel> GetSideBarUserPanelDataAsync(int id)
         {
-            var user = await _userRepository.GetUserByIdAsync(id);
-            return new EditUserViewModel()
+            User user = await _userRepository.GetUserInforAsync(id);
+
+            UserViewModel viewModel = new UserViewModel()
             {
-                Name=user.FirstName,
-                Family=user.LastName,
-                Email=user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
                 Avatar=user.Avatar,
-                Password=user.Password,
-                IsActive=user.IsActive,
-                IsAdmin=user.IsAdmin,
-            } ;
+              
+            };
+
+            return viewModel;
+        }
+
+        public async Task<EditProfileViewModel> GetDataForEditProfileUserAsync(int id)
+        {
+            User user = await _userRepository.GetUserInforAsync(id);
+
+            EditProfileViewModel viewModel = new EditProfileViewModel()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                AvatarName=user.Avatar,
+
+            };
+
+            return viewModel;
+        }
+
+        public async Task EditUserProfileAsync(EditProfileViewModel profileViewModel, int id)
+        {
+            User user=await _userRepository.GetUserByIdAsync(id);
+
+            user.FirstName = profileViewModel.FirstName;
+            user.LastName = profileViewModel.LastName;
+            user.Email = profileViewModel.Email;
+            user.Avatar=ImageService.CreateImage(profileViewModel.Avatar,user.Avatar);
+
+            _userRepository.UpdateUserAsync(user);
+
         }
     }
 }

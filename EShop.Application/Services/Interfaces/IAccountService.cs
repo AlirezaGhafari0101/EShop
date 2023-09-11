@@ -25,5 +25,11 @@ namespace EShop.Application.Services.Interfaces
 
         Task ResetPasswordAsync(ResetPasswordViewModel resetPasswordViewModel);
 
+
+
+
+
+
+
     }
 }

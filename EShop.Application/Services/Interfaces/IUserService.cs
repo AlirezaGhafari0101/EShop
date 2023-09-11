@@ -1,5 +1,6 @@
 ﻿using EShop.Application.ViewModels;
 using EShop.Application.ViewModels.User;
+using EShop.Application.ViewModels.User.UserPanel;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Users;
 using System;
@@ -20,7 +21,15 @@ namespace EShop.Application.Services.Interfaces
         Task DeleteUserByIdAsync(int id);
         Task<List<UserViewModel>> GetAllUsersAsync();
 
-        Task<EditUserViewModel> GetUserByIdAsync(int id);
+
+
+        //Start User Panel
+        Task<UserViewModel> GetUserInforServiceAsync(int id);
+        Task<UserViewModel> GetSideBarUserPanelDataAsync(int id);
+        Task<EditProfileViewModel> GetDataForEditProfileUserAsync(int id);
+        Task EditUserProfileAsync(EditProfileViewModel profileViewModel,int id);
+
+        //End User Panel
       
     }
 }

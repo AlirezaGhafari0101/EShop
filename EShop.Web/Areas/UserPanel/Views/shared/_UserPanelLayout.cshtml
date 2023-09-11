@@ -1,0 +1,33 @@
+﻿
+<!DOCTYPE html>
+<html lang="fa">
+
+<head>
+    <partial name="_MetaTags" />
+    <title>YektaKala | profile</title>
+    <partial name="_Styles" />
+
+</head>
+
+<body>
+
+    <div class="page-wrapper">
+        <!-- start of page-header -->
+        <partial name="_Header" />
+        <!-- end of page-header -->
+        @RenderBody();
+
+
+        <partial name="_Footer" />
+    </div>
+
+
+    <partial name="_Scripts" />
+
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+
+</html>
+
