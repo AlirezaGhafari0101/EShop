@@ -21,7 +21,7 @@ namespace EShop.Application.ViewModels.User.UserPanel
         [StringLength(50)]
         public string LastName { get; set; }
 
-        public IFormFile Avatar { get; set; }
+        public IFormFile? Avatar { get; set; }
         public string AvatarName { get; set; }
     }
 }

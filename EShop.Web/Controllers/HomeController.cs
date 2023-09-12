@@ -18,6 +18,19 @@ namespace EShop.Web.Controllers
             return View();
         }
 
-     
+        [HttpGet("contact-us")]
+        public IActionResult ContactUs()
+        {
+            return View();
+        }
+
+
+        [HttpPost("contact-us")]
+        public IActionResult ContactUs(ContactUsViewModel contactUsViewModel)
+        {
+            return View();
+        }
+
+
     }
 }

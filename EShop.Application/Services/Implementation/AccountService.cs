@@ -76,7 +76,8 @@ namespace EShop.Application.Services.Implementation
         {
             string Fixedemail = FixedText.FixEmail(email);
             User user = await _userRepository.ForgotPasswordAsync(Fixedemail);
-            UserViewModel userViewModel = new UserViewModel() {
+            UserViewModel userViewModel = new UserViewModel()
+            {
                 Email = user.Email,
                 ActiveCode = user.ActiveCode,
             };
@@ -95,14 +96,24 @@ namespace EShop.Application.Services.Implementation
             string email = FixedText.FixEmail(loginViewModel.Email);
 
             var user = await _userRepository.LoginUserAsync(email, password);
+            var userViewModel = new UserViewModel();
 
-            UserViewModel userViewModel = new UserViewModel()
+            if (user != null)
             {
-                Id = user.Id,
-                IsActive = user.IsActive,
-                Email = user.Email,
-            };
-            return userViewModel;
+
+
+                userViewModel.Id = user.Id;
+                userViewModel.IsActive = user.IsActive;
+                userViewModel.Email = user.Email;
+
+                return userViewModel;
+
+            }
+            else
+            {
+                return null;
+            }
+          
         }
 
         public async Task<User> UserLoginAsync(LoginViewModel loginViewModel)
@@ -131,7 +142,7 @@ namespace EShop.Application.Services.Implementation
 
             };
 
-         
+
 
 
             await _userRepository.RegisterAsync(user);

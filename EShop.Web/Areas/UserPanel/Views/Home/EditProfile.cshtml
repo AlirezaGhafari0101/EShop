@@ -13,13 +13,16 @@
         <div class="row mb-5">
             <partial name="_Bar" />
             <div class="col-xl-9 col-lg-8 col-md-7">
-                <div class="alert alert-warning alert-dismissible fade show mb-5" role="alert">
-                    <div>
-                        سفارش شما در انتظار پرداخت است. برای جلوگیری از لغو سفارش، لطفا پرداخت را انجام دهید.
-                        <a href="#" class="btn btn-sm btn-primary mx-3">سفارش های من</a>
+                @if (ViewBag.IsEdited != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show mb-5" role="alert">
+                        <div>
+                            ویرایش حساب کاربری با موفقییت انجام شد.
+
+                        </div>
+
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+                }
                 <div class="ui-box bg-white mb-5">
                     <div class="ui-box-title">ویرایش حساب کاربری</div>
                     @*    <div class="ui-box-subtitle">
@@ -30,7 +33,8 @@
                     <div class="ui-box-content" data-select2-id="select2-data-8-si85">
                         <!-- start of add-ticket-form -->
                         <form asp-action="EditProfile" method="post" class="add-ticket-form" data-select2-id="select2-data-7-i3w9" enctype="multipart/form-data">
-                            <input type="number" value="@userId" name="Id" hidden />
+                            <input value="@userId" name="Id" hidden />
+                            <input type="hidden" asp-for="AvatarName" />
                             <div class="row">
                                 <div class="col-md-6">
                                     <!-- start of form-element -->
@@ -78,7 +82,7 @@
 
                                         <p>لطفا فقط تصویر انتخاب کنید</p>
                                         <div id="user_avatar_container">
-                                            <img class="thumbnail w-100 h-100" id="imgAvatar" src="/images/UserAvatar/@Model.AvatarName"  />
+                                            <img class="thumbnail w-100 h-100" id="imgAvatar" src="/images/UserAvatar/@Model.AvatarName" />
 
                                             <div id="avatar_cleaner_btn" class="d-flex justify-content-center align-items-center" onclick="cleaner_avatar()">
                                                 <i class="fa fa-close">
@@ -148,7 +152,7 @@
             $('#imgAvatar').attr('src', '/images/UserAvatar/@Model.AvatarName');
         }
 
-       
+
     </script>
 }
 
