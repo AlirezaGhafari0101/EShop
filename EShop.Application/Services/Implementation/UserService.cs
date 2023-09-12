@@ -108,9 +108,30 @@ namespace EShop.Application.Services.Implementation
             user.FirstName = profileViewModel.FirstName;
             user.LastName = profileViewModel.LastName;
             user.Email = profileViewModel.Email;
-            user.Avatar=ImageService.CreateImage(profileViewModel.Avatar,user.Avatar);
+            user.Avatar=ImageService.CreateImage(profileViewModel.Avatar,profileViewModel.AvatarName);
 
             _userRepository.UpdateUserAsync(user);
+            _userRepository.SaveChangeAsync();
+
+        }
+
+        public async Task<bool> ChangePasswordAsync(ChangePasswordViewModel changePasswordViewModel, int id)
+        {
+            string hashedPassword = PasswordHelper.EncodePasswordMd5(changePasswordViewModel.CurrentPassword);
+
+            User user = await _userRepository.GetUserByIdAsync(id);
+
+            if(hashedPassword == user.Password)
+            {
+                string hashedNewPassword=PasswordHelper.EncodePasswordMd5(changePasswordViewModel.Password);
+                user.Password = hashedNewPassword;
+
+                await _userRepository.UpdateUserAsync(user);
+                return true;
+            }
+
+            return false;
+
 
         }
     }

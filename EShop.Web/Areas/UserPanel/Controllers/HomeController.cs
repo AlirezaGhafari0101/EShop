@@ -1,5 +1,7 @@
 ﻿using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels.User.UserPanel;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -20,7 +22,7 @@ namespace EShop.Web.Areas.UserPanel.Controllers
 
         public async Task<IActionResult> Index()
         {
-            int usaerId =int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            int usaerId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             return View(await _userService.GetUserInforServiceAsync(usaerId));
         }
 
@@ -33,13 +35,44 @@ namespace EShop.Web.Areas.UserPanel.Controllers
         }
 
         [HttpPost("UserPanel/EditProfile")]
-        public async Task<IActionResult> EditProfile(EditProfileViewModel editViewModel,int Id)
+        public async Task<IActionResult> EditProfile(EditProfileViewModel editViewModel, int Id)
         {
             if (!ModelState.IsValid)
                 return View(editViewModel);
 
-            _userService.EditUserProfileAsync(editViewModel, Id);
-            return Redirect("/UserPanel/Home/Index");
+            await _userService.EditUserProfileAsync(editViewModel, Id);
+            //Log Out User
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return Redirect("/Login");
+
+        }
+
+
+        [HttpGet("UserPanel/ChangePassword")]
+        public async Task<IActionResult> ChangePassword()
+        {
+
+
+            return View();
+        }
+
+        [HttpPost("UserPanel/ChangePassword")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel changePasswordViewModel)
+        {
+            if (!ModelState.IsValid)
+                return View(changePasswordViewModel);
+            int usaerId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            bool result = await _userService.ChangePasswordAsync(changePasswordViewModel, usaerId);
+
+            if (!result)
+            {
+                ModelState.AddModelError("CurrentPassword", "رمز عبور فعلی اشتباه وارد شده");
+                return View(changePasswordViewModel);
+            }
+
+            return Redirect("/Login");
         }
     }
 }

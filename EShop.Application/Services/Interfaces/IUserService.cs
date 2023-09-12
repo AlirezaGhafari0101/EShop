@@ -27,6 +27,7 @@ namespace EShop.Application.Services.Interfaces
         Task<UserViewModel> GetSideBarUserPanelDataAsync(int id);
         Task<EditProfileViewModel> GetDataForEditProfileUserAsync(int id);
         Task EditUserProfileAsync(EditProfileViewModel profileViewModel,int id);
+        Task<bool> ChangePasswordAsync(ChangePasswordViewModel changePasswordViewModel,int id);
 
         //End User Panel
       
