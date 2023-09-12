@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace EShop.Application.ViewModels.User
 {
-    public class AddUserViewModel
+    public class EditUserViewModel
     {
         [Display(Name = "نام")]
         [Required(ErrorMessage = "پر کردن {0} الزامی می باشد.")]
-        [StringLength(50, ErrorMessage ="{0} نمی تواند بیشتر از 50 کااراکتر باشد.")]
+        [StringLength(50, ErrorMessage = "{0} نمی تواند بیشتر از 50 کااراکتر باشد.")]
         public string Name { get; set; }
 
         [Display(Name = "نام خانوادگی")]
@@ -26,14 +26,17 @@ namespace EShop.Application.ViewModels.User
         public string Email { get; set; }
 
         [Display(Name = "رمز عبور")]
-        [Required(ErrorMessage = "پر کردن {0} الزامی می باشد.")]
+     
         [StringLength(50, ErrorMessage = "{0} نمی تواند بیشتر از 50 کااراکتر باشد.")]
-        public string Password { get; set; }
-
-        public IFormFile Avatar { get; set; }
+        public string? Password { get; set; }
 
 
+        [Display(Name = "آواتار")]
+       
+        public IFormFile? Avatar { get; set; }
+        public string? AvatarName { get; set; }
 
-
+        public bool IsActive { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

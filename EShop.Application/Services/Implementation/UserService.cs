@@ -26,9 +26,10 @@ namespace EShop.Application.Services.Implementation
 
         public async Task<List<UserViewModel>> GetAllUsersAsync()
         {
-           var users = await _userRepository.GetAllUsersAsync();
-            return  users.Select(u=>new UserViewModel
+            var users = await _userRepository.GetAllUsersAsync();
+            return users.Select(u => new UserViewModel
             {
+                Id = u.Id,
                 Email = u.Email,
                 FirstName = u.FirstName,
                 LastName = u.LastName,
@@ -46,13 +47,57 @@ namespace EShop.Application.Services.Implementation
                 Email = userViewModel.Email,
                 ActiveCode = NameGenerator.GenerateUniqCode(),
                 CreateDate = DateTime.Now,
-                Avatar = "Default.jpg",
+                Avatar = ImageService.CreateImage(userViewModel.Avatar),
                 IsActive = true,
                 Password = PasswordHelper.EncodePasswordMd5(userViewModel.Password),
+
             };
-              await _userRepository.CreateUserAsync(user);
-              await _userRepository.SaveChangeAsync();
+            await _userRepository.CreateUserAsync(user);
+            await _userRepository.SaveChangeAsync();
         }
+
+        public async Task DeleteUserByIdAsync(int id)
+        {
+            await _userRepository.DeleteUserByIdAsync(id);
+            await _userRepository.SaveChangeAsync();
+        }
+
+        public async Task<EditUserViewModel> GetUserByIdForEditAsync(int id)
+        {
+            var user = await _userRepository.GetUserByIdAsync(id);
+            return new EditUserViewModel()
+            {
+                Name = user.FirstName,
+                Family = user.LastName,
+                Email = user.Email,
+                AvatarName = user.Avatar,
+                IsActive = user.IsActive,
+                Password = user.Password,
+                IsAdmin = user.IsAdmin,
+            };
+        }
+
+        public async Task EditUserFromAdminAsync(EditUserViewModel model, int id)
+        {
+            var user = await _userRepository.GetUserByIdAsync(id);
+
+            if(model.Avatar != null)
+            {
+                user.Avatar = ImageService.CreateImage(model.Avatar, model.AvatarName);
+            }
+            user.IsActive = model.IsActive;
+            if (model.Password != null)
+            {
+                user.Password = model.Password;
+            }
+            user.IsAdmin = model.IsAdmin;
+            user.FirstName = model.Name;
+            user.LastName = model.Family;
+            await _userRepository.UpdateUserAsync(user);
+            await _userRepository.SaveChangeAsync();
+        }
+
+
 
         public async Task<UserViewModel> GetUserInforServiceAsync(int id)
         {
@@ -78,8 +123,8 @@ namespace EShop.Application.Services.Implementation
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-                Avatar=user.Avatar,
-              
+                Avatar = user.Avatar,
+
             };
 
             return viewModel;
@@ -94,7 +139,7 @@ namespace EShop.Application.Services.Implementation
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-                AvatarName=user.Avatar,
+                AvatarName = user.Avatar,
 
             };
 
@@ -103,7 +148,7 @@ namespace EShop.Application.Services.Implementation
 
         public async Task EditUserProfileAsync(EditProfileViewModel profileViewModel, int id)
         {
-            User user=await _userRepository.GetUserByIdAsync(id);
+            User user = await _userRepository.GetUserByIdAsync(id);
 
             user.FirstName = profileViewModel.FirstName;
             user.LastName = profileViewModel.LastName;
@@ -134,6 +179,9 @@ namespace EShop.Application.Services.Implementation
             return false;
 
 
+
         }
+
+
     }
 }

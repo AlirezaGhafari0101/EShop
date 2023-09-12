@@ -13,14 +13,19 @@ namespace EShop.Application.Services.Interfaces
 {
     public interface IUserService
     {
-     
-       Task<bool> IsExistUserEmailService(string email);
+        // Start Admin
+        Task<bool> IsExistUserEmailService(string email);
 
         Task CreateUserAsync(AddUserViewModel userViewModel);
 
+        Task DeleteUserByIdAsync(int id);
         Task<List<UserViewModel>> GetAllUsersAsync();
 
+        Task<EditUserViewModel> GetUserByIdForEditAsync(int id);
 
+        Task EditUserFromAdminAsync(EditUserViewModel userViewModel, int id);
+
+        // End Admin
 
         //Start User Panel
         Task<UserViewModel> GetUserInforServiceAsync(int id);

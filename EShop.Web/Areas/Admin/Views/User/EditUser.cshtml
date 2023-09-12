@@ -1,0 +1,107 @@
+﻿@model EShop.Application.ViewModels.User.EditUserViewModel
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header py-6">ویرایش کاربر </h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+    <form asp-action="EditUser" method="post" enctype="multipart/form-data">
+        <div class="col-md-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    اطلاعات کاربر
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>نام </label>
+                        <input type="text" asp-for="Name" class="form-control">
+                        <span class="text-danger py-2" asp-validation-for="Name"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>نام خانوادگی</label>
+                        <input type="text" asp-for="Family" class="form-control">
+                        <span class="text-danger py-2" asp-validation-for="Family"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>ایمیل</label>
+                        <input type="email" readonly asp-for="Email" class="form-control">
+                        <span class="text-danger py-2" asp-validation-for="Email"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>کلمه عبور</label>
+                        <input type="text" value=""  asp-for="Password" class="form-control">
+                        <span class="text-danger py-2" asp-validation-for="Password"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-sm-4 col-xs-4">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" asp-for="IsActive">
+                                    <span class="text">فعال</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-4 col-xs-4">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" asp-for="IsAdmin">
+                                    <span class="text">ادمین</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="submit" value="ذخیره اطلاعات" class="btn btn-success" />
+                </div>
+                <!-- /.panel-body -->
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    تصویر پروفایل
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="w-50 h-50 overflow-hidden"> <img id="imgAvatar" class="img-thumbnail w-full h-full" src="/images/UserAvatar/@Model.AvatarName" /></div>
+                    <div class="form-group">
+                        <label>انتخاب تصویر</label>
+                        <input type="file" asp-for="Avatar">
+                        <span class="text-danger py-2" asp-validation-for="AvatarName"></span>
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+
+        </div>
+
+    </form>
+</div>
+
+@section FooterReferences
+    {
+    <script>
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgAvatar').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#Avatar").change(function () {
+            readURL(this);
+        });
+    </script>
+}
