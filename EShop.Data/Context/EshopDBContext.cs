@@ -1,4 +1,5 @@
-﻿using EShop.Domain.Models.Users;
+﻿using EShop.Domain.Models.Home;
+using EShop.Domain.Models.Users;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,11 @@ namespace EShop.Data.Context
         }
 
 
+        #region Users
         public DbSet<User> Users { get; set; }
+        #endregion
+
+        public DbSet<ContactUs> ContactUs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
