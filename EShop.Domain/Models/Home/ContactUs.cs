@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EShop.Domain.common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace EShop.Domain.Models.Home
 {
-    public class ContactUs
+    public class ContactUs:BaseEntity
     {
-        [Key]
-        public int Id { get; set; }
+ 
         [Required]
         [StringLength(250)]
 
@@ -21,5 +21,6 @@ namespace EShop.Domain.Models.Home
         [Required]
         public string Message { get; set; }
         public string? Answer { get; set; }
+        public bool IsRead { get; set; }
     }
 }
