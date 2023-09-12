@@ -39,10 +39,9 @@ namespace EShop.Web.Areas.UserPanel.Controllers
                 return View(editViewModel);
 
             await _userService.EditUserProfileAsync(editViewModel, Id);
-            //Log Out User
-            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            return Redirect("/Login");
+
+            return RedirectToAction("Index","Home");
 
         }
 
