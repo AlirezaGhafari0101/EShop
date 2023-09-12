@@ -117,16 +117,17 @@ namespace EShop.Application.Services.Implementation
 
         public async Task<bool> ChangePasswordAsync(ChangePasswordViewModel changePasswordViewModel, int id)
         {
-            string hashedPassword = PasswordHelper.EncodePasswordMd5(changePasswordViewModel.CurrentPassword);
-
+            string hashedCurrentPassword = PasswordHelper.EncodePasswordMd5(changePasswordViewModel.CurrentPassword);
+            string hashedNewPassword = PasswordHelper.EncodePasswordMd5(changePasswordViewModel.Password);
             User user = await _userRepository.GetUserByIdAsync(id);
 
-            if(hashedPassword == user.Password)
+            if(hashedCurrentPassword == user.Password)
             {
-                string hashedNewPassword=PasswordHelper.EncodePasswordMd5(changePasswordViewModel.Password);
+
                 user.Password = hashedNewPassword;
 
                 await _userRepository.UpdateUserAsync(user);
+                await _userRepository.SaveChangeAsync();
                 return true;
             }
 

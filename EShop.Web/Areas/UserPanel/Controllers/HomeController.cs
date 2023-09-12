@@ -1,12 +1,10 @@
 ﻿using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels.User.UserPanel;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using System.Security.Claims;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace EShop.Web.Areas.UserPanel.Controllers
 {
