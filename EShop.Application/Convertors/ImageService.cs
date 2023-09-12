@@ -11,7 +11,7 @@ namespace EShop.Application.Convertors
 {
     public static class ImageService
     {
-        public static string CreateImage(IFormFile Avatar, string userAvatarName)
+        public static string CreateImage(IFormFile Avatar, string userAvatarName="default.png")
         {
 
            

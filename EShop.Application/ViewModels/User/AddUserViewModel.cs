@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -29,8 +30,10 @@ namespace EShop.Application.ViewModels.User
         [StringLength(50, ErrorMessage = "{0} نمی تواند بیشتر از 50 کااراکتر باشد.")]
         public string Password { get; set; }
 
-      
-      
-       
+        public IFormFile Avatar { get; set; }
+
+
+
+
     }
 }

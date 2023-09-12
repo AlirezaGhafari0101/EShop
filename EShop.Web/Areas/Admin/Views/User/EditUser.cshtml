@@ -1,129 +1,107 @@
-﻿@* @model EShop.Application.ViewModels.User.EditUserViewModel
+﻿@model EShop.Application.ViewModels.User.EditUserViewModel
 
-<div class="modal-body">
-    <form asp-controller="User" asp-action="EditUser" method="post">
-        <div class="form-title">
-            اطلاعات کاربر
-        </div>
 
-        <div class="form-group">
-            <label>نام:</label>
-            <span class="input-icon icon-right">
-               
-                <input asp-for="Name" type="text" class="form-control" id="namelInput" placeholder="نام">
-                <i class="fa fa-envelope-o circular"></i>
-            </span>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header py-6">ویرایش کاربر </h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+    <form asp-action="EditUser" method="post" enctype="multipart/form-data">
+        <div class="col-md-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    اطلاعات کاربر
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>نام </label>
+                        <input type="text" asp-for="Name" class="form-control">
+                        <span class="text-danger py-2" asp-validation-for="Name"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>نام خانوادگی</label>
+                        <input type="text" asp-for="Family" class="form-control">
+                        <span class="text-danger py-2" asp-validation-for="Family"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>ایمیل</label>
+                        <input type="email" readonly asp-for="Email" class="form-control">
+                        <span class="text-danger py-2" asp-validation-for="Email"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>کلمه عبور</label>
+                        <input type="text" value=""  asp-for="Password" class="form-control">
+                        <span class="text-danger py-2" asp-validation-for="Password"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-sm-4 col-xs-4">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" asp-for="IsActive">
+                                    <span class="text">فعال</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-4 col-xs-4">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" asp-for="IsAdmin">
+                                    <span class="text">ادمین</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="submit" value="ذخیره اطلاعات" class="btn btn-success" />
+                </div>
+                <!-- /.panel-body -->
+            </div>
         </div>
-        <div class="form-group">
-            <label>نام خانوداگی:</label>
-            <span class="input-icon icon-right">
-                <input asp-for="Family" type="text" class="form-control" id="familyInput" placeholder="نام خانوادگی">
-                <i class="fa fa-envelope-o circular"></i>
-            </span>
-        </div> <div class="form-group">
-            <label>ایمیل:</label>
-            <span class="input-icon icon-right">
-                <input asp-for=Email type="email" class="form-control" id="emailInput" placeholder="ایمیل">
-                <i class="fa fa-envelope-o circular"></i>
-            </span>
-        </div>
-        <div class="form-group">
-            <label>رمز عبور:</label>
-            <span class="input-icon icon-right">
-                <input asp-for="Password" type="password" class="form-control" id="passwordInput" placeholder="رمز عبور">
-                <i class="fa fa-lock circular"></i>
-            </span>
-        </div>
-       <div class="form-group">
-            <span class="input-icon icon-right">
-                <input type="file" class="form-control" id="confirmPasswordInput">
-                <i class="fa fa-box circular"></i>
-            </span>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    تصویر پروفایل
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="w-50 h-50 overflow-hidden"> <img id="imgAvatar" class="img-thumbnail w-full h-full" src="/images/UserAvatar/@Model.AvatarName" /></div>
+                    <div class="form-group">
+                        <label>انتخاب تصویر</label>
+                        <input type="file" asp-for="Avatar">
+                        <span class="text-danger py-2" asp-validation-for="AvatarName"></span>
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+
         </div>
 
     </form>
 </div>
 
- *@
-@model EShop.Application.ViewModels.User.EditUserViewModel
-
-<div class="col-12">
-    <div class="widget flat radius-bordered">
-        <div class="widget-header bg-blue">
-            <span class="widget-caption">افزودن کاربر</span>
-        </div>
-
-        <form asp-controller="User" asp-action="EditUser" method="post">
-
-            <div class="form-title">
-                اطلاعات کاربر
-            </div>
-
-            <div class="col-lg-9 col-sm-9 col-xs-12">
-                <div class="widget flat radius-bordered">
-
-                    <div class="widget-body">
-                        <div id="registration-form">
-
-
-
-                            <div class="form-group">
-                                <span class="input-icon icon-right">
-                                    <input asp-for="Name" type="text" class="form-control" id="namelInput" placeholder="نام">
-                                    <i class="fa fa-envelope-o circular"></i>
-                                </span>
-                                <span class="text-danger py-2" asp-validation-for="Name"></span>
-                            </div>
-                            <div class="form-group">
-                                <span class="input-icon icon-right">
-                                    <input asp-for="Family" type="text" class="form-control" id="familyInput" placeholder="نام خانوادگی">
-                                    <i class="fa fa-envelope-o circular"></i>
-                                </span>
-                                <span class="text-danger py-2" asp-validation-for="Family"></span>
-                            </div>
-                            <div class="form-group">
-                                <span class="input-icon icon-right">
-                                    <input asp-for="Email" type="email" class="form-control" id="emailInput" placeholder="ایمیل">
-                                    <i class="fa fa-envelope-o circular"></i>
-                                </span>
-                                <span class="text-danger py-2" asp-validation-for="Email"></span>
-                            </div>
-                            <div class="form-group">
-                                <span class="input-icon icon-right">
-                                    <input asp-for="Password" type="password" class="form-control" id="passwordInput" placeholder="رمز عبور">
-                                    <i class="fa fa-lock circular"></i>
-                                </span>
-                                <span class="text-danger py-2" asp-validation-for="Password"></span>
-                            </div>
-                       
-
-                            <button type="submit" class="btn btn-danger">افزودن</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="col-3">
-                <img class="w-full" src="~/images/avatar/default.png" />
-                <div class="form-group">
-                    <label>
-                        آواتار
-                        <input type="file" name="myImage" accept="image/png, image/gif, image/jpeg" />
-                    </label>
-                </div>
-            </div>
-
-
-
-
-        </form>
-    </div>
-
-</div>
-
-@section FooterReferences{
+@section FooterReferences
+    {
     <script>
+        function readURL(input) {
 
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgAvatar').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#Avatar").change(function () {
+            readURL(this);
+        });
     </script>
 }

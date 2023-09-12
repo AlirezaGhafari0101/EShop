@@ -35,7 +35,9 @@ namespace EShop.Web.Areas.Admin.Controllers
             }
             if (await _userService.IsExistUserEmailService(addUserViewModel.Email))
             {
+                ModelState.AddModelError("Email", "کاربری با این ایمیل قبلا در سایت ثبت نام کرده است.");
                 return View(addUserViewModel);
+
             }
 
             await _userService.CreateUserAsync(addUserViewModel);
@@ -53,8 +55,21 @@ namespace EShop.Web.Areas.Admin.Controllers
 
         public async Task<ActionResult> EditUser(int id)
         {
-            var user = await _userService.GetUserByIdAsync(id);
+            var user = await _userService.GetUserByIdForEditAsync(id);
             return View(user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditUser(EditUserViewModel userViewModel, int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(userViewModel);
+            }
+            
+            await _userService.EditUserFromAdminAsync(userViewModel, id);
+            return RedirectToAction("Index");
         }
     }
 }
