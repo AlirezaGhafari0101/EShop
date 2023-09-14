@@ -30,6 +30,8 @@ namespace EShop.Application.ViewModels.User
         [StringLength(50, ErrorMessage = "{0} نمی تواند بیشتر از 50 کااراکتر باشد.")]
         public string Password { get; set; }
 
+        [Display(Name = "آواتار")]
+        [Required(ErrorMessage = "پر کردن {0} الزامی می باشد.")]
         public IFormFile Avatar { get; set; }
 
 
