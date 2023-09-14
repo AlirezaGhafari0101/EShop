@@ -87,7 +87,7 @@ namespace EShop.Application.Services.Implementation
             }
             user.IsActive = model.IsActive;
             if (model.Password != null)
-                user.Password = model.Password;
+                user.Password = PasswordHelper.EncodePasswordMd5(model.Password);
             user.IsAdmin = model.IsAdmin;
             user.FirstName = model.Name;
             user.LastName = model.Family;

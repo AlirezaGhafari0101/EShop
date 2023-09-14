@@ -23,6 +23,7 @@ namespace EShop.Application.ViewModels.User
         [Display(Name = "ایمیل")]
         [Required(ErrorMessage = "پر کردن {0} الزامی می باشد.")]
         [StringLength(150, ErrorMessage = "{0} نمی تواند بیشتر از 150 کااراکتر باشد.")]
+        [EmailAddress(ErrorMessage ="یک آدرس ایمیل معتبر وارد کنید.")]
         public string Email { get; set; }
 
         [Display(Name = "رمز عبور")]

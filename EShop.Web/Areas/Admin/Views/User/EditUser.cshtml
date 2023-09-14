@@ -10,7 +10,7 @@
 </div>
 
 <div class="row">
-    <form asp-action="EditUser" method="post" enctype="multipart/form-data">
+    <form asp-action="EditUser" method="post" enctype="multipart/form-data" id="validate-form">
         <div class="col-md-8">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -35,7 +35,7 @@
                     </div>
                     <div class="form-group">
                         <label>کلمه عبور</label>
-                        <input type="text" value=""  asp-for="Password" class="form-control">
+                        <input type="text" value="" asp-for="Password" class="form-control">
                         <span class="text-danger py-2" asp-validation-for="Password"></span>
                     </div>
                     <div class="row">
@@ -69,8 +69,8 @@
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-                    <div class="w-50 h-50 overflow-hidden"> <img id="imgAvatar" class="img-thumbnail w-full h-full" src="/images/UserAvatar/@Model.AvatarName" /></div>
-                    <div class="form-group">
+                    <div class="w-50 h-50 overflow-hidden d-flex justify-content-center align-content-center"> <img id="imgAvatar" class="img-thumbnail w-full h-full" src="/images/UserAvatar/@Model.AvatarName" /></div>
+                    <div class="form-group ">
                         <label>انتخاب تصویر</label>
                         <input type="file" asp-for="Avatar">
                         <span class="text-danger py-2" asp-validation-for="AvatarName"></span>
@@ -86,6 +86,9 @@
 
 @section FooterReferences
     {
+
+
+    <partial name="_ClientSideValidationScripts" />
     <script>
         function readURL(input) {
 
@@ -103,5 +106,10 @@
         $("#Avatar").change(function () {
             readURL(this);
         });
+
+
+
+
+
     </script>
 }
