@@ -81,15 +81,13 @@ namespace EShop.Application.Services.Implementation
         {
             var user = await _userRepository.GetUserByIdAsync(id);
 
-            if(model.Avatar != null)
+            if (model.Avatar != null)
             {
                 user.Avatar = ImageService.CreateImage(model.Avatar, model.AvatarName);
             }
             user.IsActive = model.IsActive;
             if (model.Password != null)
-            {
-                user.Password = model.Password;
-            }
+                user.Password = PasswordHelper.EncodePasswordMd5(model.Password);
             user.IsAdmin = model.IsAdmin;
             user.FirstName = model.Name;
             user.LastName = model.Family;
@@ -153,7 +151,7 @@ namespace EShop.Application.Services.Implementation
             user.FirstName = profileViewModel.FirstName;
             user.LastName = profileViewModel.LastName;
             user.Email = profileViewModel.Email;
-            user.Avatar=ImageService.CreateImage(profileViewModel.Avatar,profileViewModel.AvatarName);
+            user.Avatar = ImageService.CreateImage(profileViewModel.Avatar, profileViewModel.AvatarName);
 
             _userRepository.UpdateUserAsync(user);
             _userRepository.SaveChangeAsync();
@@ -166,7 +164,7 @@ namespace EShop.Application.Services.Implementation
             string hashedNewPassword = PasswordHelper.EncodePasswordMd5(changePasswordViewModel.Password);
             User user = await _userRepository.GetUserByIdAsync(id);
 
-            if(hashedCurrentPassword == user.Password)
+            if (hashedCurrentPassword == user.Password)
             {
 
                 user.Password = hashedNewPassword;

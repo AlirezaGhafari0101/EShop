@@ -4,22 +4,35 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EShop.Web.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    public class UserController : Controller
-    {
 
+    public class UserController : BaseController
+    {
+        #region Fields
         private IUserService _userService;
+        #endregion
+
+        #region Constructor
 
         public UserController(IUserService userService)
         {
             _userService = userService;
         }
+
+        #endregion
+
+        #region Actions
+
+        #region Index
+
         public async Task<IActionResult> Index()
         {
             var users = await _userService.GetAllUsersAsync();
             return View(users);
         }
 
+        #endregion
+
+        #region AddUser
         public IActionResult AddUser()
         {
             return View();
@@ -29,7 +42,7 @@ namespace EShop.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddUser(AddUserViewModel addUserViewModel)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(addUserViewModel);
             }
@@ -45,14 +58,17 @@ namespace EShop.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        #endregion
 
-       
+        #region DeleteUser
         public async Task<IActionResult> DeleteUser(int id)
         {
             await _userService.DeleteUserByIdAsync(id);
-            return Json(new {status="success"});
+            return Json(new { status = "success" });
         }
+        #endregion
 
+        #region EditUser
         public async Task<ActionResult> EditUser(int id)
         {
             var user = await _userService.GetUserByIdForEditAsync(id);
@@ -67,9 +83,14 @@ namespace EShop.Web.Areas.Admin.Controllers
             {
                 return View(userViewModel);
             }
-            
+
             await _userService.EditUserFromAdminAsync(userViewModel, id);
             return RedirectToAction("Index");
         }
     }
+    #endregion
+
+
+
+    #endregion
 }
