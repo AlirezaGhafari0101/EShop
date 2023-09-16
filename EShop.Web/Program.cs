@@ -32,6 +32,7 @@ builder.Services.AddDbContext<EshopDBContext>(options =>
 });
 
 DependencyContainer.UserServices(builder.Services);
+DependencyContainer.ContactUsServices(builder.Services);
 
 
 var app = builder.Build();

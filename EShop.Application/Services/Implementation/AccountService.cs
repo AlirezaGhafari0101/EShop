@@ -11,7 +11,7 @@ namespace EShop.Application.Services.Implementation
 {
     public class AccountService : IAccountService
     {
-        private IUserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         public AccountService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
