@@ -7,13 +7,11 @@ using System.Threading.Tasks;
 
 namespace EShop.Application.ViewModels.Product.Category
 {
-    public class ProductCategroyViewModel
+    public class UpdateCategoryViewModel
     {
-        public int Id { get; set; }
+        [Display(Name = "عنوان")]
+        [Required(ErrorMessage = "وارد کردن {0} الزامی می باشد")]
+        [StringLength(200, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد")]
         public string CategoryTitle { get; set; }
-        public DateTime CreateDate { get; set; }
-
-
-
     }
 }
