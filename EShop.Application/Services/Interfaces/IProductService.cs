@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EShop.Application.ViewModels.Product;
 
 namespace EShop.Application.Services.Interfaces
 {
@@ -14,6 +10,15 @@ namespace EShop.Application.Services.Interfaces
 
 
 
+
+
+
+
+        #region Products
+
+        Task<IEnumerable<ProductViewModel>> GetAllProductsServiceAsync();
+
+        #endregion
 
 
 
