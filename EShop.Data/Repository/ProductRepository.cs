@@ -2,11 +2,6 @@
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Products;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EShop.Data.Repository
 {
@@ -17,6 +12,7 @@ namespace EShop.Data.Repository
         {
             _ctx = ctx;
         }
+        #region CagteGory
         public async Task AddCategoryAsync(Category category)
         {
             _ctx.Add(category);
@@ -29,7 +25,7 @@ namespace EShop.Data.Repository
 
         public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
         {
-           return await _ctx.Categories.ToListAsync();
+            return await _ctx.Categories.ToListAsync();
         }
 
         public async Task<Category> GetCategoryByIdAsync(int id)
@@ -44,7 +40,8 @@ namespace EShop.Data.Repository
 
         public async Task UpdateCategoryAsync(Category category)
         {
-             _ctx.Update(category);
+            _ctx.Update(category);
         }
+        #endregion
     }
 }

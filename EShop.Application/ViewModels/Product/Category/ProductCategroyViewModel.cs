@@ -4,18 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EShop.Application.Services.Interfaces
+namespace EShop.Application.ViewModels.Product.Category
 {
-    public interface IProductService
+    public class ProductCategroyViewModel
     {
-        #region MyRegion
-
-        #endregion
-
-
-
-
-
-
     }
 }
