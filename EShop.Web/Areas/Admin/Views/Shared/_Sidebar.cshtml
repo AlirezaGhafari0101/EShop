@@ -37,6 +37,26 @@
                 </li>
             </ul>
         </li>
+        <li class="">
+            <a class="menu-dropdown" asp-area="Admin" asp-controller="Product" asp-action="Index">
+                <i class="menu-icon fa fa-bar-chart-o"></i>
+                <span class="menu-text">مدیریت محصولات</span>
+
+                <i class="menu-expand"></i>
+            </a>
+            <ul class="submenu" style="display: none;">
+                <li>
+                    <a asp-area="Admin" asp-controller="Product" asp-action="Index">
+                        <span class="menu-text">لیست محصولات</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Admin" asp-controller="Product" asp-action="AddProduct">
+                        <span class="menu-text">افزودن محصول</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
         <li>
             <a href="#" class="menu-dropdown">
                 <i class="menu-icon fa fa-envelope-o"></i>
