@@ -1,0 +1,54 @@
+﻿@model EShop.Application.ViewModels.ContactUs.SendAnswerContactUsViewModel;
+@{
+    ViewData["Title"] = "تماس باما|ارسال جواب";
+}
+
+<div class="col-lg-6 col-sm-6 col-xs-12">
+    <div class="widget">
+        <div class="widget-header bordered-bottom bordered-palegreen">
+            <span class="widget-caption">ارسال جواب به @Model.Email</span>
+        </div>
+        <div class="widget-body">
+            <div id="horizontal-form">
+                <form asp-action="SendAnswer" method="post" class="form-horizontal" role="form">
+                    <input name="contausId" value="@ViewBag.ContactUsId" hidden/>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="email" name="to" placeholder="To" class="form-control" asp-for="Email" readonly>
+                            <div class="horizontal-space"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="subject" placeholder="Subject" class="form-control" asp-for="FullName" readonly>
+                            <div class="horizontal-space"></div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                       @*      <textarea class="form-control" rows="3" placeholder="Content" asp-for="Message" readonly> 
+                                  
+                                  </textarea> *@
+
+                                  <p>
+                                      @Model.Message
+                                  </p>
+                            
+                        </div>
+
+                    </div>
+
+
+                    <textarea class="form-control" rows="3" placeholder="Content"
+                              asp-for="Answer">
+                </textarea>
+                    <span asp-validation-for="Answer"></span>
+                    <div class="horizontal-space"></div>
+                    <div>
+                        <button type="submit" class="btn btn-default">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

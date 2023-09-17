@@ -1,0 +1,10 @@
+﻿@model EShop.Application.ViewModels.ContactUs.EmailSendAnswerContactUsViewModel;
+@using EShop.Application.Convertors
+
+<div style="direction: rtl; padding: 20px">
+    <h2>یکتا کالا</h2>
+    <p> @Model.FullName عزیز شما در تاریخ @FixedText.FixDateToShamsi(Model.CreateDate) در خواستی به ما ارسال کردید  </p>
+    متن پیام شما : <p>@Model.Message</p>
+    جواب : <p>@Model.Answer</p>
+
+</div>

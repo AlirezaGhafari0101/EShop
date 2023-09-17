@@ -28,6 +28,10 @@ namespace EShop.Data.Context
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDelete);
+            modelBuilder.Entity<ContactUs>().HasQueryFilter(c => !c.IsDelete);
+
+
 
 
 
