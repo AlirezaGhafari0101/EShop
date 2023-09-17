@@ -1,29 +1,33 @@
 ﻿@model List<EShop.Application.ViewModels.UserViewModel>
 @using EShop.Application.Convertors
-<div class="col-xs-12 col-md-12">
+@{
+    bool isUserCreated = TempData["UserCreated"] as bool? ?? false;
+    bool isUserEdited = TempData["UserEdited"] as bool? ?? false;
    
+}
+<div class="col-xs-12 col-md-12">
 
-    <!-- Modal -->
-    <div class="modal fade" id="editusermodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-               
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
-                    <button type="submit" class="btn btn-blue">ویرایش</button>
-                </div>
+    @if (isUserCreated)
+    {
+        <div class="alert alert-success mt-4" role="alert" id="successCreation">
+            <div>
+                کاربر با موفقیت ایجاد گردید.
             </div>
         </div>
-    </div>
+    }
+    @if (isUserEdited)
+    {
+        <div class="alert alert-success  mt-4" role="alert" id="successEdit">
+            <div>
+                کاربر با موفقیت ویرایش گردید.
+            </div>
+        </div>
+    }
+
+   
     <div class="widget">
         <div class="widget-header ">
-            <span class="widget-caption">لیست کاربران</span>
+            <span class="widget-caption">لیست کاربران </span>
             <div class="widget-buttons">
                 <a href="#" data-toggle="maximize">
                     <i class="fa fa-expand"></i>
@@ -38,9 +42,12 @@
         </div>
         <div class="widget-body">
             <div class="table-toolbar">
+              
                 <a id="editabledatatable_new" asp-area="Admin" asp-controller="User" asp-action="AddUser" class="btn btn-primary">
                     افزودن کاربر جدید
                 </a>
+               
+             
                 <div class="btn-group pull-right">
 
 
@@ -213,5 +220,19 @@
         //         }
         //     });
         // }
+    </script>
+    <script>
+     
+        setTimeout(function () {
+            if ($('#successCreation').length > 0) {
+                $('#successCreation').remove();
+            } 
+            if ($('#successEdit').length > 0) {
+                $('#successEdit').remove();
+            } if ($('#successDelete').length > 0) {
+                $('#successDelete').remove();
+            }
+            
+        }, 3000)
     </script>
 }

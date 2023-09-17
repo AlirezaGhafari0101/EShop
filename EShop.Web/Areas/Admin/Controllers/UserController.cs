@@ -27,6 +27,9 @@ namespace EShop.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             var users = await _userService.GetAllUsersAsync();
+            //bool userCreated = TempData["UserCreated"] as bool? ?? false;
+            //if (userCreated)
+            //    ViewBag.showModal = true;
             return View(users);
         }
 
@@ -54,7 +57,7 @@ namespace EShop.Web.Areas.Admin.Controllers
             }
 
             await _userService.CreateUserAsync(addUserViewModel);
-            ViewBag.IsSuccess = true;
+            TempData["UserCreated"] = true;
             return RedirectToAction("Index");
         }
 
@@ -63,7 +66,7 @@ namespace EShop.Web.Areas.Admin.Controllers
         #region DeleteUser
         public async Task<IActionResult> DeleteUser(int id)
         {
-            await _userService.DeleteUserByIdAsync(id);
+            await _userService.DeleteUserByIdAsync(id); 
             return Json(new { status = "success" });
         }
         #endregion
@@ -85,6 +88,7 @@ namespace EShop.Web.Areas.Admin.Controllers
             }
 
             await _userService.EditUserFromAdminAsync(userViewModel, id);
+            TempData["UserEdited"] = true;
             return RedirectToAction("Index");
         }
     }
