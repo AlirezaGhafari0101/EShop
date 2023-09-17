@@ -1,4 +1,5 @@
-﻿using EShop.Application.ViewModels.Product.Category;
+﻿using EShop.Application.ViewModels.Product;
+using EShop.Application.ViewModels.Product.Category;
 
 namespace EShop.Application.Services.Interfaces
 {
