@@ -1,4 +1,4 @@
-﻿@model List<EShop.Application.ViewModels.UserViewModel>
+﻿@* @model List<EShop.Application.ViewModels.UserViewModel>
 @using EShop.Application.Convertors
 @{
     bool isUserCreated = TempData["UserCreated"] as bool? ?? false;
@@ -27,7 +27,7 @@
    
     <div class="widget">
         <div class="widget-header ">
-            <span class="widget-caption">لیست کاربران </span>
+            <span class="widget-caption">لیست محصولات </span>
             <div class="widget-buttons">
                 <a href="#" data-toggle="maximize">
                     <i class="fa fa-expand"></i>
@@ -44,7 +44,7 @@
             <div class="table-toolbar">
               
                 <a id="editabledatatable_new" asp-area="Admin" asp-controller="User" asp-action="AddUser" class="btn btn-primary">
-                    افزودن کاربر جدید
+                    افزودن محصول جدید
                 </a>
                
              
@@ -75,22 +75,22 @@
                             <th class="sorting_asc" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="
                                                     Username
                                                 : activate to sort column descending" style="width: 193.4px;">
-                                ایمیل
+                                نام محصول
                             </th>
                             <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
                                                     Full Name
                                                 : activate to sort column ascending" style="width: 287.4px;">
-                                نام
+                                تگ ها
                             </th>
                             <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
                                                     Full Name
                                                 : activate to sort column ascending" style="width: 287.4px;">
-                                نام خانوادگی
+                               تعداد
                             </th>
                             <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
                                                     Points
                                                 : activate to sort column ascending" style="width: 127.4px;">
-                                فعال
+                                تاریخ ثبت محصول
                             </th>
                             <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
                                                     Notes
@@ -100,7 +100,7 @@
                             <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
                                                     Notes
                                                 : activate to sort column ascending" style="width: 203.4px;">
-                                تاریخ ثبت نام
+                                تاریخ ثبت محصول
                             </th>
 
                             <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="
@@ -235,4 +235,4 @@
             
         }, 3000)
     </script>
-}
+} *@

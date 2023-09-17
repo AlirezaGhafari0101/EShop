@@ -46,5 +46,44 @@ namespace EShop.Data.Repository
         {
              _ctx.Update(category);
         }
+
+
+
+        #region Product
+
+        public async Task<IEnumerable<Product>> GetAllProductsAsync()
+        {
+            return await _ctx.Products.ToListAsync();
+        }
+
+        public async Task<Product> GetProductByIdAsync(int id)
+        {
+            return await _ctx.Products.FirstOrDefaultAsync(p => p.Id == id);
+        }
+
+        public async Task<bool> DeleteProductAsync(int id)
+        {
+            var user = await GetProductByIdAsync(id);
+            _ctx.Products.Remove(user);
+            return true;
+        }
+
+        public async Task<bool> UpdateProductAsync(Product product)
+        {
+            _ctx.Products.Update(product);
+            return true;
+        }
+
+        public async Task<bool> CreateProductAsync(Product product)
+        {
+            await _ctx.Products.AddAsync(product);
+            return true;
+        }
+
+        #endregion
+
     }
+
+
+
 }
