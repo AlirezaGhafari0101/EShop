@@ -57,6 +57,10 @@ namespace EShop.Web.Controllers
 
         }
 
+
+
+        #endregion
+
         #region Active Account
 
 
@@ -65,11 +69,9 @@ namespace EShop.Web.Controllers
         {
             UserViewModel user = await _accountService.ActiveAccountServiceAsync(id);
 
-            return RedirectToAction("login",user.IsActive);
+            return RedirectToAction("login", user.IsActive);
         }
 
-
-        #endregion
 
         #endregion
 
@@ -160,7 +162,12 @@ namespace EShop.Web.Controllers
         }
 
 
-        
+
+
+
+        #endregion
+
+        #region ResetPassword
         public IActionResult ResetPassword(string id)
         {
             return View(new ResetPasswordViewModel()
@@ -174,16 +181,15 @@ namespace EShop.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPasswordViewModel)
         {
-           
+
             if (!ModelState.IsValid) { return View(resetPasswordViewModel); };
 
             await _accountService.ResetPasswordAsync(resetPasswordViewModel);
 
-            return Redirect("/Login");  
+            return Redirect("/Login");
 
 
         }
-
         #endregion
 
 

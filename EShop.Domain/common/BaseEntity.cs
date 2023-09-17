@@ -11,7 +11,7 @@ namespace EShop.Domain.common
     {
         [Key]
         public int Id { get; set; }
-        public DateTime CreateDate { get; set; }
-        public bool IsDelete { get; set; }
+        public DateTime CreateDate { get; set; }= DateTime.Now;
+        public bool IsDelete { get; set; }= false;
     }
 }

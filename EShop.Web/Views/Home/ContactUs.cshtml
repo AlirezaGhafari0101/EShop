@@ -1,0 +1,110 @@
+﻿@model EShop.Application.ViewModels.ContactUs.CreateContactUsViewModel;
+
+@{
+    ViewData["Title"] = "ContactUs";
+}
+
+
+
+<main class="page-content">
+    <div class="container">
+        @if (ViewBag.IsSended==true)
+        {
+
+            <div class="alert alert-success alert-dismissible fade show mb-5" role="alert">
+                <div>
+                    درخواست شما با موفقییت ثبت شد , بعداز بررسی از طریق ایمیل به شما پاسخ داده خواهد شد.
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <!-- start of box => contact-us -->
+        <div class="ui-box bg-white" data-select2-id="select2-data-8-syyu">
+            <div class="ui-box-title fs-5 fw-bold">تماس با ما</div>
+            <div class="ui-box-subtitle flex-wrap">
+                لطفاً پیش از ارسال ایمیل یا تماس تلفنی، ابتدا <a href="#" class="link mx-2">پرسش های متداول</a>
+                را
+                مشاهده کنید.
+            </div>
+            <div class="ui-box-content" data-select2-id="select2-data-7-hfpi">
+                <div class="fs-7 text-secondary mb-5">
+                    برای پیگیری یا سوال درباره سفارش و ارسال پیام بهتر است از
+                    فرم
+                    زیر استفاده کنید.
+                </div>
+                <!-- start of contact-us-form -->
+                <form asp-action="ContactUs" method="post" class="contact-us-form needs-validation" data-select2-id="select2-data-6-qftn">
+                    <div class="row" data-select2-id="select2-data-5-xm05">
+
+                        <div class="col-md-6">
+                            <!-- start of form-element -->
+                            <div class="form-element-row mb-5">
+                                <label class="label">نام و نام خانوادگی</label>
+                                <input type="text" asp-for="FullName" class="form-control" placeholder="نام کامل">
+                                <span asp-validation-for="FullName"></span>
+                            </div>
+                            
+                            <!-- end of form-element -->
+                        </div>
+                        <div class="col-md-6">
+                            <!-- start of form-element -->
+                            <div class="form-element-row mb-5">
+                                <label class="label">ایمیل</label>
+                                <input type="email" asp-for="Email" class="form-control" placeholder="example@example.com">
+                                <span asp-validation-for="Email"></span>
+                            </div>
+             
+
+                            <!-- end of form-element -->
+                        </div>
+
+                        <div class="col-12">
+                            <!-- start of form-element -->
+                            <div class="form-element-row mb-5">
+                                <label class="label">پیام</label>
+                                <textarea rows="5" class="form-control" asp-for="Message" placeholder="متن پیام"></textarea>
+                                <span asp-validation-for="Message"></span>
+                            </div>
+                        
+
+                            <!-- end of form-element -->
+                        </div>
+
+                        <div class="col-12 text-end">
+                            <button type="submit" class="btn btn-primary px-4">ثبت و ارسال</button>
+                        </div>
+                    </div>
+                </form>
+                <!-- end of contact-us-form -->
+            </div>
+        </div>
+        <!-- end of box => contact-us -->
+    </div>
+</main>
+
+@section Scripts{
+<script>
+
+        
+
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Get the forms we want to add validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                    }, false);
+                });
+            }, false);
+        })();
+
+</script>
+}
+
