@@ -24,19 +24,17 @@ namespace EShop.Domain.Models.Products
 
 
         [Required]
-        public int GroupId { get; set; }
+        public int CategoryId { get; set; }
 
-        public int? SubCategoryId { get; set; }
+
 
 
 
         #region Relations
 
-        [ForeignKey("GroupId")]
-        public Category CourseGroup { get; set; }
+        [ForeignKey("CategoryId")]
+        public Category Category { get; set; }
 
-        [ForeignKey("SubCategory")]
-        public Category SubCategory { get; set; }
         #endregion
 
     }

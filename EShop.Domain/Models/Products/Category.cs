@@ -18,14 +18,11 @@ namespace EShop.Domain.Models.Products
 
         #region Relations
         [ForeignKey("ParentId")]
-        public List<Category> ProductCategories { get; set; }
+        public List<Category> Categories { get; set; }
 
 
         [InverseProperty("Category")]
-        public List<Product> CateGories { get; set; }
-
-        [InverseProperty("SubCategory")]
-        public List<Product> SubCategories { get; set; }
+        public List<Product> ProductCategories { get; set; }
         #endregion
 
     }
