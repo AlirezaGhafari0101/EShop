@@ -1,4 +1,5 @@
 ﻿using EShop.Domain.Models.Home;
+using EShop.Domain.Models.Products;
 using EShop.Domain.Models.Users;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -20,6 +21,11 @@ namespace EShop.Data.Context
 
         #region Users
         public DbSet<User> Users { get; set; }
+        #endregion
+
+        #region Products
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
         #endregion
 
         public DbSet<ContactUs> ContactUs { get; set; }
