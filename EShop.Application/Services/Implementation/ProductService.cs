@@ -1,4 +1,5 @@
 ﻿using EShop.Application.Services.Interfaces;
+using EShop.Application.ViewModels.Product;
 using EShop.Application.ViewModels.Product.Category;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Products;
@@ -36,9 +37,9 @@ namespace EShop.Application.Services.Implementation
             await _productRepository.SaveChangeAsync();
         }
 
-        public async Task<IEnumerable<ProductCategroyViewModel>> GetAllCategoriesServiceAsync()
+        public async Task<IEnumerable<ProductCategroyViewModel>> GetAllCategoriesServiceAsync(int? parentId)
         {
-            IEnumerable<Category> categories = await _productRepository.GetAllCategoriesAsync();
+            IEnumerable<Category> categories = await _productRepository.GetAllCategoriesAsync(parentId);
 
             return categories.Select(cg => new ProductCategroyViewModel()
             {
@@ -49,6 +50,11 @@ namespace EShop.Application.Services.Implementation
             }).ToList();
 
 
+        }
+
+        public Task<IEnumerable<ProductViewModel>> GetAllProductsServiceAsync()
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<ProductCategroyViewModel> GetCategoryServiceAsync(int id)

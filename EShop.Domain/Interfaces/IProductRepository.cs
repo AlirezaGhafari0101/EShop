@@ -10,7 +10,7 @@ namespace EShop.Domain.Interfaces
     public interface IProductRepository
     {
         #region Category
-        Task<IEnumerable<Category>> GetAllCategoriesAsync();
+        Task<IEnumerable<Category>> GetAllCategoriesAsync(int? parentId);
         Task<Category>GetCategoryByIdAsync(int id);
         Task AddCategoryAsync(Category category);
         Task UpdateCategoryAsync(Category category);

@@ -6,7 +6,7 @@ namespace EShop.Application.Services.Interfaces
     public interface IProductService
     {
         #region Category
-        Task<IEnumerable<ProductCategroyViewModel>> GetAllCategoriesServiceAsync();
+        Task<IEnumerable<ProductCategroyViewModel>> GetAllCategoriesServiceAsync(int? parentId);
         Task<ProductCategroyViewModel> GetCategoryServiceAsync(int id);
         Task AddCategory(CreateCategoryViewModel category);
         Task UpdateCategory(UpdateCategoryViewModel category, int id);
