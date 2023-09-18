@@ -1,4 +1,5 @@
-﻿using EShop.Application.Services.Interfaces;
+﻿using EShop.Application.Convertors;
+using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels;
 using EShop.Application.ViewModels.Product;
 using EShop.Application.ViewModels.Product.Category;
@@ -54,6 +55,15 @@ namespace EShop.Application.Services.Implementation
 
         }
 
+        public async Task<IEnumerable<ProductCategroyViewModel>> GetAllCategoriesForCreatingProductServiceAsync()
+        {
+            var categories = await _productRepository.GetAllCategoriesForCreatingProductAsync();
+            return categories.Select(c => new ProductCategroyViewModel
+            {
+                Id = c.Id,
+                CategoryTitle = c.CategoryTitle,   
+            }).ToList();
+        }
         public async Task<ProductCategroyViewModel> GetCategoryServiceAsync(int id)
         {
             Category category = await _productRepository.GetCategoryByIdAsync(id);
@@ -91,7 +101,7 @@ namespace EShop.Application.Services.Implementation
                 Count = p.Count,
                 Tag = p.Tag,
                 CategoryId = p.CategoryId,
-                Image = p.Image,
+                ImageName = p.Image,
                 CreatedDate = p.CreateDate
             }).ToList();
         }
@@ -105,7 +115,7 @@ namespace EShop.Application.Services.Implementation
                 Title = product.Title,
                 Description = product.Description,
                 Tag = product.Tag,
-                Image = product.Image,
+                ImageName = product.Image,
                 CategoryId = product.CategoryId,
                 Count = product.Count,
                 CreatedDate= product.CreateDate
@@ -120,7 +130,7 @@ namespace EShop.Application.Services.Implementation
                 Count = model.Count,
                 Tag = model.Tag,
                 CategoryId = model.CategoryId,
-                Image = model.Image,
+                Image = "default.png",
                 IsDelete = false,
                 CreateDate = DateTime.Now,               
             };
@@ -146,6 +156,10 @@ namespace EShop.Application.Services.Implementation
             return true;
         }
 
+        public async Task<bool> IsProductExistServiceAsync(int id)
+        {
+            return await _productRepository.IsProductExistAsync(id);
+        }
         #endregion
     }
 }

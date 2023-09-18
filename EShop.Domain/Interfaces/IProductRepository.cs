@@ -11,7 +11,8 @@ namespace EShop.Domain.Interfaces
     {
         #region Category
         Task<IEnumerable<Category>> GetAllCategoriesAsync(int? parentId);
-        Task<Category>GetCategoryByIdAsync(int id);
+        Task<IEnumerable<Category>> GetAllCategoriesForCreatingProductAsync();
+        Task<Category> GetCategoryByIdAsync(int id);
         Task AddCategoryAsync(Category category);
         Task UpdateCategoryAsync(Category category);
         Task DeleteCategoryAsync(Category category);
@@ -19,11 +20,12 @@ namespace EShop.Domain.Interfaces
         Task SaveChangeAsync();
 
         #region Product
-        public Task<IEnumerable<Product>> GetAllProductsAsync();
-        public Task<Product> GetProductByIdAsync(int id);
-        public Task<bool> CreateProductAsync(Product product);
-        public Task<bool> DeleteProductAsync(int id);
-        public Task<bool> UpdateProductAsync(Product product);
+        Task<IEnumerable<Product>> GetAllProductsAsync();
+        Task<Product> GetProductByIdAsync(int id);
+        Task<bool> CreateProductAsync(Product product);
+        Task<bool> DeleteProductAsync(int id);
+        Task<bool> UpdateProductAsync(Product product);
+        Task<bool> IsProductExistAsync(int id);
         #endregion
     }
 }

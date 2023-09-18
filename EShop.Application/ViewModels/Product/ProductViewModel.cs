@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -27,14 +28,16 @@ namespace EShop.Application.ViewModels.Product
 
         [Display(Name = "تصویر محصول")]
         [StringLength(200, ErrorMessage = "{0} نمی تواند بیشتر از 200 کااراکتر باشد.")]
-        public string? Image { get; set; }
+        public IFormFile? Image { get; set; }
+
+        public string? ImageName { get; set; }
 
         [Display(Name = "تعداد")]
         [Required(ErrorMessage = "پر کردن {0} الزامی می باشد.")]
         public short Count { get; set; }
 
         [Display(Name = "دسته بندی")]
-        [Required(ErrorMessage = "پر کردن {0} الزامی می باشد.")]
+        [Required(ErrorMessage = " یک {0} انتخاب کنید  .")]
         public int CategoryId { get; set; }
 
         public DateTime CreatedDate { get; set; }

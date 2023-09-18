@@ -7,6 +7,7 @@ namespace EShop.Application.Services.Interfaces
     {
         #region Category
         Task<IEnumerable<ProductCategroyViewModel>> GetAllCategoriesServiceAsync(int? parentId);
+        Task<IEnumerable<ProductCategroyViewModel>> GetAllCategoriesForCreatingProductServiceAsync();
         Task<ProductCategroyViewModel> GetCategoryServiceAsync(int id);
         Task AddCategory(CreateCategoryViewModel category,int? categoryId);
         Task UpdateCategory(UpdateCategoryViewModel category, int id);
@@ -31,7 +32,7 @@ namespace EShop.Application.Services.Interfaces
 
         Task<bool> UpdateProductServiceAsync(ProductViewModel model, int id);
 
-
+        Task<bool> IsProductExistServiceAsync(int id);
 
         #endregion
 
