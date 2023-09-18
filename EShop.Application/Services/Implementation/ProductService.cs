@@ -16,12 +16,12 @@ namespace EShop.Application.Services.Implementation
             _productRepository = productRepository;
         }
         #region Category
-        public async Task AddCategory(CreateCategoryViewModel category)
+        public async Task AddCategory(CreateCategoryViewModel category, int? categoryId)
         {
             Category newCategory = new Category()
             {
                 CategoryTitle = category.CategoryTitle,
-                ParentId = category.ParrentId
+                ParentId = categoryId
 
             };
 
