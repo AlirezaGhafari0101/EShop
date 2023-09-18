@@ -39,9 +39,9 @@ namespace EShop.Application.Services.Implementation
             await _productRepository.SaveChangeAsync();
         }
 
-        public async Task<IEnumerable<ProductCategroyViewModel>> GetAllCategoriesServiceAsync()
+        public async Task<IEnumerable<ProductCategroyViewModel>> GetAllCategoriesServiceAsync(int? parentId)
         {
-            IEnumerable<Category> categories = await _productRepository.GetAllCategoriesAsync();
+            IEnumerable<Category> categories = await _productRepository.GetAllCategoriesAsync(parentId);
 
             return categories.Select(cg => new ProductCategroyViewModel()
             {
