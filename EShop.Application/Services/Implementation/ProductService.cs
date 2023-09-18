@@ -1,4 +1,5 @@
 ﻿using EShop.Application.Services.Interfaces;
+using EShop.Application.ViewModels.Product;
 using EShop.Application.ViewModels.Product.Category;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Products;
