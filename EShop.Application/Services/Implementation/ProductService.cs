@@ -6,6 +6,7 @@ using EShop.Application.ViewModels.Product.Category;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Products;
 using EShop.Domain.Models.Users;
+using Microsoft.EntityFrameworkCore;
 
 namespace EShop.Application.Services.Implementation
 {
@@ -102,7 +103,8 @@ namespace EShop.Application.Services.Implementation
                 Tag = p.Tag,
                 CategoryId = p.CategoryId,
                 ImageName = p.Image,
-                CreatedDate = p.CreateDate
+                CreatedDate = p.CreateDate,
+                CategoryTitle = p.Category.CategoryTitle
             }).ToList();
         }
         public async Task<ProductViewModel> GetProductByIdServiceAsync(int id)
@@ -143,7 +145,14 @@ namespace EShop.Application.Services.Implementation
         {
             var selectedProduct = await _productRepository.GetProductByIdAsync(id);
 
-
+            if(model.Image != null) {
+                selectedProduct.Image = ImageService.CreateImage(model.Image, "ProductImages", model.ImageName);
+            }
+            selectedProduct.Title = model.Title;
+            selectedProduct.Description = model.Description;
+            selectedProduct.Count = model.Count;
+             selectedProduct.CategoryId = model.CategoryId;
+            selectedProduct.Tag = model.Tag;   
 
             await _productRepository.UpdateProductAsync(selectedProduct);
             await _productRepository.SaveChangeAsync();

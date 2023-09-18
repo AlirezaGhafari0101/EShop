@@ -71,26 +71,33 @@ namespace EShop.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> EditProduct(int id)
         {
+            var product = await _productService.GetProductByIdServiceAsync(id);
+            var editableProduct = new EditProductViewModel
+            {
+                Title = product.Title,
+                Description = product.Description,
+                Tag = product.Tag,
+                Image = product.Image,
+                ImageName = product.ImageName,
+                CategoryId = product.CategoryId,
+                Count=product.Count,
+            };
             var categories = await _productService.GetAllCategoriesForCreatingProductServiceAsync();
             ViewBag.categories = new SelectList(categories, "Id", "CategoryTitle");
-            return View();
+            return View(editableProduct);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditProduct(EditProductViewModel model)
+        public async Task<IActionResult> EditProduct(EditProductViewModel model, int id)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-            if (await _productService.IsProductExistServiceAsync(model.Title))
-            {
-                ModelState.AddModelError("Title", "این محصول از قبل موجود می باشد.");
-                return View(model);
-            }
+            
 
-            await _productService.UpdateProductServiceAsync(model);
+            await _productService.UpdateProductServiceAsync(model, id);
             TempData["ProductEdited"] = true;
             return RedirectToAction("Index");
         }

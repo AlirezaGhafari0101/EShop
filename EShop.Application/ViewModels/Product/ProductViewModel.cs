@@ -40,6 +40,10 @@ namespace EShop.Application.ViewModels.Product
         [Required(ErrorMessage = " یک {0} انتخاب کنید  .")]
         public int CategoryId { get; set; }
 
+        [Display(Name = "دسته بندی")]
+        [Required(ErrorMessage = " یک {0} انتخاب کنید  .")]
+        public string CategoryTitle { get; set; }
+
         public DateTime CreatedDate { get; set; }
     }
 }

@@ -30,7 +30,7 @@ namespace EShop.Application.Services.Interfaces
 
         Task<bool> DeleteProductServiceAsync(int id);
 
-        Task<bool> UpdateProductServiceAsync(ProductViewModel model, int id);
+        Task<bool> UpdateProductServiceAsync(EditProductViewModel model, int id);
 
         Task<bool> IsProductExistServiceAsync(string title);
 

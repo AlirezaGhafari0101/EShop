@@ -56,7 +56,7 @@ namespace EShop.Data.Repository
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
-            return await _ctx.Products.ToListAsync();
+            return await _ctx.Products.Include(P=> P.Category).ToListAsync();
         }
 
         public async Task<Product> GetProductByIdAsync(int id)
