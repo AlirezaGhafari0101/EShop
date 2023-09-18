@@ -42,7 +42,9 @@ namespace EShop.Data.Repository
         {
             _ctx.Update(category);
         }
+
         #endregion
+
 
 
         #region Product
@@ -76,10 +78,7 @@ namespace EShop.Data.Repository
             return true;
         }
 
+
         #endregion
-
     }
-
-
-
 }

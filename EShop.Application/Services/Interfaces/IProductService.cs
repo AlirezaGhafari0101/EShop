@@ -23,6 +23,16 @@ namespace EShop.Application.Services.Interfaces
 
         Task<IEnumerable<ProductViewModel>> GetAllProductsServiceAsync();
 
+        Task<ProductViewModel> GetProductByIdServiceAsync(int id);
+
+        Task<bool> CreateProductServiceAsync(ProductViewModel model);
+
+        Task<bool> DeleteProductServiceAsync(int id);
+
+        Task<bool> UpdateProductServiceAsync(ProductViewModel model, int id);
+
+
+
         #endregion
 
 

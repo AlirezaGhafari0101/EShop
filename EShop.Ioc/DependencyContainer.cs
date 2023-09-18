@@ -31,7 +31,7 @@ namespace EShop.Ioc
             service.AddScoped<IContactUsService, ContactUsService>();
         }
 
-        public static void ProductServices(IServiceCollection service)
+        public static void ProductServieces(IServiceCollection service)
         {
             service.AddScoped<IProductRepository, ProductRepository>();
             service.AddScoped<IProductService, ProductService>();

@@ -9,6 +9,8 @@ namespace EShop.Application.ViewModels.Product
 {
     public class ProductViewModel
     {
+        public int Id { get; set; }
+
         [Display(Name ="نام محصول")]
         [Required(ErrorMessage = "پر کردن {0} الزامی می باشد.")]
         [StringLength(200, ErrorMessage = "{0} نمی تواند بیشتر از 200 کااراکتر باشد.")]
@@ -34,5 +36,7 @@ namespace EShop.Application.ViewModels.Product
         [Display(Name = "دسته بندی")]
         [Required(ErrorMessage = "پر کردن {0} الزامی می باشد.")]
         public int CategoryId { get; set; }
+
+        public DateTime CreatedDate { get; set; }
     }
 }
