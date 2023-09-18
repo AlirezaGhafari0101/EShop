@@ -1,12 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EShop.Application.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EShop.Web.Areas.Admin.Controllers
 {
     public class ProductController : BaseController
     {
-        public IActionResult Index()
+
+        private IProductService _productService;
+
+        public ProductController(IProductService userService) 
         {
-            return View();
+            _productService = userService;   
+        }
+        public async Task<IActionResult> Index()
+        {
+            var products = await _productService.GetAllProductsServiceAsync();
+            return View(products);
         }
 
         public async Task<IActionResult> AddProduct()
