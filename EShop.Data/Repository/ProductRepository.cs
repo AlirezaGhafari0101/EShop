@@ -23,9 +23,9 @@ namespace EShop.Data.Repository
             _ctx.Remove(category);
         }
 
-        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
+        public async Task<IEnumerable<Category>> GetAllCategoriesAsync(int? parentId)
         {
-            return await _ctx.Categories.ToListAsync();
+            return await _ctx.Categories.Where(c=> c.ParentId==parentId).ToListAsync();
         }
 
         public async Task<Category> GetCategoryByIdAsync(int id)
@@ -42,6 +42,8 @@ namespace EShop.Data.Repository
         {
             _ctx.Update(category);
         }
+
+        #endregion
 
 
 
@@ -76,10 +78,7 @@ namespace EShop.Data.Repository
             return true;
         }
 
+
         #endregion
-
     }
-
-
-
 }
