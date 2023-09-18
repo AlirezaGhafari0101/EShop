@@ -83,9 +83,9 @@ namespace EShop.Data.Repository
             return true;
         }
 
-        public async Task<bool> IsProductExistAsync(int id)
+        public async Task<bool> IsProductExistAsync(string title)
         {
-            return await _ctx.Products.AnyAsync(p => p.Id == id);
+            return await _ctx.Products.AnyAsync(p => p.Title == title);
         }
         #endregion
     }

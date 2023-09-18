@@ -26,13 +26,13 @@ namespace EShop.Application.Services.Interfaces
 
         Task<ProductViewModel> GetProductByIdServiceAsync(int id);
 
-        Task<bool> CreateProductServiceAsync(ProductViewModel model);
+        Task<bool> CreateProductServiceAsync(AddProductViewModel model);
 
         Task<bool> DeleteProductServiceAsync(int id);
 
         Task<bool> UpdateProductServiceAsync(ProductViewModel model, int id);
 
-        Task<bool> IsProductExistServiceAsync(int id);
+        Task<bool> IsProductExistServiceAsync(string title);
 
         #endregion
 

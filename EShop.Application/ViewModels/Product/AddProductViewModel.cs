@@ -8,11 +8,10 @@ using System.Threading.Tasks;
 
 namespace EShop.Application.ViewModels.Product
 {
-    public class ProductViewModel
+    public class AddProductViewModel
     {
-        public int Id { get; set; }
-
-        [Display(Name ="نام محصول")]
+      
+        [Display(Name = "نام محصول")]
         [Required(ErrorMessage = "پر کردن {0} الزامی می باشد.")]
         [StringLength(200, ErrorMessage = "{0} نمی تواند بیشتر از 200 کااراکتر باشد.")]
         public string Title { get; set; }
@@ -23,14 +22,11 @@ namespace EShop.Application.ViewModels.Product
 
         [Display(Name = "تگ")]
         [Required(ErrorMessage = "پر کردن {0} الزامی می باشد.")]
-      
+
         public string Tag { get; set; }
 
-        [Display(Name = "تصویر محصول")]
-        [StringLength(200, ErrorMessage = "{0} نمی تواند بیشتر از 200 کااراکتر باشد.")]
+        [Display(Name = "تصویر محصول")]  
         public IFormFile Image { get; set; }
-
-        public string? ImageName { get; set; }
 
         [Display(Name = "تعداد")]
         [Required(ErrorMessage = "پر کردن {0} الزامی می باشد.")]
@@ -39,7 +35,5 @@ namespace EShop.Application.ViewModels.Product
         [Display(Name = "دسته بندی")]
         [Required(ErrorMessage = " یک {0} انتخاب کنید  .")]
         public int CategoryId { get; set; }
-
-        public DateTime CreatedDate { get; set; }
     }
 }

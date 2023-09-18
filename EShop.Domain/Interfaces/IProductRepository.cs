@@ -25,7 +25,7 @@ namespace EShop.Domain.Interfaces
         Task<bool> CreateProductAsync(Product product);
         Task<bool> DeleteProductAsync(int id);
         Task<bool> UpdateProductAsync(Product product);
-        Task<bool> IsProductExistAsync(int id);
+        Task<bool> IsProductExistAsync(string title);
         #endregion
     }
 }

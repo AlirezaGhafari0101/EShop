@@ -122,7 +122,7 @@ namespace EShop.Application.Services.Implementation
             };
 
         }
-        public async Task<bool> CreateProductServiceAsync(ProductViewModel model)
+        public async Task<bool> CreateProductServiceAsync(AddProductViewModel model)
         {
             var product = new Product {
                 Title = model.Title,
@@ -130,7 +130,7 @@ namespace EShop.Application.Services.Implementation
                 Count = model.Count,
                 Tag = model.Tag,
                 CategoryId = model.CategoryId,
-                Image = "default.png",
+                Image = ImageService.CreateImage(model.Image, "ProductImages"),
                 IsDelete = false,
                 CreateDate = DateTime.Now,               
             };
@@ -139,7 +139,7 @@ namespace EShop.Application.Services.Implementation
             await _productRepository.SaveChangeAsync();
             return true;
         }
-        public async Task<bool> UpdateProductServiceAsync(ProductViewModel model, int id)
+        public async Task<bool> UpdateProductServiceAsync(EditProductViewModel model, int id)
         {
             var selectedProduct = await _productRepository.GetProductByIdAsync(id);
 
@@ -156,9 +156,9 @@ namespace EShop.Application.Services.Implementation
             return true;
         }
 
-        public async Task<bool> IsProductExistServiceAsync(int id)
+        public async Task<bool> IsProductExistServiceAsync(string title)
         {
-            return await _productRepository.IsProductExistAsync(id);
+            return await _productRepository.IsProductExistAsync(title);
         }
         #endregion
     }
