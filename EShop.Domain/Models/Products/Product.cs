@@ -29,8 +29,16 @@ namespace EShop.Domain.Models.Products
 
         #region Relations
 
+        #region Category
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
+        #endregion
+
+        #region Gallery
+        
+        public List<ProductGallery> productGalleries { get; set; }
+
+        #endregion
 
         public List<Color> Colors { get; set; }
 
