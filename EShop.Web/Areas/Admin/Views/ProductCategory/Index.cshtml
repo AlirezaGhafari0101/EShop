@@ -2,7 +2,7 @@
 @using EShop.Application.Convertors
 @{
     ViewData["Title"] = "Index";
-    
+
 }
 
 
@@ -87,8 +87,8 @@
 
                                         <td>
                                             <a href="/Admin/ProductCategory/Index/@Model[item].Id" class="btn btn-warning btn-xs"><i class="fa fa-share"></i>نمایش زیرگروه</a>
-                                            <a href="#" class="btn btn-info btn-xs edit"><i class="fa fa-edit"></i>ویرایش</a>
-                                            <a href="#" class="btn btn-danger btn-xs delete"><i class="fa fa-trash-o"></i> حذف</a>
+                                            <a href="/productcategory/update/@Model[item].Id/@ViewBag.CategoryId" class="btn btn-info btn-xs edit"><i class="fa fa-edit"></i>ویرایش</a>
+                                            <button type="button" class="btn btn-danger btn-xs delete" onclick="DeleteCategory('@Model[item].CategoryTitle','@Model[item].Id')"><i class="fa fa-trash-o"></i> حذف</button>
                                         </td>
                                     </tr>
                                 }
@@ -101,3 +101,39 @@
         </div>
     </div>
 </div>
+
+
+@section FooterReferences {
+    <script>
+        
+        function DeleteCategory(categoryTitle, id) {
+            
+            Swal.fire({
+                title: `آیا از حذف ${categoryTitle} مطمعا هستید؟`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: "حذف",
+                cancelButtonText: "خیر"
+
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "GET",
+                        url: `/productcategory/delete/${id}`,
+                        success: function (response) {
+                            if (response.status == "success") {
+                                document.getElementById(id).remove()
+                            }
+                        },
+
+                    });
+                }
+            })
+        }
+
+
+
+    </script>
+}

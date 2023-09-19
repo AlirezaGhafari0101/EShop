@@ -1,10 +1,8 @@
 ﻿using EShop.Application.Services.Interfaces;
-using EShop.Application.ViewModels;
 using EShop.Application.ViewModels.Product;
 using EShop.Application.ViewModels.Product.Category;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Products;
-using EShop.Domain.Models.Users;
 
 namespace EShop.Application.Services.Implementation
 {
@@ -16,7 +14,7 @@ namespace EShop.Application.Services.Implementation
             _productRepository = productRepository;
         }
         #region Category
-        public async Task AddCategory(CreateCategoryViewModel category, int? categoryId)
+        public async Task AddCategoryServiceAsync(CreateCategoryViewModel category, int? categoryId)
         {
             Category newCategory = new Category()
             {
@@ -31,12 +29,45 @@ namespace EShop.Application.Services.Implementation
 
         }
 
-        public async Task DeleteCategory(int id)
+        public async Task DeleteCategoryServiceAsync(int id)
         {
-            Category category = await _productRepository.GetCategoryByIdAsync(id);
+   
+            Category group = await _productRepository.GetCategoryByIdAsync(id);
 
-            await _productRepository.DeleteCategoryAsync(category);
+            IEnumerable<Category> subGroups = await _productRepository.GetAllCategoriesAsync(group.Id);
+            if (subGroups.Any()) {
+
+                foreach (Category subGroup in subGroups)
+                {
+
+                    IEnumerable<Category> subGroupsIn= await _productRepository.GetAllCategoriesAsync(subGroup.Id);
+
+                    if(subGroupsIn.Any())
+                    {
+                        foreach (Category category in subGroupsIn)
+                        {
+                            category.IsDelete = true;
+                            await _productRepository.UpdateCategoryAsync(group);
+                            await _productRepository.SaveChangeAsync();
+                        }
+                    }
+
+
+                    subGroup.IsDelete = true;
+                    await _productRepository.UpdateCategoryAsync(group);
+                    await _productRepository.SaveChangeAsync();
+
+                    
+
+                    
+
+
+                }
+            }
+            group.IsDelete = true;
+            await _productRepository.UpdateCategoryAsync(group);
             await _productRepository.SaveChangeAsync();
+            
         }
 
         public async Task<IEnumerable<ProductCategroyViewModel>> GetAllCategoriesServiceAsync(int? parentId)
@@ -65,7 +96,7 @@ namespace EShop.Application.Services.Implementation
             };
         }
 
-        public async Task UpdateCategory(UpdateCategoryViewModel category, int id)
+        public async Task UpdateCategoryServiceAsync(UpdateCategoryViewModel category, int id)
         {
             Category findCategory = await _productRepository.GetCategoryByIdAsync(id);
 
@@ -74,6 +105,16 @@ namespace EShop.Application.Services.Implementation
             await _productRepository.UpdateCategoryAsync(findCategory);
             await _productRepository.SaveChangeAsync();
 
+        }
+
+        public async Task<UpdateCategoryViewModel> GetCategoryForUpdateCategory(int id)
+        {
+            Category category = await _productRepository.GetCategoryByIdAsync(id);
+            return new UpdateCategoryViewModel()
+            {
+                CategoryTitle = category.CategoryTitle,
+
+            };
         }
         #endregion
 
@@ -108,13 +149,14 @@ namespace EShop.Application.Services.Implementation
                 Image = product.Image,
                 CategoryId = product.CategoryId,
                 Count = product.Count,
-                CreatedDate= product.CreateDate
+                CreatedDate = product.CreateDate
             };
 
         }
         public async Task<bool> CreateProductServiceAsync(ProductViewModel model)
         {
-            var product = new Product {
+            var product = new Product
+            {
                 Title = model.Title,
                 Description = model.Description,
                 Count = model.Count,
@@ -122,7 +164,7 @@ namespace EShop.Application.Services.Implementation
                 CategoryId = model.CategoryId,
                 Image = model.Image,
                 IsDelete = false,
-                CreateDate = DateTime.Now,               
+                CreateDate = DateTime.Now,
             };
 
             await _productRepository.CreateProductAsync(product);

@@ -11,6 +11,7 @@ namespace EShop.Domain.Interfaces
     {
         #region Category
         Task<IEnumerable<Category>> GetAllCategoriesAsync(int? parentId);
+  
         Task<Category>GetCategoryByIdAsync(int id);
         Task AddCategoryAsync(Category category);
         Task UpdateCategoryAsync(Category category);

@@ -1,6 +1,6 @@
-﻿@model EShop.Application.ViewModels.Product.Category.CreateCategoryViewModel
+﻿@model EShop.Application.ViewModels.Product.Category.UpdateCategoryViewModel
 @{
-    ViewData["Title"] = "افزودن گروه";
+    ViewData["Title"] = "ویرایش گروه";
 }
 
 <div class="col-lg-4 col-sm-4 col-xs-12">
@@ -9,17 +9,15 @@
             <span class="widget-caption">فرم ایجاد گروه</span>
         </div>
         <div class="widget-body bordered-left bordered-warning">
-            <form asp-area="Admin" asp-controller="ProductCategory" asp-action="Add" class="" method="post" role="form">
-                <input name="categoryId" value="@ViewBag.CategoryId" hidden />
+            <form asp-area="Admin" asp-controller="ProductCategory" asp-action="Update" class="" method="post" role="form">
+                <input name="categoryId" value="@ViewBag.CategoryId"  hidden/>
                 <div class="form-group">
                     <label class="sr-only" for="exampleInputEmail2">Email address</label>
                     <input type="text" asp-for="CategoryTitle" class="form-control" id="exampleInputEmail2" placeholder="عنوان گروه">
                     <span asp-validation-for="CategoryTitle"></span>
                 </div>
-                <button type="submit" class="btn btn-success">افزودن</button>
+                <button type="submit" class="btn btn-primary">ویرایش</button>
             </form>
         </div>
     </div>
 </div>
-
-

@@ -8,9 +8,10 @@ namespace EShop.Application.Services.Interfaces
         #region Category
         Task<IEnumerable<ProductCategroyViewModel>> GetAllCategoriesServiceAsync(int? parentId);
         Task<ProductCategroyViewModel> GetCategoryServiceAsync(int id);
-        Task AddCategory(CreateCategoryViewModel category,int? categoryId);
-        Task UpdateCategory(UpdateCategoryViewModel category, int id);
-        Task DeleteCategory(int id);
+        Task<UpdateCategoryViewModel> GetCategoryForUpdateCategory(int id);
+        Task AddCategoryServiceAsync(CreateCategoryViewModel category,int? categoryId);
+        Task UpdateCategoryServiceAsync(UpdateCategoryViewModel category, int id);
+        Task DeleteCategoryServiceAsync(int id);
         #endregion
 
 

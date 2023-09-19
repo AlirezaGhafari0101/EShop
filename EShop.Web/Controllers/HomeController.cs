@@ -38,6 +38,7 @@ namespace EShop.Web.Controllers
             }
 
             await _contactUsService.CreateQuestionServiceAsync(contactUsViewModel);
+            ModelState.Clear();
             ViewBag.IsSended = true;
             return View();
         }
