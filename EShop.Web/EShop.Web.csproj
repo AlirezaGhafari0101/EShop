@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\images\ProductImages\" />
     <Folder Include="wwwroot\images\UserAvatar\" />
   </ItemGroup>
 

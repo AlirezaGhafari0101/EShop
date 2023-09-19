@@ -1,8 +1,11 @@
-﻿using EShop.Application.Services.Interfaces;
+﻿using EShop.Application.Convertors;
+using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels.Product;
 using EShop.Application.ViewModels.Product.Category;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Products;
+using EShop.Domain.Models.Users;
+using Microsoft.EntityFrameworkCore;
 
 namespace EShop.Application.Services.Implementation
 {
@@ -85,6 +88,15 @@ namespace EShop.Application.Services.Implementation
 
         }
 
+        public async Task<IEnumerable<ProductCategroyViewModel>> GetAllCategoriesForCreatingProductServiceAsync()
+        {
+            var categories = await _productRepository.GetAllCategoriesForCreatingProductAsync();
+            return categories.Select(c => new ProductCategroyViewModel
+            {
+                Id = c.Id,
+                CategoryTitle = c.CategoryTitle,   
+            }).ToList();
+        }
         public async Task<ProductCategroyViewModel> GetCategoryServiceAsync(int id)
         {
             Category category = await _productRepository.GetCategoryByIdAsync(id);
@@ -132,8 +144,9 @@ namespace EShop.Application.Services.Implementation
                 Count = p.Count,
                 Tag = p.Tag,
                 CategoryId = p.CategoryId,
-                Image = p.Image,
-                CreatedDate = p.CreateDate
+                ImageName = p.Image,
+                CreatedDate = p.CreateDate,
+                CategoryTitle = p.Category.CategoryTitle
             }).ToList();
         }
         public async Task<ProductViewModel> GetProductByIdServiceAsync(int id)
@@ -146,14 +159,14 @@ namespace EShop.Application.Services.Implementation
                 Title = product.Title,
                 Description = product.Description,
                 Tag = product.Tag,
-                Image = product.Image,
+                ImageName = product.Image,
                 CategoryId = product.CategoryId,
                 Count = product.Count,
                 CreatedDate = product.CreateDate
             };
 
         }
-        public async Task<bool> CreateProductServiceAsync(ProductViewModel model)
+        public async Task<bool> CreateProductServiceAsync(AddProductViewModel model)
         {
             var product = new Product
             {
@@ -162,7 +175,7 @@ namespace EShop.Application.Services.Implementation
                 Count = model.Count,
                 Tag = model.Tag,
                 CategoryId = model.CategoryId,
-                Image = model.Image,
+                Image = ImageService.CreateImage(model.Image, "ProductImages"),
                 IsDelete = false,
                 CreateDate = DateTime.Now,
             };
@@ -171,11 +184,18 @@ namespace EShop.Application.Services.Implementation
             await _productRepository.SaveChangeAsync();
             return true;
         }
-        public async Task<bool> UpdateProductServiceAsync(ProductViewModel model, int id)
+        public async Task<bool> UpdateProductServiceAsync(EditProductViewModel model, int id)
         {
             var selectedProduct = await _productRepository.GetProductByIdAsync(id);
 
-
+            if(model.Image != null) {
+                selectedProduct.Image = ImageService.CreateImage(model.Image, "ProductImages", model.ImageName);
+            }
+            selectedProduct.Title = model.Title;
+            selectedProduct.Description = model.Description;
+            selectedProduct.Count = model.Count;
+             selectedProduct.CategoryId = model.CategoryId;
+            selectedProduct.Tag = model.Tag;   
 
             await _productRepository.UpdateProductAsync(selectedProduct);
             await _productRepository.SaveChangeAsync();
@@ -188,6 +208,10 @@ namespace EShop.Application.Services.Implementation
             return true;
         }
 
+        public async Task<bool> IsProductExistServiceAsync(string title)
+        {
+            return await _productRepository.IsProductExistAsync(title);
+        }
         #endregion
     }
 }

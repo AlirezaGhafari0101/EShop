@@ -28,6 +28,11 @@ namespace EShop.Data.Repository
             return await _ctx.Categories.Where(c=> c.ParentId==parentId).ToListAsync();
         }
 
+        public async Task<IEnumerable<Category>> GetAllCategoriesForCreatingProductAsync()
+        {
+            return await _ctx.Categories.Where(c => c.ParentId != null).ToListAsync();
+        }
+
         public async Task<Category> GetCategoryByIdAsync(int id)
         {
             return await _ctx.Categories.FirstOrDefaultAsync(cg => cg.Id == id);
@@ -51,7 +56,7 @@ namespace EShop.Data.Repository
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
-            return await _ctx.Products.ToListAsync();
+            return await _ctx.Products.Include(P=> P.Category).ToListAsync();
         }
 
         public async Task<Product> GetProductByIdAsync(int id)
@@ -78,7 +83,10 @@ namespace EShop.Data.Repository
             return true;
         }
 
-
+        public async Task<bool> IsProductExistAsync(string title)
+        {
+            return await _ctx.Products.AnyAsync(p => p.Title == title);
+        }
         #endregion
     }
 }

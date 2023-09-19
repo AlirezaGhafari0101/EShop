@@ -47,7 +47,7 @@ namespace EShop.Application.Services.Implementation
                 Email = userViewModel.Email,
                 ActiveCode = NameGenerator.GenerateUniqCode(),
                 CreateDate = DateTime.Now,
-                Avatar = ImageService.CreateImage(userViewModel.Avatar),
+                Avatar = ImageService.CreateImage(userViewModel.Avatar, "UserAvatar"),
                 IsActive = true,
                 Password = PasswordHelper.EncodePasswordMd5(userViewModel.Password),
 
@@ -83,7 +83,7 @@ namespace EShop.Application.Services.Implementation
 
             if (model.Avatar != null)
             {
-                user.Avatar = ImageService.CreateImage(model.Avatar, model.AvatarName);
+                user.Avatar = ImageService.CreateImage(model.Avatar,"UserAvatar", model.AvatarName);
             }
             user.IsActive = model.IsActive;
             if (model.Password != null)
@@ -151,7 +151,7 @@ namespace EShop.Application.Services.Implementation
             user.FirstName = profileViewModel.FirstName;
             user.LastName = profileViewModel.LastName;
             user.Email = profileViewModel.Email;
-            user.Avatar = ImageService.CreateImage(profileViewModel.Avatar, profileViewModel.AvatarName);
+            user.Avatar = ImageService.CreateImage(profileViewModel.Avatar,"UserAvatar", profileViewModel.AvatarName);
 
             _userRepository.UpdateUserAsync(user);
             _userRepository.SaveChangeAsync();

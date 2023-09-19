@@ -11,20 +11,20 @@ namespace EShop.Application.Convertors
 {
     public static class ImageService
     {
-        public static string CreateImage(IFormFile Avatar, string userAvatarName="default.png")
+        public static string CreateImage(IFormFile image, string entityLocation, string imageName = "default.png")
         {
 
            
-            if (Avatar != null)
+            if (image != null)
             {
-                userAvatarName = NameGenerator.GenerateUniqCode() + Path.GetExtension(Avatar.FileName);
-                string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/UserAvatar", userAvatarName);
+                imageName = NameGenerator.GenerateUniqCode() + Path.GetExtension(image.FileName);
+                string imagePath = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/images/{entityLocation}", imageName);
                 using (var stream = new FileStream(imagePath, FileMode.Create))
                 {
-                    Avatar.CopyTo(stream);
+                    image.CopyTo(stream);
                 }
             }
-            return userAvatarName;
+            return imageName;
 
 
         }
