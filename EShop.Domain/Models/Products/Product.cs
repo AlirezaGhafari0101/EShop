@@ -15,6 +15,8 @@ namespace EShop.Domain.Models.Products
 
         public string Image { get; set; }
 
+        public string Features { get; set; }
+
         public short Count { get; set; }
 
 
