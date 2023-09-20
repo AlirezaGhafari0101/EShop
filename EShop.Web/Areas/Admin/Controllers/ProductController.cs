@@ -1,5 +1,6 @@
 ﻿using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels.Product;
+using EShop.Application.ViewModels.Product.ProductGallery;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -39,7 +40,7 @@ namespace EShop.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddProduct(AddProductViewModel model)
+        public async Task<IActionResult> AddProduct(AddProductViewModel model, List<IFormFile> galleryInput)
         {
             if (!ModelState.IsValid)
             {
@@ -51,7 +52,15 @@ namespace EShop.Web.Areas.Admin.Controllers
                 return View(model);
             }
 
-            await _productService.CreateProductServiceAsync(model);
+            int productId = await _productService.CreateProductServiceAsync(model);
+            var productGalleryModel = new ProductGalleryViewModel {
+                ProductImages=galleryInput,
+                ProductId=productId
+            };
+
+            await _productService.CreateProductGalleryServiceAsync(productGalleryModel);
+
+
             TempData["ProductCreated"] = true;
             return RedirectToAction("Index");
         }

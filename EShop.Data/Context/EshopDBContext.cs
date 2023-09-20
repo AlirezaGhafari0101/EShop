@@ -26,6 +26,7 @@ namespace EShop.Data.Context
         #region Products
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<ProductGallery> ProductGalleries { get; set; }
         #endregion
 
         public DbSet<ContactUs> ContactUs { get; set; }

@@ -2,6 +2,7 @@
 using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels.Product;
 using EShop.Application.ViewModels.Product.Category;
+using EShop.Application.ViewModels.Product.ProductGallery;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Products;
 using EShop.Domain.Models.Users;
@@ -34,18 +35,19 @@ namespace EShop.Application.Services.Implementation
 
         public async Task DeleteCategoryServiceAsync(int id)
         {
-   
+
             Category group = await _productRepository.GetCategoryByIdAsync(id);
 
             IEnumerable<Category> subGroups = await _productRepository.GetAllCategoriesAsync(group.Id);
-            if (subGroups.Any()) {
+            if (subGroups.Any())
+            {
 
                 foreach (Category subGroup in subGroups)
                 {
 
-                    IEnumerable<Category> subGroupsIn= await _productRepository.GetAllCategoriesAsync(subGroup.Id);
+                    IEnumerable<Category> subGroupsIn = await _productRepository.GetAllCategoriesAsync(subGroup.Id);
 
-                    if(subGroupsIn.Any())
+                    if (subGroupsIn.Any())
                     {
                         foreach (Category category in subGroupsIn)
                         {
@@ -60,9 +62,9 @@ namespace EShop.Application.Services.Implementation
                     await _productRepository.UpdateCategoryAsync(group);
                     await _productRepository.SaveChangeAsync();
 
-                    
 
-                    
+
+
 
 
                 }
@@ -70,7 +72,7 @@ namespace EShop.Application.Services.Implementation
             group.IsDelete = true;
             await _productRepository.UpdateCategoryAsync(group);
             await _productRepository.SaveChangeAsync();
-            
+
         }
 
         public async Task<IEnumerable<ProductCategroyViewModel>> GetAllCategoriesServiceAsync(int? parentId)
@@ -94,7 +96,7 @@ namespace EShop.Application.Services.Implementation
             return categories.Select(c => new ProductCategroyViewModel
             {
                 Id = c.Id,
-                CategoryTitle = c.CategoryTitle,   
+                CategoryTitle = c.CategoryTitle,
             }).ToList();
         }
         public async Task<ProductCategroyViewModel> GetCategoryServiceAsync(int id)
@@ -166,7 +168,7 @@ namespace EShop.Application.Services.Implementation
             };
 
         }
-        public async Task<bool> CreateProductServiceAsync(AddProductViewModel model)
+        public async Task<int> CreateProductServiceAsync(AddProductViewModel model)
         {
             var product = new Product
             {
@@ -180,22 +182,26 @@ namespace EShop.Application.Services.Implementation
                 CreateDate = DateTime.Now,
             };
 
+
+
             await _productRepository.CreateProductAsync(product);
+
             await _productRepository.SaveChangeAsync();
-            return true;
+            return product.Id;
         }
         public async Task<bool> UpdateProductServiceAsync(EditProductViewModel model, int id)
         {
             var selectedProduct = await _productRepository.GetProductByIdAsync(id);
 
-            if(model.Image != null) {
+            if (model.Image != null)
+            {
                 selectedProduct.Image = ImageService.CreateImage(model.Image, "ProductImages", model.ImageName);
             }
             selectedProduct.Title = model.Title;
             selectedProduct.Description = model.Description;
             selectedProduct.Count = model.Count;
-             selectedProduct.CategoryId = model.CategoryId;
-            selectedProduct.Tag = model.Tag;   
+            selectedProduct.CategoryId = model.CategoryId;
+            selectedProduct.Tag = model.Tag;
 
             await _productRepository.UpdateProductAsync(selectedProduct);
             await _productRepository.SaveChangeAsync();
@@ -211,6 +217,94 @@ namespace EShop.Application.Services.Implementation
         public async Task<bool> IsProductExistServiceAsync(string title)
         {
             return await _productRepository.IsProductExistAsync(title);
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region product Gallery
+        public async Task CreateProductGalleryServiceAsync(ProductGalleryViewModel gallery)
+        {
+            gallery.ProductImages.ForEach(async pg => {
+                var productGallery = new ProductGallery
+                {
+                    ProductImage = ImageService.CreateImage(pg, "ProductImages"),
+                    ProductId = gallery.ProductId,
+                    CreateDate = DateTime.Now,
+                    IsDelete = false,
+                };
+                await _productRepository.CreateProductGalleryAsync(productGallery);
+                await _productRepository.SaveChangeAsync();
+            });   
         }
         #endregion
     }

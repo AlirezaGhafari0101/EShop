@@ -112,7 +112,6 @@ namespace EShop.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Features")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
@@ -163,7 +162,7 @@ namespace EShop.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductGallery");
+                    b.ToTable("ProductGalleries");
                 });
 
             modelBuilder.Entity("EShop.Domain.Models.Users.User", b =>

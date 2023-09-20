@@ -35,5 +35,7 @@ namespace EShop.Application.ViewModels.Product
         [Display(Name = "دسته بندی")]
         [Required(ErrorMessage = " یک {0} انتخاب کنید  .")]
         public int CategoryId { get; set; }
+
+
     }
 }

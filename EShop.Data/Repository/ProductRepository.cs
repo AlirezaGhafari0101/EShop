@@ -77,16 +77,55 @@ namespace EShop.Data.Repository
             return true;
         }
 
-        public async Task<bool> CreateProductAsync(Product product)
+        public async Task CreateProductAsync(Product product)
         {
             await _ctx.Products.AddAsync(product);
-            return true;
+         
         }
 
         public async Task<bool> IsProductExistAsync(string title)
         {
             return await _ctx.Products.AnyAsync(p => p.Title == title);
         }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region productGallery
+        public async Task CreateProductGalleryAsync(ProductGallery gallery)
+        {
+            await _ctx.ProductGalleries.AddAsync(gallery);
+        }
+
+        
         #endregion
     }
 }
