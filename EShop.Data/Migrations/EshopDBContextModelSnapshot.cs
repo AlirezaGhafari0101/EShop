@@ -58,7 +58,7 @@ namespace EShop.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ContactUs");
+                    b.ToTable("ContactUs", (string)null);
                 });
 
             modelBuilder.Entity("EShop.Domain.Models.Products.Category", b =>
@@ -87,7 +87,7 @@ namespace EShop.Data.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("EShop.Domain.Models.Products.Product", b =>
@@ -134,7 +134,7 @@ namespace EShop.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("EShop.Domain.Models.Products.ProductGallery", b =>
@@ -217,7 +217,7 @@ namespace EShop.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("EShop.Domain.Models.Products.Category", b =>

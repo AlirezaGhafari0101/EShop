@@ -40,6 +40,8 @@ namespace EShop.Domain.Models.Products
 
         #endregion
 
+        public List<Color> Colors { get; set; }
+
         #endregion
 
     }

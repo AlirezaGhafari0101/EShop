@@ -31,6 +31,8 @@ namespace EShop.Data.Context
 
         public DbSet<ContactUs> ContactUs { get; set; }
 
+        public DbSet<Color> Colors { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
