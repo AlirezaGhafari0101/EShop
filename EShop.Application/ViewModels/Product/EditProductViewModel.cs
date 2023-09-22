@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using EShop.Domain.Models.Products;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace EShop.Application.ViewModels.Product
 {
@@ -37,5 +39,7 @@ namespace EShop.Application.ViewModels.Product
         [Display(Name = "دسته بندی")]
         [Required(ErrorMessage = " یک {0} انتخاب کنید  .")]
         public int CategoryId { get; set; }
+        public List<ProductGallery.EditProductGalleryViewModel>? ProductGalleryImages { get; set; }
+        public List<IFormFile>? ProductGalleryImagesFile { get; set; }
     }
 }

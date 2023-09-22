@@ -125,7 +125,18 @@ namespace EShop.Data.Repository
             await _ctx.ProductGalleries.AddAsync(gallery);
         }
 
-        
+        public async Task<List<ProductGallery>> GetProductGalleryByIdAsync(int productId)
+        {
+            return await _ctx.ProductGalleries.Where(p => p.ProductId == productId).ToListAsync();
+        }
+
+        public async Task DeleteProductGalleryAsync(int galleryId)
+        {
+            var pg = await _ctx.ProductGalleries.FirstOrDefaultAsync(pg => pg.Id == galleryId);
+            pg.IsDelete = true;
+           _ctx.ProductGalleries.Update(pg);
+        }
+
         #endregion
     }
 }

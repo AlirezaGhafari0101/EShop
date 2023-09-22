@@ -40,6 +40,8 @@ namespace EShop.Data.Context
             modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<ContactUs>().HasQueryFilter(c => !c.IsDelete);
             modelBuilder.Entity<Category>().HasQueryFilter(c => !c.IsDelete);
+            modelBuilder.Entity<Product>().HasQueryFilter(p => !p.IsDelete);
+            modelBuilder.Entity<ProductGallery>().HasQueryFilter(pg => !pg.IsDelete);
 
 
 

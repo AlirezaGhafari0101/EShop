@@ -80,7 +80,7 @@
                     <!-- /.panel-heading -->
 
                     <div class="panel-body ">
-                        <div class="w-50 h-50 overflow-hidden "> <img id="imgAvatar" class="img-thumbnail w-full h-full" src="/images/avatar/default.png" /></div>
+                        <div class="w-50 h-50 overflow-hidden "> <img  class="img-thumbnail w-full h-full" src="/images/avatar/default.png" /></div>
                         <div class="form-group">
                             <label>انتخاب تصاویر</label>
                             <input type="file" multiple id="fileInput" name="galleryInput">
@@ -95,9 +95,8 @@
 
         </div>
         <div class="col-md-12 hidden" id="image-gallery-container">
-            <h2>عکس محصولات انتخاب شده</h2>
+            <h2>عکس های انتخاب شده برای محصول</h2>
             <div class="image-gallery-custom ">
-                
             </div>
         </div>
     </form>
@@ -123,11 +122,11 @@
             }
         }
 
-        $("#Avatar").change(function () {
+        $("#Image").change(function () {
             readURL(this);
         });
 
-        let imagesFile = []
+        //let imagesFile = []
         $('#fileInput').change(function () {
 
 
@@ -139,33 +138,40 @@
 
             // Get the uploaded files
             var files = $(this)[0].files;
-          
+
 
             // Loop through each file
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
-                if (!imagesFile.includes(file)) {
-                    imagesFile.push(file)
-                    // Create a new div element
-                    var div = $('<div>').addClass('image-container-custom');
+                //if (!imagesFile.includes(file)) {
+                //imagesFile.push(file)
+                // Create a new div element
+                var imageContainer = $('<div>').addClass('image-container-custom');
 
-                    // Create a new image element
-                    var img = $('<img>').addClass('img-custom');
+                // Create a new image element
+                var img = $('<img>').addClass('img-custom');
 
-                    // Set the source of the image element to the file object URL
-                    img.attr('src', URL.createObjectURL(file));
-
-                    // Append the image to the div
-                    div.append(img);
-
-                    // Append the div to the image container
-                    $('.image-gallery-custom').append(div);
-
-                    console.log(imagesFile)
-                }
-            
+                var imageOverlay = $('<div>').addClass('image-custom-overlay');
+                var closeSymbol = $('<i>').addClass('fa fa-close img-close-symbol');
                 
-             
+
+                imageOverlay.append(closeSymbol)
+
+                // Set the source of the image element to the file object URL
+                img.attr('src', URL.createObjectURL(file));
+
+                // Append the image to the div
+                imageContainer.append(img);
+                imageContainer.append(imageOverlay)
+
+                // Append the div to the image container
+                $('.image-gallery-custom').append(imageContainer);
+
+                //console.log(imagesFile)
+                //}
+
+
+
             }
         });
     </script>

@@ -58,7 +58,7 @@ namespace EShop.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ContactUs", (string)null);
+                    b.ToTable("ContactUs");
                 });
 
             modelBuilder.Entity("EShop.Domain.Models.Products.Category", b =>
@@ -87,7 +87,39 @@ namespace EShop.Data.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("EShop.Domain.Models.Products.Color", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Hex")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Colors");
                 });
 
             modelBuilder.Entity("EShop.Domain.Models.Products.Product", b =>
@@ -134,7 +166,7 @@ namespace EShop.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("EShop.Domain.Models.Products.ProductGallery", b =>
@@ -217,7 +249,7 @@ namespace EShop.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("EShop.Domain.Models.Products.Category", b =>
@@ -225,6 +257,17 @@ namespace EShop.Data.Migrations
                     b.HasOne("EShop.Domain.Models.Products.Category", null)
                         .WithMany("Categories")
                         .HasForeignKey("ParentId");
+                });
+
+            modelBuilder.Entity("EShop.Domain.Models.Products.Color", b =>
+                {
+                    b.HasOne("EShop.Domain.Models.Products.Product", "Product")
+                        .WithMany("Colors")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("EShop.Domain.Models.Products.Product", b =>
@@ -258,6 +301,8 @@ namespace EShop.Data.Migrations
 
             modelBuilder.Entity("EShop.Domain.Models.Products.Product", b =>
                 {
+                    b.Navigation("Colors");
+
                     b.Navigation("productGalleries");
                 });
 #pragma warning restore 612, 618

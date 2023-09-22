@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace EShop.Application.ViewModels.Product.ProductGallery
 {
-    public class ProductGalleryViewModel
+    public class EditProductGalleryViewModel
     {
+        public int Id { get; set; }
         public List<IFormFile>? ProductImages { get; set; }
         public string? ProductImageUrl { get; set; }
         public int ProductId { get; set; }

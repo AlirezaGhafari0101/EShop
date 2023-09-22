@@ -81,6 +81,7 @@ namespace EShop.Web.Areas.Admin.Controllers
         public async Task<IActionResult> EditProduct(int id)
         {
             var product = await _productService.GetProductByIdServiceAsync(id);
+            var productGallery = await _productService.GetProductGalleryByIdServiceAsync(id);
             var editableProduct = new EditProductViewModel
             {
                 Title = product.Title,
@@ -89,7 +90,8 @@ namespace EShop.Web.Areas.Admin.Controllers
                 Image = product.Image,
                 ImageName = product.ImageName,
                 CategoryId = product.CategoryId,
-                Count=product.Count,
+                Count = product.Count,
+                ProductGalleryImages = productGallery,
             };
             var categories = await _productService.GetAllCategoriesForCreatingProductServiceAsync();
             ViewBag.categories = new SelectList(categories, "Id", "CategoryTitle");
@@ -107,8 +109,24 @@ namespace EShop.Web.Areas.Admin.Controllers
             
 
             await _productService.UpdateProductServiceAsync(model, id);
+            var gallery = new ProductGalleryViewModel
+            {
+                ProductId = id,
+                ProductImages = model.ProductGalleryImagesFile
+            };
+            await _productService.CreateProductGalleryServiceAsync(gallery);
             TempData["ProductEdited"] = true;
             return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region Delete ProductGallery
+
+        public async Task<IActionResult> DeleteProductGallery(int id)
+        {
+            await _productService.DeleteProductGalleryServiceAsync(id);
+            return Json(new {status = "success"});
         }
 
         #endregion

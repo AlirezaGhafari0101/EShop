@@ -303,8 +303,31 @@ namespace EShop.Application.Services.Implementation
                     IsDelete = false,
                 };
                 await _productRepository.CreateProductGalleryAsync(productGallery);
-                await _productRepository.SaveChangeAsync();
-            });   
+        
+            });
+            await _productRepository.SaveChangeAsync();
+        }
+
+        public async Task<List<EditProductGalleryViewModel>> GetProductGalleryByIdServiceAsync(int productId)
+        {
+            var productGallery = await _productRepository.GetProductGalleryByIdAsync(productId);
+            //var productGalleryImageUrls = new List<string>();
+
+            //productGallery.ForEach(pg => {
+            //    productGalleryImageUrls.Add(pg.ProductImage);
+            //});
+
+            return productGallery.Select(pg => new EditProductGalleryViewModel {
+                Id = pg.Id,
+                ProductId = pg.ProductId,
+                ProductImageUrl = pg.ProductImage,
+            }).ToList();
+        }
+
+        public async Task DeleteProductGalleryServiceAsync(int galleryId)
+        {
+            await _productRepository.DeleteProductGalleryAsync(galleryId);
+            await _productRepository.SaveChangeAsync();
         }
         #endregion
     }
