@@ -209,11 +209,15 @@ namespace EShop.Application.Services.Implementation
         }
         public async Task<bool> DeleteProductServiceAsync(int id)
         {
-            await _productRepository.DeleteProductAsync(id);
+
             var product = await _productRepository.GetProductByIdAsync(id);
+            product.IsDelete = true;
+            await _productRepository.UpdateProductAsync(product);
+            await _productRepository.SaveChangeAsync();
+            var gallery = product.productGalleries;
             product.productGalleries.ForEach(async pg =>
             {
-                await _productRepository.DeleteProductGalleryAsync(pg.Id);
+                await DeleteAllProductGalleryServiceAsync(pg.Id);
             });
             await _productRepository.SaveChangeAsync();
             return true;
@@ -299,7 +303,8 @@ namespace EShop.Application.Services.Implementation
         #region product Gallery
         public async Task CreateProductGalleryServiceAsync(ProductGalleryViewModel gallery)
         {
-            gallery?.ProductImages?.ForEach(async pg => {
+            gallery?.ProductImages?.ForEach(async pg =>
+            {
                 var productGallery = new ProductGallery
                 {
                     ProductImage = ImageService.CreateImage(pg, "ProductImages"),
@@ -308,31 +313,39 @@ namespace EShop.Application.Services.Implementation
                     IsDelete = false,
                 };
                 await _productRepository.CreateProductGalleryAsync(productGallery);
-        
+
             });
             await _productRepository.SaveChangeAsync();
         }
 
         public async Task<List<EditProductGalleryViewModel>> GetProductGalleryByIdServiceAsync(int productId)
         {
-            var productGallery = await _productRepository.GetProductGalleryByIdAsync(productId);
+            var productGalleries = await _productRepository.GetProductGallerisByParentIdAsync(productId);
             //var productGalleryImageUrls = new List<string>();
 
             //productGallery.ForEach(pg => {
             //    productGalleryImageUrls.Add(pg.ProductImage);
             //});
 
-            return productGallery.Select(pg => new EditProductGalleryViewModel {
+            return productGalleries.Select(pg => new EditProductGalleryViewModel
+            {
                 Id = pg.Id,
                 ProductId = pg.ProductId,
                 ProductImageUrl = pg.ProductImage,
             }).ToList();
         }
 
-        public async Task DeleteProductGalleryServiceAsync(int galleryId)
+        public async Task DeleteAllProductGalleryServiceAsync(int galleryId)
         {
-            await _productRepository.DeleteProductGalleryAsync(galleryId);
-            await _productRepository.SaveChangeAsync();
+            ProductGallery pg = await _productRepository.GetProductGalleryByIdAsync(galleryId);
+
+             await _productRepository.DeleteProductGalleryAsync(pg);
+        }
+
+        public async Task DeleteSingleProductGalleryServiceAsync(int galleryId)
+        {
+            var pg = await _productRepository.GetProductGalleryByIdAsync(galleryId);
+            await _productRepository.DeleteProductGalleryAsync(pg);
         }
         #endregion
     }

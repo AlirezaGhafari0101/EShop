@@ -54,7 +54,11 @@ namespace EShop.Application.Services.Interfaces
 
         Task<List<EditProductGalleryViewModel>> GetProductGalleryByIdServiceAsync(int productId);
 
-        Task DeleteProductGalleryServiceAsync(int galleryId);
+        Task DeleteAllProductGalleryServiceAsync(int galleryId);
+
+        Task DeleteSingleProductGalleryServiceAsync(int galleryId);
+
+
         #endregion
     }
 }

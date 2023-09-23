@@ -125,7 +125,7 @@ namespace EShop.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> DeleteProductGallery(int id)
         {
-            await _productService.DeleteProductGalleryServiceAsync(id);
+            await _productService.DeleteSingleProductGalleryServiceAsync(id);
             return Json(new {status = "success"});
         }
 

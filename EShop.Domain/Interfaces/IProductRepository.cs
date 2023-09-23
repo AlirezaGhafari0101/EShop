@@ -38,8 +38,13 @@ namespace EShop.Domain.Interfaces
 
         #region product gallery
         Task CreateProductGalleryAsync(ProductGallery productGallery);
-        Task<List<ProductGallery>> GetProductGalleryByIdAsync(int productId);
-        Task DeleteProductGalleryAsync(int galleryId);
+        Task<List<ProductGallery>> GetProductGallerisByParentIdAsync(int productId);
+
+        Task<ProductGallery> GetProductGalleryByIdAsync(int galleryId);
+        Task UpdateProductGalleryAsync(ProductGallery productGallery);
+       
+        Task DeleteProductGalleryAsync(ProductGallery gallery);
+       
 
         #endregion 
     }

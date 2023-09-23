@@ -25,7 +25,7 @@ namespace EShop.Data.Repository
 
         public async Task<IEnumerable<Category>> GetAllCategoriesAsync(int? parentId)
         {
-            return await _ctx.Categories.Where(c=> c.ParentId==parentId).ToListAsync();
+            return await _ctx.Categories.Where(c => c.ParentId == parentId).ToListAsync();
         }
 
         public async Task<IEnumerable<Category>> GetAllCategoriesForCreatingProductAsync()
@@ -56,18 +56,24 @@ namespace EShop.Data.Repository
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
-            return await _ctx.Products.Include(P=> P.Category).ToListAsync();
+            return await _ctx.Products.Include(P => P.Category).ToListAsync();
         }
 
         public async Task<Product> GetProductByIdAsync(int id)
         {
-            return await _ctx.Products.FirstOrDefaultAsync(p => p.Id == id);
+            return await _ctx.Products.Include(p => p.productGalleries).FirstOrDefaultAsync(p => p.Id == id);
         }
+
+
 
         public async Task<bool> DeleteProductAsync(int id)
         {
             var product = await GetProductByIdAsync(id);
             product.IsDelete = true;
+            product.productGalleries.ForEach(pg =>
+            {
+                pg.IsDelete = true;
+            });
             await UpdateProductAsync(product);
             return true;
         }
@@ -81,7 +87,7 @@ namespace EShop.Data.Repository
         public async Task CreateProductAsync(Product product)
         {
             await _ctx.Products.AddAsync(product);
-         
+
         }
 
         public async Task<bool> IsProductExistAsync(string title)
@@ -126,16 +132,24 @@ namespace EShop.Data.Repository
             await _ctx.ProductGalleries.AddAsync(gallery);
         }
 
-        public async Task<List<ProductGallery>> GetProductGalleryByIdAsync(int productId)
+        public async Task<List<ProductGallery>> GetProductGallerisByParentIdAsync(int productId)
         {
             return await _ctx.ProductGalleries.Where(p => p.ProductId == productId).ToListAsync();
         }
 
-        public async Task DeleteProductGalleryAsync(int galleryId)
+        public async Task UpdateProductGalleryAsync(ProductGallery productGallery)
         {
-            var pg = await _ctx.ProductGalleries.FirstOrDefaultAsync(pg => pg.Id == galleryId);
-            pg.IsDelete = true;
-           _ctx.ProductGalleries.Update(pg);
+            _ctx.ProductGalleries.Update(productGallery);
+        }
+
+        public async Task<ProductGallery> GetProductGalleryByIdAsync(int galleryId)
+        {
+            return await _ctx.ProductGalleries.FindAsync(galleryId);
+        }
+
+        public async Task DeleteProductGalleryAsync(ProductGallery gallery)
+        {
+             _ctx.Remove(gallery);
         }
 
         #endregion
