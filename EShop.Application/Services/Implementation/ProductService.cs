@@ -209,7 +209,12 @@ namespace EShop.Application.Services.Implementation
         }
         public async Task<bool> DeleteProductServiceAsync(int id)
         {
-            var product = await _productRepository.DeleteProductAsync(id);
+            await _productRepository.DeleteProductAsync(id);
+            var product = await _productRepository.GetProductByIdAsync(id);
+            product.productGalleries.ForEach(async pg =>
+            {
+                await _productRepository.DeleteProductGalleryAsync(pg.Id);
+            });
             await _productRepository.SaveChangeAsync();
             return true;
         }
@@ -294,7 +299,7 @@ namespace EShop.Application.Services.Implementation
         #region product Gallery
         public async Task CreateProductGalleryServiceAsync(ProductGalleryViewModel gallery)
         {
-            gallery.ProductImages.ForEach(async pg => {
+            gallery?.ProductImages?.ForEach(async pg => {
                 var productGallery = new ProductGallery
                 {
                     ProductImage = ImageService.CreateImage(pg, "ProductImages"),

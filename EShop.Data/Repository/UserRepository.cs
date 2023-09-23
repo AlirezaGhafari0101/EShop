@@ -48,8 +48,9 @@ namespace EShop.Data.Repository
 
         public async Task DeleteUserByIdAsync(int userId)
         {
-            User user = await GetUserByIdAsync(userId);
-            _ctx.Users.Remove(user);
+            var user = await GetUserByIdAsync(userId);
+            user.IsDelete = true;
+            await UpdateUserAsync(user);
         }
 
         public async Task<bool> IsExistUserEmailAsync(string email)

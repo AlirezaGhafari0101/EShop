@@ -66,8 +66,9 @@ namespace EShop.Data.Repository
 
         public async Task<bool> DeleteProductAsync(int id)
         {
-            var user = await GetProductByIdAsync(id);
-            _ctx.Products.Remove(user);
+            var product = await GetProductByIdAsync(id);
+            product.IsDelete = true;
+            await UpdateProductAsync(product);
             return true;
         }
 
