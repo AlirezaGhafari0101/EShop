@@ -71,26 +71,32 @@
         </div>
 
         <div class="col-md-8">
-            <div class="" id="image-gallery-container">
-                <h2>عکس های محصول</h2>
-                <div class="image-gallery-custom ">
-                    @{
-                        if (Model.ProductGalleryImages != null)
-                        {
-                            foreach (var pg in Model.ProductGalleryImages)
-                            {
-                                <div class="image-container-custom" id="@pg.Id">
-                                    <img class="img-custom" src="/images//ProductImages/@pg.ProductImageUrl">
-                                    <div class="image-custom-overlay">
-                                        <i class="fa fa-close img-close-symbol" onclick="DeleteProductGallery('@pg.Id')"></i>
-                                    </div>
-                                </div>
+            @{
+                if (Model.ProductGalleryImages != null)
+                {
+                    <div class="" id="image-gallery-container">
+                        <h2>عکس های محصول</h2>
+                        <div class="image-gallery-custom ">
+                            @{
+                                if (Model.ProductGalleryImages != null)
+                                {
+                                    foreach (var pg in Model.ProductGalleryImages)
+                                    {
+                                        <div class="image-container-custom" id="@pg.Id">
+                                            <img class="img-custom" src="/images//ProductImages/@pg.ProductImageUrl">
+                                            <div class="image-custom-overlay">
+                                                <i class="fa fa-close img-close-symbol" onclick="DeleteProductGallery('@pg.Id')"></i>
+                                            </div>
+                                        </div>
+                                    }
+                                }
                             }
-                        }
-                    }
 
-                </div>
-            </div>
+                        </div>
+                    </div>
+                }
+            }
+
         </div>
         <div class="col-md-4">
             <div class="panel panel-default">
@@ -144,7 +150,7 @@
         });
 
 
-        function DeleteProductGallery (id){
+        function DeleteProductGallery(id) {
             Swal.fire({
                 title: `آیا از حذف این عکس اطمینان دارید؟`,
 
