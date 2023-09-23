@@ -36,5 +36,11 @@ namespace EShop.Ioc
             service.AddScoped<IProductRepository, ProductRepository>();
             service.AddScoped<IProductService, ProductService>();
         }
+
+        public static void DiscountServices(IServiceCollection service)
+        {
+            service.AddScoped<IDiscountRepository, DiscountRepository>();
+            service.AddScoped<IDiscountService, DiscountService>();
+        }
     }
 }
