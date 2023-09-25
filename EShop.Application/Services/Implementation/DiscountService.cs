@@ -70,8 +70,8 @@ namespace EShop.Application.Services.Implementation
             var discount = await _discountRepository.GetDiscountByIdAsync(id);
             discount.DiscountCode = discountModel.DiscountCode;
             discount.DiscountPercentage = discountModel.DiscountPercentage;
-            discount.StartDate = discountModel.StartDate;
-            discount.EndDate = discountModel.EndDate;
+            discount.StartDate = FixedText.FixShamsiDateToAdDate(discountModel.StartDate);
+            discount.EndDate = FixedText.FixShamsiDateToAdDate(discountModel.EndDate);
             discount.IsActive = discountModel.IsActive;
 
             await _discountRepository.UpdateDiscountAsync(discount);

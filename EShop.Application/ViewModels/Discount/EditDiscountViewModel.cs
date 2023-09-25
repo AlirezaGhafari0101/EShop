@@ -9,6 +9,7 @@ namespace EShop.Application.ViewModels.Discount
 {
     public class EditDiscountViewModel
     {
+        public int Id { get; set; }
         public string? DiscountCode { get; set; }
 
         [Required(ErrorMessage = "پر کردن {0} الزامی می باشد.")]

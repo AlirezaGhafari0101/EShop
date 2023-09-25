@@ -15,5 +15,6 @@ namespace EShop.Domain.Interfaces
         Task SaveChangesAsync();
         Task CreateDiscountAsync(Discount discount);
         Task UpdateDiscountAsync(Discount discount);
+
     }
 }

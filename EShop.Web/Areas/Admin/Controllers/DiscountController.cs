@@ -49,11 +49,42 @@ namespace EShop.Web.Areas.Admin.Controllers
         #endregion
 
         #region DeleteDiscount
-
         public async Task<IActionResult> DeleteDiscount(int id)
         {
             await _discountService.DeleteDiscountServiceAsync(id);
             return Json(new { status = "success" });
+        }
+
+        #endregion
+
+        #region Edit Discount
+
+        public async Task<IActionResult> EditDiscount(int id)
+        {
+            var discount = await _discountService.GetDiscountByIdServiceAsync(id);
+            var editableDiscount = new EditDiscountViewModel
+            {
+                Id = id,
+                DiscountCode = discount.DiscountCode,
+                DiscountPercentage = discount.DiscountPercentage,
+                StartDate = discount.StartDate,
+                EndDate = discount.EndDate,
+                IsActive = discount.IsActive,
+            };
+            return View(editableDiscount);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditDiscount(EditDiscountViewModel discountModel,int id)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(discountModel);
+            }
+            await _discountService.UpdateDiscountServiceAsync(discountModel, id);
+            TempData["DiscountEdited"] = true;
+            return RedirectToAction("Index");
         }
 
         #endregion
