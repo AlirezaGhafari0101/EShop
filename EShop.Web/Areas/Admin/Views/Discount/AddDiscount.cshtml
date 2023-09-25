@@ -17,35 +17,40 @@
                 <div class="panel-body">
                     <div class="form-group">
                         <label> کد تخفیف</label>
-                        <input type="text"  class="form-control">
+                        <input asp-for="DiscountCode" type="text"  class="form-control">
                         <span class="text-danger py-2" ></span>
                     </div>
                     <div class="form-group">
                         <label>درصد تخفیف</label>
-                        <input type="number"  class="form-control">
-                        <span class="text-danger py-2" ></span>
+                        <input asp-for="DiscountPercentage" type="number"  class="form-control">
+                        <span asp-validation-for="DiscountPercentage" class="text-danger py-2" ></span>
                     </div>
                     <div class="form-group">
                         <label>تاریخ شروع تخفیف</label>
-                        <input type="text" id="test-date-id">
+                        <input asp-for="StartDate" type="text" id="startDate">
                         <span class="text-danger py-2" ></span>
                     </div>
                     <div class="form-group">
                         <label>تاریخ انقضا تخفیف</label>
-                        <input type="text" id="test-date-id">
+                        <input asp-for="EndDate" type="text" id="endDate">
                         <span class="text-danger py-2" ></span>
                     </div>
-                    <div class="row">
+               @*     <div class="row">
                         <div class="col-lg-4 col-sm-4 col-xs-4">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" >
+                                    @{
+                                        if(Model.IsActive.HasValue)
+                                        {
+                                            <input asp-for="IsActive" type="checkbox">
+                                        }
+                                    }
                                     <span class="text">فعال</span>
                                 </label>
                             </div>
                         </div>
                         
-                    </div>
+                    </div>*@
 
                     <input type="submit" value="ذخیره اطلاعات" class="btn btn-success" />
                 </div>
@@ -56,3 +61,66 @@
 
     </form>
 </div>
+
+@section HeaderRefrences {
+    <link href="/persinaDatePicker/css/kamadatepicker.scss" rel="stylesheet" />
+    <link href="/persinadatepicker/js/kamadatepicker.min.css" rel="stylesheet" />
+}
+
+@section FooterReferences {
+    <script src="/persinadatepicker/js/kamadatepicker.holidays.js"></script>
+    <script src="/persinadatepicker/js/kamadatepicker.js"></script>
+    <script src="/persinadatepicker/js/kamadatepicker.min.js"></script>
+    <script>
+        kamaDatepicker('startDate', {
+      
+
+     
+          // placeholder text
+      
+          placeholder: "",
+          
+
+      
+          // enable 2 digits
+      
+          twodigit: true,
+     
+          // close calendar after select
+       
+          closeAfterSelect: true,
+           
+
+        
+          nextButtonIcon: "بعدی",
+            
+          previousButtonIcon: "قبلی ",
+           
+        });
+        kamaDatepicker('endDate', {
+
+
+
+            // placeholder text
+
+            placeholder: "",
+
+
+
+            // enable 2 digits
+
+            twodigit: true,
+
+            // close calendar after select
+
+            closeAfterSelect: true,
+
+
+
+            nextButtonIcon: "بعدی",
+
+            previousButtonIcon: "قبلی ",
+
+        });
+    </script>
+}

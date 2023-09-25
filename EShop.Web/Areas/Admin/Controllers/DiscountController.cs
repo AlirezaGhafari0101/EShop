@@ -1,4 +1,5 @@
 ﻿using EShop.Application.Services.Interfaces;
+using EShop.Application.ViewModels.Discount;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EShop.Web.Areas.Admin.Controllers
@@ -19,8 +20,25 @@ namespace EShop.Web.Areas.Admin.Controllers
         [Route("/AddDiscount")]
         public async Task<IActionResult> AddDiscount()
         {
-           
+
             return View();
+        }
+
+        [Route("/AddDiscount")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddDiscount(AddDiscountViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            await _discountService.CreateDiscountServiceAsync(model);
+            TempData["DiscountCreated"] = true;
+            return RedirectToAction("Index");
         }
     }
 }
+
+
+
