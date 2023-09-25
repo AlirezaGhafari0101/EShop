@@ -163,6 +163,7 @@ namespace EShop.Application.Services.Implementation
                 Tag = product.Tag,
                 ImageName = product.Image,
                 CategoryId = product.CategoryId,
+                DiscountId = product.DiscountId,
                 Count = product.Count,
                 CreatedDate = product.CreateDate
             };
@@ -177,6 +178,7 @@ namespace EShop.Application.Services.Implementation
                 Count = model.Count,
                 Tag = model.Tag,
                 CategoryId = model.CategoryId,
+                DiscountId = model.DiscountId,
                 Image = ImageService.CreateImage(model.Image, "ProductImages"),
                 IsDelete = false,
                 CreateDate = DateTime.Now,
@@ -197,6 +199,11 @@ namespace EShop.Application.Services.Implementation
             {
                 selectedProduct.Image = ImageService.CreateImage(model.Image, "ProductImages", model.ImageName);
             }
+            if(model.DiscountId != null)
+            {
+                selectedProduct.DiscountId = model.DiscountId;
+            }
+            selectedProduct.DiscountId = null;
             selectedProduct.Title = model.Title;
             selectedProduct.Description = model.Description;
             selectedProduct.Count = model.Count;
