@@ -36,12 +36,14 @@
                         <span asp-validation-for="Description" class="text-danger py-2"></span>
                     </div>
                     <div class="form-group">
+                        <label>دسته بندی  :</label>
                         <select asp-for="CategoryId" asp-items="ViewBag.categories" class="form-select" aria-label="Default select example">
                             <option value="" selected>دسته بندی را انتخاب کنید</option>
                         </select>
                         <span asp-validation-for="CategoryId" class="text-danger py-2"></span>
                     </div>
                     <div class="form-group">
+                        <label>کد تخفیف :</label>
                         <select asp-for="DiscountId" asp-items="ViewBag.discounts" class="form-select" aria-label="Default select example">
                             <option value="" selected>کد تخفیف را انتخاب کنید.</option>
                         </select>
