@@ -23,8 +23,18 @@ namespace EShop.Data.Repository
             return await _ctx.Discounts.ToListAsync();
         }
 
+        public async Task<Discount> GetDiscountByIdAsync(int id)
+        {
+            return await _ctx.Discounts.FirstOrDefaultAsync(d => d.Id == id);
+        }
+
         public async Task CreateDiscountAsync(Discount discount) {
             await _ctx.Discounts.AddAsync(discount);
+        }
+
+        public async Task UpdateDiscountAsync(Discount discount)
+        {
+            _ctx.Discounts.Update(discount);
         }
 
         public async Task SaveChangesAsync()

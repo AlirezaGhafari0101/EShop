@@ -10,6 +10,9 @@ namespace EShop.Application.Services.Interfaces
     public interface IDiscountService
     {
         Task<IEnumerable<DiscountViewModel>> GetAllDiscountsServiceAsync();
+        Task<DiscountViewModel> GetDiscountByIdServiceAsync(int id);
         Task CreateDiscountServiceAsync(AddDiscountViewModel discountModel);
+        Task UpdateDiscountServiceAsync(EditDiscountViewModel discountModel, int id);
+        Task DeleteDiscountServiceAsync(int discountId);
     }
 }
