@@ -203,7 +203,11 @@ namespace EShop.Application.Services.Implementation
             {
                 selectedProduct.DiscountId = model.DiscountId;
             }
-            selectedProduct.DiscountId = null;
+            else
+            {
+                selectedProduct.DiscountId = null;
+            }
+            
             selectedProduct.Title = model.Title;
             selectedProduct.Description = model.Description;
             selectedProduct.Count = model.Count;
@@ -353,6 +357,7 @@ namespace EShop.Application.Services.Implementation
         {
             var pg = await _productRepository.GetProductGalleryByIdAsync(galleryId);
             await _productRepository.DeleteProductGalleryAsync(pg);
+            await _productRepository.SaveChangeAsync();
         }
         #endregion
     }
