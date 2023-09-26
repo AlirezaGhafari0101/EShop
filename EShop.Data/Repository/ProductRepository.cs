@@ -88,5 +88,34 @@ namespace EShop.Data.Repository
             return await _ctx.Products.AnyAsync(p => p.Title == title);
         }
         #endregion
+
+        #region ProductColor
+
+        public async Task<IEnumerable<ProductColor>> GetAllProductColorsAsync(int productId)
+        {
+            return await _ctx.ProductColors.Where(pc=> pc.ProductId== productId).ToListAsync();
+        }
+
+        public async Task<ProductColor> GetProductColorAsync(int colorId)
+        {
+            return await _ctx.ProductColors.FirstOrDefaultAsync(pc => pc.Id == colorId);
+        }
+
+        public async Task AddProductColorAsync(ProductColor color)
+        {
+            await _ctx.AddAsync(color);
+        }
+
+        public async Task UpdateProductColorAsync(ProductColor color)
+        {
+             _ctx.Update(color);
+        }
+
+        public async Task DeleteProductColorAsync(int colorId)
+        {
+            var color = await GetProductColorAsync(colorId);
+            _ctx.Remove(color);
+        }
+        #endregion
     }
 }

@@ -2,10 +2,12 @@
 using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels.Product;
 using EShop.Application.ViewModels.Product.Category;
+using EShop.Application.ViewModels.Product.Color;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Products;
 using EShop.Domain.Models.Users;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
 
 namespace EShop.Application.Services.Implementation
 {
@@ -37,7 +39,7 @@ namespace EShop.Application.Services.Implementation
    
             Category group = await _productRepository.GetCategoryByIdAsync(id);
 
-            IEnumerable<Category> subGroups = await _productRepository.GetAllCategoriesAsync(group.Id);
+            var subGroups = await _productRepository.GetAllCategoriesAsync(group.Id);
             if (subGroups.Any()) {
 
                 foreach (Category subGroup in subGroups)
@@ -211,6 +213,83 @@ namespace EShop.Application.Services.Implementation
         public async Task<bool> IsProductExistServiceAsync(string title)
         {
             return await _productRepository.IsProductExistAsync(title);
+        }
+        #endregion
+
+        #region ProductColor
+        public async Task<IEnumerable<ProductColorViewModel>> GetAllProductColorsServiceAsync(int productId)
+        {
+            IEnumerable<ProductColor> productColors = await _productRepository.GetAllProductColorsAsync(productId);
+
+            return  productColors.Select(c => new ProductColorViewModel() {
+            Id=c.Id,
+            Hex=c.Hex,
+            ProductId=c.ProductId,    
+            CreateDate=c.CreateDate,
+            Price=c.Price,
+            IsDelete=c.IsDelete,
+            }).ToList();
+        }
+
+        public async Task<UpdateProductColorViewModel> GetProductColorServiceAsync(int colorId)
+        {
+           ProductColor productColor=await _productRepository.GetProductColorAsync(colorId);
+            return new UpdateProductColorViewModel() {
+                Id = productColor.Id,
+                Hex = productColor.Hex,
+                ProductId = productColor.ProductId,
+                CreateDate = productColor.CreateDate,
+                Price = productColor.Price,
+                IsDelete = productColor.IsDelete,
+            };
+        }
+
+        public async Task AddProductColorServiceAsync(AddProductColorViewModel color)
+        {
+            ProductColor pColor=new ProductColor()
+            {
+                Hex=color.Hex,
+                Price=color.Price,
+                ProductId=color.ProductId,
+                
+            };
+
+            await _productRepository.AddProductColorAsync(pColor);
+            await _productRepository.SaveChangeAsync();
+        }
+
+        public async Task UpdateProductColorServiceAsync(UpdateProductColorViewModel color)
+        {
+            ProductColor pColor =await _productRepository.GetProductColorAsync(color.Id);
+            pColor.Hex = color.Hex;
+            pColor.Price= color.Price;
+
+            await _productRepository.UpdateProductColorAsync(pColor);
+            await _productRepository.SaveChangeAsync();
+        }
+
+        public async Task DeleteProductColorServiceAsync(int colorId)
+        {
+            ProductColor pColor = await _productRepository.GetProductColorAsync(colorId);
+
+            pColor.IsDelete = true;
+            await _productRepository.UpdateProductColorAsync(pColor);
+            await _productRepository.SaveChangeAsync();
+
+
+
+        }
+
+        public async Task<UpdateProductColorViewModel> GetColorForUpdateServiceAsync(int colorId)
+        {
+            ProductColor GetColor = await _productRepository.GetProductColorAsync(colorId);
+            return new UpdateProductColorViewModel()
+            {
+               Hex=GetColor.Hex,
+               Price=GetColor.Price,
+               ProductId=GetColor.ProductId,
+               ColorId=colorId  
+            };
         }
         #endregion
     }

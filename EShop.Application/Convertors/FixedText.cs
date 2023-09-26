@@ -20,5 +20,33 @@ namespace EShop.Application.Convertors
             PersianCalendar pc = new PersianCalendar();
             return $"{pc.GetYear(date)}/{pc.GetMonth(date)}/{pc.GetDayOfMonth(date)}";
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public static string MoenyFormatter(int moneny)
+        {
+           
+            string formattedNumber = moneny.ToString("N0");
+
+            string[] groups = formattedNumber.Split(',');
+
+            string result = string.Join(",", groups);
+            return result;
+        }
     }
 }

@@ -27,5 +27,15 @@ namespace EShop.Domain.Interfaces
         Task<bool> UpdateProductAsync(Product product);
         Task<bool> IsProductExistAsync(string title);
         #endregion
+
+        #region ProductColor
+        Task<IEnumerable<ProductColor>> GetAllProductColorsAsync(int productId);
+        Task<ProductColor> GetProductColorAsync(int colorId);
+        Task AddProductColorAsync(ProductColor color);
+        Task UpdateProductColorAsync(ProductColor color);
+        Task DeleteProductColorAsync(int colorId);
+        #endregion
+
+
     }
 }

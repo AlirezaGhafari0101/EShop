@@ -26,11 +26,10 @@ namespace EShop.Data.Context
         #region Products
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<ProductColor> ProductColors { get; set; }
+        public DbSet<ProductGallery> ProductGalleries { get; set; }
         #endregion
-
         public DbSet<ContactUs> ContactUs { get; set; }
-
-        public DbSet<Color> Colors { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -39,6 +38,7 @@ namespace EShop.Data.Context
             modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<ContactUs>().HasQueryFilter(c => !c.IsDelete);
             modelBuilder.Entity<Category>().HasQueryFilter(c => !c.IsDelete);
+            modelBuilder.Entity<ProductColor>().HasQueryFilter(c => !c.IsDelete);
 
 
 

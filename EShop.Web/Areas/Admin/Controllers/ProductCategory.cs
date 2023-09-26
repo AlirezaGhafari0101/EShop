@@ -61,11 +61,11 @@ namespace EShop.Web.Areas.Admin.Controllers
         }
 
 
-        
-        public async Task<IActionResult> Delete(int id)
+        [HttpGet("admin/productcategory/delete/{id}/{parrentId?}")]
+        public async Task<IActionResult> Delete(int id,int?parrentId)
         {
             await _productService.DeleteCategoryServiceAsync(id);
-            return Redirect("/Admin/ProductCategory/Index");
+            return Json(new { status = "success" });
         }
     }
 }
