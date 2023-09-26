@@ -14,10 +14,13 @@ namespace EShop.Application.Services.Implementation
     public class DiscountService : IDiscountService
     {
         private readonly IDiscountRepository _discountRepository;
+        private readonly IProductRepository _productRepository;
 
-        public DiscountService(IDiscountRepository discountRepository)
+        public DiscountService(IDiscountRepository discountRepository, IProductRepository productRepository)
         {
             _discountRepository = discountRepository;
+            _productRepository = productRepository; 
+
         }
 
 
@@ -81,10 +84,16 @@ namespace EShop.Application.Services.Implementation
         public async Task DeleteDiscountServiceAsync(int id)
         {
             var discount = await _discountRepository.GetDiscountByIdAsync(id);
+            var products = discount.Products;
             discount.IsDelete = true;
             await _discountRepository.UpdateDiscountAsync(discount);
             await _discountRepository.SaveChangesAsync();
+            products?.ForEach(async p =>
+            {
+                p.DiscountId = null;
+                await _productRepository.UpdateProductAsync(p);
+            });
+           await _productRepository.SaveChangeAsync();
         }
-
     }
 }

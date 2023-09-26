@@ -25,7 +25,7 @@ namespace EShop.Data.Repository
 
         public async Task<IEnumerable<Category>> GetAllCategoriesAsync(int? parentId)
         {
-            return await _ctx.Categories.Where(c => c.ParentId == parentId).ToListAsync();
+            return await _ctx.Categories.Where(c => c.ParentId == parentId).Include(c=> c.Categories).ToListAsync();
         }
 
         public async Task<IEnumerable<Category>> GetAllCategoriesForCreatingProductAsync()

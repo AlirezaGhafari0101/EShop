@@ -18,7 +18,7 @@
                     <div class="form-group">
                         <label> کد تخفیف</label>
                         <input asp-for="DiscountCode" type="text" class="form-control">
-                        <span class="text-danger py-2"></span>
+                    
                     </div>
                     <div class="form-group">
                         <label>درصد تخفیف</label>
@@ -28,19 +28,19 @@
                     <div class="form-group">
                         <label>تاریخ شروع تخفیف</label>
                         <input asp-for="StartDate" type="text" id="startDate" autocomplete="off">
-                        <span class="text-danger py-2"></span>
+                  
                     </div>
                     <div class="form-group">
                         <label>تاریخ انقضا تخفیف</label>
                         <input asp-for="EndDate" type="text" id="endDate" autocomplete="off">
-                        <span class="text-danger py-2"></span>
+                      
                     </div>
                     <div class="row">
                         <div class="col-lg-4 col-sm-4 col-xs-4">
                             <div class="checkbox">
                                 <label>
                                     <input asp-for="IsActive" type="checkbox">
-                                    <span class="text">فعال</span>
+                                
                                 </label>
                             </div>
                         </div>
@@ -63,10 +63,12 @@
 }
 
 @section FooterReferences {
+    <partial name="_ClientSideValidationScripts" />
     <script src="/persinadatepicker/js/kamadatepicker.holidays.js"></script>
     <script src="/persinadatepicker/js/kamadatepicker.js"></script>
     <script src="/persinadatepicker/js/kamadatepicker.min.js"></script>
     <script>
+       
         kamaDatepicker('startDate', {
 
 

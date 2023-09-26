@@ -25,7 +25,7 @@ namespace EShop.Data.Repository
 
         public async Task<Discount> GetDiscountByIdAsync(int id)
         {
-            return await _ctx.Discounts.FirstOrDefaultAsync(d => d.Id == id);
+            return await _ctx.Discounts.Include(d => d.Products).FirstOrDefaultAsync(d => d.Id == id);
         }
 
         public async Task CreateDiscountAsync(Discount discount) {

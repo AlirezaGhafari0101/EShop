@@ -84,7 +84,7 @@ namespace EShop.Application.Services.Implementation
                 CategoryTitle = cg.CategoryTitle,
                 Id = cg.Id,
                 CreateDate = cg.CreateDate,
-
+                SubCategories = cg.Categories,
             }).ToList();
 
 
@@ -199,7 +199,7 @@ namespace EShop.Application.Services.Implementation
             {
                 selectedProduct.Image = ImageService.CreateImage(model.Image, "ProductImages", model.ImageName);
             }
-            if(model.DiscountId != null)
+            if (model.DiscountId != null)
             {
                 selectedProduct.DiscountId = model.DiscountId;
             }
@@ -207,7 +207,7 @@ namespace EShop.Application.Services.Implementation
             {
                 selectedProduct.DiscountId = null;
             }
-            
+
             selectedProduct.Title = model.Title;
             selectedProduct.Description = model.Description;
             selectedProduct.Count = model.Count;
@@ -233,7 +233,6 @@ namespace EShop.Application.Services.Implementation
             await _productRepository.SaveChangeAsync();
             return true;
         }
-
         public async Task<bool> IsProductExistServiceAsync(string title)
         {
             return await _productRepository.IsProductExistAsync(title);
@@ -350,7 +349,7 @@ namespace EShop.Application.Services.Implementation
         {
             ProductGallery pg = await _productRepository.GetProductGalleryByIdAsync(galleryId);
 
-             await _productRepository.DeleteProductGalleryAsync(pg);
+            await _productRepository.DeleteProductGalleryAsync(pg);
         }
 
         public async Task DeleteSingleProductGalleryServiceAsync(int galleryId)
