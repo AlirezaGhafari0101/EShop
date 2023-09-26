@@ -2,6 +2,7 @@
 using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels.Product;
 using EShop.Application.ViewModels.Product.Category;
+using EShop.Application.ViewModels.Product.Color;
 using EShop.Application.ViewModels.Product.ProductGallery;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Products;
@@ -200,7 +201,7 @@ namespace EShop.Application.Services.Implementation
             {
                 selectedProduct.Image = ImageService.CreateImage(model.Image, "ProductImages", model.ImageName);
             }
-            if(model.DiscountId != null)
+            if (model.DiscountId != null)
             {
                 selectedProduct.DiscountId = model.DiscountId;
             }
@@ -208,7 +209,7 @@ namespace EShop.Application.Services.Implementation
             {
                 selectedProduct.DiscountId = null;
             }
-            
+
             selectedProduct.Title = model.Title;
             selectedProduct.Description = model.Description;
             selectedProduct.Count = model.Count;
@@ -351,7 +352,7 @@ namespace EShop.Application.Services.Implementation
         {
             ProductGallery pg = await _productRepository.GetProductGalleryByIdAsync(galleryId);
 
-             await _productRepository.DeleteProductGalleryAsync(pg);
+            await _productRepository.DeleteProductGalleryAsync(pg);
         }
 
         public async Task DeleteSingleProductGalleryServiceAsync(int galleryId)
@@ -359,6 +360,77 @@ namespace EShop.Application.Services.Implementation
             var pg = await _productRepository.GetProductGalleryByIdAsync(galleryId);
             await _productRepository.DeleteProductGalleryAsync(pg);
             await _productRepository.SaveChangeAsync();
+        }
+
+        public async Task<IEnumerable<ProductColorViewModel>> GetAllProductColorsServiceAsync(int productId)
+        {
+            IEnumerable<ProductColor> productColors = await _productRepository.GetAllProductColorAsync(productId);
+
+            return productColors.Select(pc => new ProductColorViewModel()
+            {
+                Id = pc.Id,
+                Hex = pc.Hex,
+                Price = pc.Price,
+                ProductId = pc.ProductId,
+                CreateDate = pc.CreateDate,
+                IsDelete = pc.IsDelete,
+            }).ToList();
+
+        }
+
+        public async Task<UpdateProductColorViewModel> GetProductColorServiceAsync(int colorId)
+        {
+            ProductColor productColor = await _productRepository.GetProductColorAsync(colorId);
+            return new UpdateProductColorViewModel()
+            {
+                Id = productColor.Id,
+                Hex = productColor.Hex,
+                Price = productColor.Price,
+                ProductId = productColor.ProductId,
+                CreateDate = productColor.CreateDate,
+                IsDelete = productColor.IsDelete,
+            };
+        }
+
+        public async Task AddProductColorServiceAsync(AddProductColorViewModel color)
+        {
+            ProductColor pColor = new ProductColor()
+            {
+                Hex = color.Hex,
+                Price = color.Price,
+                ProductId = color.ProductId,
+
+            };
+            await _productRepository.AddProductColorAsync(pColor);
+        }
+
+        public async Task UpdateProductColorServiceAsync(UpdateProductColorViewModel color)
+        {
+            ProductColor productColor = await _productRepository.GetProductColorAsync(color.Id);
+            productColor.Hex = color.Hex;
+            productColor.Price = color.Price;
+            await _productRepository.UpdateProductColorAsync(productColor);
+            await _productRepository.SaveChangeAsync();
+
+        }
+
+        public async Task<UpdateProductColorViewModel> GetColorForUpdateServiceAsync(int colorId)
+        {
+            ProductColor productColor = await _productRepository.GetProductColorAsync(colorId);
+            return new UpdateProductColorViewModel()
+            {
+                Id = productColor.Id,
+                Hex = productColor.Hex,
+                Price = productColor.Price,
+            };
+        }
+
+        public async Task DeleteProductColorServiceAsync(int colorId)
+        {
+            ProductColor productColor = await _productRepository.GetProductColorAsync(colorId);
+            productColor.IsDelete = true;
+            await _productRepository.UpdateProductColorAsync(productColor);
+            await _productRepository.SaveChangeAsync(); 
         }
         #endregion
     }

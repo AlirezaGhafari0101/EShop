@@ -31,7 +31,7 @@ namespace EShop.Data.Context
         #endregion
         public DbSet<ContactUs> ContactUs { get; set; }
 
-        public DbSet<Color> Colors { get; set; }
+        public DbSet<ProductColor> ProductColors { get; set; }
 
         public DbSet<Discount> Discounts { get; set; }
 

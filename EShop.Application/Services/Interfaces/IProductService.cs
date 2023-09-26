@@ -1,5 +1,6 @@
 ﻿using EShop.Application.ViewModels.Product;
 using EShop.Application.ViewModels.Product.Category;
+using EShop.Application.ViewModels.Product.Color;
 using EShop.Application.ViewModels.Product.ProductGallery;
 
 namespace EShop.Application.Services.Interfaces
