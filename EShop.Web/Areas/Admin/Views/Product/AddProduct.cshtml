@@ -1,13 +1,17 @@
 ﻿@model EShop.Application.ViewModels.Product.AddProductViewModel
+
+
+
+
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header p-3">افزودن محصول جدید</h1>
+        <h1 class="page-header">افزودن محصول جدید</h1>
     </div>
     <!-- /.col-lg-12 -->
 </div>
 
-<div class="row">
-    <form asp-action="AddProduct" method="post" enctype="multipart/form-data">
+<div class="row ">
+    <form asp-action="AddProduct" id="addProductForm" method="post" enctype="multipart/form-data">
         <div class="col-md-8">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -36,11 +40,20 @@
                         <span asp-validation-for="Description" class="text-danger py-2"></span>
                     </div>
                     <div class="form-group">
+                        <label>دسته بندی  :</label>
                         <select asp-for="CategoryId" asp-items="ViewBag.categories" class="form-select" aria-label="Default select example">
-                        <option value="" selected>دسته بندی را انتخاب کنید</option>
-                        </select>  
+                            <option value="" selected>دسته بندی را انتخاب کنید</option>
+                        </select>
                         <span asp-validation-for="CategoryId" class="text-danger py-2"></span>
                     </div>
+                    <div class="form-group">
+                        <label>کد تخفیف :</label>
+                        <select asp-for="DiscountId" asp-items="ViewBag.discounts" class="form-select" aria-label="Default select example">
+                            <option value="" selected>کد تخفیف را انتخاب کنید.</option>
+                        </select>
+                        <span asp-validation-for="CategoryId" class="text-danger py-2"></span>
+                    </div>
+                   
 
                     <input type="submit" value="ذخیره اطلاعات" class="btn btn-success" />
                 </div>
@@ -48,27 +61,53 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    تصویر محصول
-                </div>
-                <!-- /.panel-heading -->
-          
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        تصویر اصلی محصول
+                    </div>
+                    <!-- /.panel-heading -->
+
                     <div class="panel-body ">
                         <div class="w-50 h-50 overflow-hidden "> <img id="imgAvatar" class="img-thumbnail w-full h-full" src="/images/avatar/default.png" /></div>
                         <div class="form-group">
-                            <label>انتخاب تصویر</label>
-                            <input type="file" asp-for="Image" >
+                            <label>انتخاب تصویر اصلی</label>
+                            <input type="file" asp-for="Image">
                             <span class="text-danger py-2"></span>
                         </div>
                     </div>
-          
 
-                <!-- /.panel-body -->
+
+                    <!-- /.panel-body -->
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        تصاویر محصول
+                    </div>
+                    <!-- /.panel-heading -->
+
+                    <div class="panel-body ">
+                        <div class="w-50 h-50 overflow-hidden "> <img  class="img-thumbnail w-full h-full" src="/images/avatar/default.png" /></div>
+                        <div class="form-group">
+                            <label>انتخاب تصاویر</label>
+                            <input type="file" multiple id="fileInput" name="galleryInput">
+                            <span class="text-danger py-2"></span>
+                        </div>
+                    </div>
+
+
+                    <!-- /.panel-body -->
+                </div>
             </div>
 
         </div>
-
+        <div class="col-md-12 hidden" id="image-gallery-container">
+            <h2>عکس های انتخاب شده برای محصول</h2>
+            <div class="image-gallery-custom ">
+            </div>
+        </div>
     </form>
 </div>
 
@@ -92,14 +131,57 @@
             }
         }
 
-        $("#Avatar").change(function () {
+        $("#Image").change(function () {
             readURL(this);
         });
 
+        //let imagesFile = []
+        $('#fileInput').change(function () {
 
 
 
+            $('#image-gallery-container').removeClass('hidden');
+
+            // Clear any existing images
+            $('.image-gallery-custom').empty();
+
+            // Get the uploaded files
+            var files = $(this)[0].files;
 
 
+            // Loop through each file
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                //if (!imagesFile.includes(file)) {
+                //imagesFile.push(file)
+                // Create a new div element
+                var imageContainer = $('<div>').addClass('image-container-custom');
+
+                // Create a new image element
+                var img = $('<img>').addClass('img-custom');
+
+                var imageOverlay = $('<div>').addClass('image-custom-overlay');
+                var closeSymbol = $('<i>').addClass('fa fa-close img-close-symbol');
+                
+
+                imageOverlay.append(closeSymbol)
+
+                // Set the source of the image element to the file object URL
+                img.attr('src', URL.createObjectURL(file));
+
+                // Append the image to the div
+                imageContainer.append(img);
+                imageContainer.append(imageOverlay)
+
+                // Append the div to the image container
+                $('.image-gallery-custom').append(imageContainer);
+
+                //console.log(imagesFile)
+                //}
+
+
+
+            }
+        });
     </script>
 }

@@ -95,8 +95,6 @@ namespace EShop.Application.Services.Implementation
             await _userRepository.SaveChangeAsync();
         }
 
-
-
         public async Task<UserViewModel> GetUserInforServiceAsync(int id)
         {
             User user = await _userRepository.GetUserInforAsync(id);
@@ -153,8 +151,8 @@ namespace EShop.Application.Services.Implementation
             user.Email = profileViewModel.Email;
             user.Avatar = ImageService.CreateImage(profileViewModel.Avatar,"UserAvatar", profileViewModel.AvatarName);
 
-            _userRepository.UpdateUserAsync(user);
-            _userRepository.SaveChangeAsync();
+            await _userRepository.UpdateUserAsync(user);
+            await _userRepository.SaveChangeAsync();
 
         }
 

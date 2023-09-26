@@ -364,4 +364,4 @@ FodyWeavers.xsd
 
 
 # Ignore migrations folder
-Eshop.Data/Migrations
+/Eshop.Data/Migrations

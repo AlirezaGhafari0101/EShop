@@ -22,20 +22,30 @@ namespace EShop.Domain.Interfaces
         #region Product
         Task<IEnumerable<Product>> GetAllProductsAsync();
         Task<Product> GetProductByIdAsync(int id);
-        Task<bool> CreateProductAsync(Product product);
+        Task CreateProductAsync(Product product);
         Task<bool> DeleteProductAsync(int id);
         Task<bool> UpdateProductAsync(Product product);
         Task<bool> IsProductExistAsync(string title);
         #endregion
 
-        #region ProductColor
-        Task<IEnumerable<ProductColor>> GetAllProductColorsAsync(int productId);
-        Task<ProductColor> GetProductColorAsync(int colorId);
-        Task AddProductColorAsync(ProductColor color);
-        Task UpdateProductColorAsync(ProductColor color);
-        Task DeleteProductColorAsync(int colorId);
-        #endregion
 
 
+
+
+
+
+
+
+        #region product gallery
+        Task CreateProductGalleryAsync(ProductGallery productGallery);
+        Task<List<ProductGallery>> GetProductGallerisByParentIdAsync(int productId);
+
+        Task<ProductGallery> GetProductGalleryByIdAsync(int galleryId);
+        Task UpdateProductGalleryAsync(ProductGallery productGallery);
+       
+        Task DeleteProductGalleryAsync(ProductGallery gallery);
+       
+
+        #endregion 
     }
-}
+}       

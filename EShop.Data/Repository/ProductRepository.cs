@@ -25,7 +25,7 @@ namespace EShop.Data.Repository
 
         public async Task<IEnumerable<Category>> GetAllCategoriesAsync(int? parentId)
         {
-            return await _ctx.Categories.Where(c=> c.ParentId==parentId).ToListAsync();
+            return await _ctx.Categories.Where(c => c.ParentId == parentId).ToListAsync();
         }
 
         public async Task<IEnumerable<Category>> GetAllCategoriesForCreatingProductAsync()
@@ -56,18 +56,25 @@ namespace EShop.Data.Repository
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
-            return await _ctx.Products.Include(P=> P.Category).ToListAsync();
+            return await _ctx.Products.Include(p => p.Category).Include(p => p.Discount).ToListAsync();
         }
 
         public async Task<Product> GetProductByIdAsync(int id)
         {
-            return await _ctx.Products.FirstOrDefaultAsync(p => p.Id == id);
+            return await _ctx.Products.Include(p => p.productGalleries).FirstOrDefaultAsync(p => p.Id == id);
         }
+
+
 
         public async Task<bool> DeleteProductAsync(int id)
         {
-            var user = await GetProductByIdAsync(id);
-            _ctx.Products.Remove(user);
+            var product = await GetProductByIdAsync(id);
+            product.IsDelete = true;
+            product.productGalleries.ForEach(pg =>
+            {
+                pg.IsDelete = true;
+            });
+            await UpdateProductAsync(product);
             return true;
         }
 
@@ -77,10 +84,10 @@ namespace EShop.Data.Repository
             return true;
         }
 
-        public async Task<bool> CreateProductAsync(Product product)
+        public async Task CreateProductAsync(Product product)
         {
             await _ctx.Products.AddAsync(product);
-            return true;
+
         }
 
         public async Task<bool> IsProductExistAsync(string title)
@@ -89,33 +96,62 @@ namespace EShop.Data.Repository
         }
         #endregion
 
-        #region ProductColor
 
-        public async Task<IEnumerable<ProductColor>> GetAllProductColorsAsync(int productId)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region productGallery
+        public async Task CreateProductGalleryAsync(ProductGallery gallery)
         {
-            return await _ctx.ProductColors.Where(pc=> pc.ProductId== productId).ToListAsync();
+            await _ctx.ProductGalleries.AddAsync(gallery);
         }
 
-        public async Task<ProductColor> GetProductColorAsync(int colorId)
+        public async Task<List<ProductGallery>> GetProductGallerisByParentIdAsync(int productId)
         {
-            return await _ctx.ProductColors.FirstOrDefaultAsync(pc => pc.Id == colorId);
+            return await _ctx.ProductGalleries.Where(p => p.ProductId == productId).ToListAsync();
         }
 
-        public async Task AddProductColorAsync(ProductColor color)
+        public async Task UpdateProductGalleryAsync(ProductGallery productGallery)
         {
-            await _ctx.AddAsync(color);
+            _ctx.ProductGalleries.Update(productGallery);
         }
 
-        public async Task UpdateProductColorAsync(ProductColor color)
+        public async Task<ProductGallery> GetProductGalleryByIdAsync(int galleryId)
         {
-             _ctx.Update(color);
+            return await _ctx.ProductGalleries.FindAsync(galleryId);
         }
 
-        public async Task DeleteProductColorAsync(int colorId)
+        public async Task DeleteProductGalleryAsync(ProductGallery gallery)
         {
-            var color = await GetProductColorAsync(colorId);
-            _ctx.Remove(color);
+             _ctx.Remove(gallery);
         }
+
         #endregion
     }
 }

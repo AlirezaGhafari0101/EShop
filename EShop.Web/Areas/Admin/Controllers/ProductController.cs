@@ -1,5 +1,6 @@
 ﻿using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels.Product;
+using EShop.Application.ViewModels.Product.ProductGallery;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -10,12 +11,14 @@ namespace EShop.Web.Areas.Admin.Controllers
 
         #region Fields
         private IProductService _productService;
+        private IDiscountService _discountService;
         #endregion
 
         #region Constructor
-        public ProductController(IProductService userService)
+        public ProductController(IProductService userService, IDiscountService discountService)
         {
             _productService = userService;
+            _discountService = discountService;
         }
         #endregion
 
@@ -34,12 +37,14 @@ namespace EShop.Web.Areas.Admin.Controllers
         {
             var categories = await _productService.GetAllCategoriesForCreatingProductServiceAsync();
             ViewBag.categories = new SelectList(categories, "Id", "CategoryTitle");
+            var discounts = await _discountService.GetAllDiscountsServiceAsync();
+            ViewBag.discounts = new SelectList(discounts, "Id", "DiscountCode");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddProduct(AddProductViewModel model)
+        public async Task<IActionResult> AddProduct(AddProductViewModel model, List<IFormFile> galleryInput)
         {
             if (!ModelState.IsValid)
             {
@@ -51,7 +56,16 @@ namespace EShop.Web.Areas.Admin.Controllers
                 return View(model);
             }
 
-            await _productService.CreateProductServiceAsync(model);
+            int productId = await _productService.CreateProductServiceAsync(model);
+            var productGalleryModel = new ProductGalleryViewModel
+            {
+                ProductImages = galleryInput,
+                ProductId = productId
+            };
+
+            await _productService.CreateProductGalleryServiceAsync(productGalleryModel);
+
+
             TempData["ProductCreated"] = true;
             return RedirectToAction("Index");
         }
@@ -61,7 +75,7 @@ namespace EShop.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            await _productService.DeleteProductServiceAsync(id);    
+            await _productService.DeleteProductServiceAsync(id);
             return Json(new { status = "success" });
         }
 
@@ -72,6 +86,7 @@ namespace EShop.Web.Areas.Admin.Controllers
         public async Task<IActionResult> EditProduct(int id)
         {
             var product = await _productService.GetProductByIdServiceAsync(id);
+            var productGallery = await _productService.GetProductGalleryByIdServiceAsync(id);
             var editableProduct = new EditProductViewModel
             {
                 Title = product.Title,
@@ -79,11 +94,16 @@ namespace EShop.Web.Areas.Admin.Controllers
                 Tag = product.Tag,
                 Image = product.Image,
                 ImageName = product.ImageName,
-                CategoryId = product.CategoryId,
-                Count=product.Count,
+                CategoryId = product.CategoryId,              
+                Count = product.Count,
+                ProductGalleryImages = productGallery,
+                DiscountId = product.DiscountId,
+               
             };
             var categories = await _productService.GetAllCategoriesForCreatingProductServiceAsync();
             ViewBag.categories = new SelectList(categories, "Id", "CategoryTitle");
+            var discounts = await _discountService.GetAllDiscountsServiceAsync();
+            ViewBag.discounts = new SelectList(discounts, "Id", "DiscountCode");
             return View(editableProduct);
         }
 
@@ -95,11 +115,27 @@ namespace EShop.Web.Areas.Admin.Controllers
             {
                 return View(model);
             }
-            
+
 
             await _productService.UpdateProductServiceAsync(model, id);
+            var gallery = new ProductGalleryViewModel
+            {
+                ProductId = id,
+                ProductImages = model.ProductGalleryImagesFile
+            };
+            await _productService.CreateProductGalleryServiceAsync(gallery);
             TempData["ProductEdited"] = true;
             return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region Delete ProductGallery
+
+        public async Task<IActionResult> DeleteProductGallery(int id)
+        {
+            await _productService.DeleteSingleProductGalleryServiceAsync(id);
+            return Json(new { status = "success" });
         }
 
         #endregion

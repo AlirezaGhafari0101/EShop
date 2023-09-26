@@ -15,10 +15,26 @@ namespace EShop.Application.Convertors
             return email.Trim().ToLower();
         }
 
-        public static string FixDateToShamsi(DateTime date)
+        public static string FixDateToShamsi(DateTime? date)
         {
             PersianCalendar pc = new PersianCalendar();
-            return $"{pc.GetYear(date)}/{pc.GetMonth(date)}/{pc.GetDayOfMonth(date)}";
+            if (date.HasValue)
+            {
+
+                return $"{pc.GetYear(date.Value)}/{pc.GetMonth(date.Value)}/{pc.GetDayOfMonth(date.Value)}";
+            }
+            return "";
+        }
+
+        public static DateTime FixShamsiDateToAdDate(DateTime? date)
+        {
+            PersianCalendar pc = new PersianCalendar();
+            if (date.HasValue)
+            {
+                DateTime adDateTime = pc.ToDateTime(date.Value.Year, date.Value.Month, date.Value.Day, 0, 0, 0, 0);
+                return adDateTime;
+            }
+            return DateTime.Now;
         }
 
 

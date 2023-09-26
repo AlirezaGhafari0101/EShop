@@ -1,7 +1,6 @@
 ﻿using EShop.Application.ViewModels.Product;
 using EShop.Application.ViewModels.Product.Category;
-using EShop.Application.ViewModels.Product.Color;
-using EShop.Domain.Models.Products;
+using EShop.Application.ViewModels.Product.ProductGallery;
 
 namespace EShop.Application.Services.Interfaces
 {
@@ -29,7 +28,7 @@ namespace EShop.Application.Services.Interfaces
 
         Task<ProductViewModel> GetProductByIdServiceAsync(int id);
 
-        Task<bool> CreateProductServiceAsync(AddProductViewModel model);
+        Task<int> CreateProductServiceAsync(AddProductViewModel model);
 
         Task<bool> DeleteProductServiceAsync(int id);
 
@@ -51,5 +50,25 @@ namespace EShop.Application.Services.Interfaces
 
 
 
+
+
+
+
+
+
+
+
+
+        #region product gallery
+        Task CreateProductGalleryServiceAsync(ProductGalleryViewModel gallery);
+
+        Task<List<EditProductGalleryViewModel>> GetProductGalleryByIdServiceAsync(int productId);
+
+        Task DeleteAllProductGalleryServiceAsync(int galleryId);
+
+        Task DeleteSingleProductGalleryServiceAsync(int galleryId);
+
+
+        #endregion
     }
 }

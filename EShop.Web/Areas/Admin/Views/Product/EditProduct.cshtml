@@ -36,8 +36,16 @@
                         <span asp-validation-for="Description" class="text-danger py-2"></span>
                     </div>
                     <div class="form-group">
+                        <label>دسته بندی  :</label>
                         <select asp-for="CategoryId" asp-items="ViewBag.categories" class="form-select" aria-label="Default select example">
                             <option value="" selected>دسته بندی را انتخاب کنید</option>
+                        </select>
+                        <span asp-validation-for="CategoryId" class="text-danger py-2"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>کد تخفیف :</label>
+                        <select asp-for="DiscountId" asp-items="ViewBag.discounts" class="form-select" aria-label="Default select example">
+                            <option value="" selected>کد تخفیف را انتخاب کنید.</option>
                         </select>
                         <span asp-validation-for="CategoryId" class="text-danger py-2"></span>
                     </div>
@@ -64,10 +72,63 @@
                 </div>
 
 
+
                 <!-- /.panel-body -->
             </div>
 
         </div>
+
+        <div class="col-md-8">
+            @{
+                if (Model.ProductGalleryImages != null)
+                {
+                    <div class="" id="image-gallery-container">
+                        <h2>عکس های محصول</h2>
+                        <div class="image-gallery-custom ">
+                            @{
+                                if (Model.ProductGalleryImages != null)
+                                {
+                                    foreach (var pg in Model.ProductGalleryImages)
+                                    {
+                                        <div class="image-container-custom" id="@pg.Id">
+                                            <img class="img-custom" src="/images//ProductImages/@pg.ProductImageUrl">
+                                            <div class="image-custom-overlay">
+                                                <i class="fa fa-close img-close-symbol" onclick="DeleteProductGallery('@pg.Id')"></i>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            }
+
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    افزودن تصویر جدید
+                </div>
+                <!-- /.panel-heading -->
+
+                <div class="panel-body ">
+                    <div class="w-50 h-50 overflow-hidden "> <img id="imgAvatar" class="img-thumbnail w-full h-full" src="/images/avatar/default.png" /></div>
+                    <div class="form-group">
+                        <label>انتخاب تصاویر</label>
+                        <input asp-for="ProductGalleryImagesFile" type="file" multiple>
+                        <span class="text-danger py-2"></span>
+                    </div>
+                </div>
+
+
+                <!-- /.panel-body -->
+            </div>
+        </div>
+
+
+
 
     </form>
 </div>
@@ -97,7 +158,32 @@
         });
 
 
+        function DeleteProductGallery(id) {
+            Swal.fire({
+                title: `آیا از حذف این عکس اطمینان دارید؟`,
 
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: "حذف",
+                cancelButtonText: "خیر"
+
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "GET",
+                        url: `/Admin/Product/DeleteProductGallery/${id}`,
+                        success: function (response) {
+                            if (response.status == "success") {
+                                document.getElementById(id).remove()
+                            }
+                        },
+
+                    });
+                }
+            })
+        }
 
 
 
