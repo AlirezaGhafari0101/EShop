@@ -1,16 +1,14 @@
-﻿@model List<EShop.Application.ViewModels.Product.Category.ProductCategroyViewModel>
+﻿@model List<EShop.Application.ViewModels.Product.Color.ProductColorViewModel>
 @using EShop.Application.Convertors
 @{
     ViewData["Title"] = "Index";
-
 }
-
 
 <div class="row">
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
-                <span class="widget-caption">لیست گروه ها</span>
+                <span class="widget-caption">لیست رنگ های محصول</span>
                 <div class="widget-buttons">
                     <a href="#" data-toggle="maximize">
                         <i class="fa fa-expand"></i>
@@ -25,22 +23,11 @@
             </div>
             <div class="widget-body">
                 <div class="table-toolbar">
-                    <a href="/admin/addcategory/@ViewBag.CategoryId" id="editabledatatable_new" class="btn btn-primary">
-                        افزودن گروه جدید
+                    <a href="/admin/add-color/@ViewBag.ProductId" id="editabledatatable_new" class="btn btn-primary">
+                        افزودن رنگ جدید
                     </a>
 
                 </div>
-
-                @if (ViewBag.CategoryId != null)
-                {
-                    <div class="table-toolbar">
-                        <a href="/Admin/ProductCategory/Index" id="editabledatatable_new" class="btn btn-outline-warning">
-                            <i class="fa fa-share"></i> بازگشت
-                        </a>
-
-                    </div>
-                }
-
 
 
 
@@ -53,14 +40,14 @@
                         <thead>
                             <tr role="row">
                                 <th class="sorting_asc" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="
-                                                    عنوان گروه
+                                                    ColorHex 
                                                 : activate to sort column descending" style="width: 188.4px;">
-                                    عنوان گروه
+                                    کدرنگ
                                 </th>
                                 <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
-                                                    تاریخ ایجاد
+                                                    productPrice 
                                                 : activate to sort column ascending" style="width: 287.4px;">
-                                    تاریخ ایجاد
+                                    قمیت محصول 
                                 </th>
 
                                 <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="
@@ -82,16 +69,21 @@
                                 for (var item = 0; item < Model.Count(); item++)
                                 {
                                     <tr role="row" class="@((item + 1) % 2==0) ? 'odd':'even'" id="@Model[item].Id">
-                                        <td class="sorting_1">@Model[item].CategoryTitle</td>
-                                        <td>@FixedText.FixDateToShamsi(Model[item].CreateDate)</td>
+                                        <td class="sorting_1">
+                                            <span class="label" style="background-color:@Model[item].Hex;color:black">
+                                                @Model[item].Hex
+                                            </span>
+                                        </td>
+                                        <td class="sorting_1">
+                                            @FixedText.MoenyFormatter(Model[item].Price) تومان
+                                      
+                                        </td>
+
 
                                         <td>
                                             <a href="/Admin/ProductCategory/Index/@Model[item].Id" class="btn btn-warning btn-xs"><i class="fa fa-share"></i>نمایش زیرگروه</a>
-                                            <a href="/productcategory/update/@Model[item].Id/@ViewBag.CategoryId" class="btn btn-info btn-xs edit"><i class="fa fa-edit"></i>ویرایش</a>
-                                            <button type="button" class="btn btn-danger btn-xs delete" onclick="DeleteCategory('@Model[item].CategoryTitle','@Model[item].Id','@ViewBag.CategoryId')">
-                                            <i class="fa fa-trash-o">
-                                            </i> 
-                                            حذف</button>
+                                            <a href="/admin/update-color/@Model[item].Id/@ViewBag.ProductId" class="btn btn-info btn-xs edit"><i class="fa fa-edit"></i>ویرایش</a>
+                                            <button type="button" class="btn btn-danger btn-xs delete" onclick="DeleteColor('@Model[item].Hex','@Model[item].Id')"><i class="fa fa-trash-o"></i> حذف</button>
                                         </td>
                                     </tr>
                                 }
@@ -108,13 +100,11 @@
 
 @section FooterReferences {
     <script>
-        
-        function DeleteCategory(categoryTitle, id,parrentId) {
 
-       
-            
+        function DeleteColor(hex, id) {
+
             Swal.fire({
-                title: `آیا از حذف ${categoryTitle} مطمعا هستید؟`,
+                title: `آیا از حذف ${hex} مطمعا هستید؟`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
@@ -126,7 +116,7 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         type: "GET",
-                        url: `/admin/productcategory/delete/${id}/${parrentId}`,
+                        url: `/admin/delete-color/${id}`,
                         success: function (response) {
                             if (response.status == "success") {
                                 document.getElementById(id).remove()
@@ -142,3 +132,4 @@
 
     </script>
 }
+

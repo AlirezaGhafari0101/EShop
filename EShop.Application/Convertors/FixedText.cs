@@ -36,5 +36,33 @@ namespace EShop.Application.Convertors
             }
             return DateTime.Now;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public static string MoenyFormatter(int moneny)
+        {
+           
+            string formattedNumber = moneny.ToString("N0");
+
+            string[] groups = formattedNumber.Split(',');
+
+            string result = string.Join(",", groups);
+            return result;
+        }
     }
 }

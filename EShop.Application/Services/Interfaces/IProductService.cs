@@ -1,5 +1,6 @@
 ﻿using EShop.Application.ViewModels.Product;
 using EShop.Application.ViewModels.Product.Category;
+using EShop.Application.ViewModels.Product.Color;
 using EShop.Application.ViewModels.Product.ProductGallery;
 
 namespace EShop.Application.Services.Interfaces
@@ -36,6 +37,16 @@ namespace EShop.Application.Services.Interfaces
 
         Task<bool> IsProductExistServiceAsync(string title);
 
+        #endregion
+
+
+        #region ProductColor
+        Task<IEnumerable<ProductColorViewModel>> GetAllProductColorsServiceAsync(int productId);
+        Task<UpdateProductColorViewModel> GetProductColorServiceAsync(int colorId);
+        Task AddProductColorServiceAsync(AddProductColorViewModel color);
+        Task UpdateProductColorServiceAsync(UpdateProductColorViewModel color);
+        Task<UpdateProductColorViewModel> GetColorForUpdateServiceAsync(int colorId);
+        Task DeleteProductColorServiceAsync(int colorId);
         #endregion
 
 

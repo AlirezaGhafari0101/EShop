@@ -44,8 +44,17 @@ namespace EShop.Domain.Interfaces
         Task UpdateProductGalleryAsync(ProductGallery productGallery);
        
         Task DeleteProductGalleryAsync(ProductGallery gallery);
-       
-
         #endregion 
+
+
+        Task<IEnumerable<ProductColor>> GetAllProductColorAsync(int productId);
+        Task<ProductColor> GetProductColorAsync(int id);
+        Task AddProductColorAsync(ProductColor color);
+        Task UpdateProductColorAsync(ProductColor color);
+        Task DeleteProductColorAsync(ProductColor color);
+
+
+
+
     }
 }       

@@ -1,0 +1,49 @@
+﻿@model EShop.Application.ViewModels.Product.Color.UpdateProductColorViewModel
+@{
+    ViewData["Title"] = "Update";
+}
+
+<div class="row">
+    <div class="col-lg-6 col-sm-6 col-xs-12">
+        <h5 class="row-title before-blueberry"><i class="fa fa-picture-o blueberry"></i>ثبت رنگ محصول</h5>
+        <div class="well bordered-top bordered-blueberry">
+
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 col-xs-12">
+
+                    <form asp-area="Admin" asp-controller="ProductColor" asp-action="Update" method="post">
+                        <input asp-for="Id" hidden />
+                        <div class="form-group">
+                            <label for="wheel-demo">رنگ محصول</label>
+                            <div class="minicolors minicolors-theme-bootstrap minicolors-position-bottom minicolors-position-left">
+                                <input id="wheel-demo" class="form-control colorpicker minicolors-input" data-control="wheel" asp-for="Hex" size="7">
+                                <span class="minicolors-swatch">
+                                    <span class="minicolors-swatch-color" style="background-color: rgb(255, 153, 238);">
+
+                                    </span>
+                                </span>
+                                <div class="minicolors-panel minicolors-slider-wheel">
+                                    <div class="minicolors-slider" style="background-color: rgb(255, 153, 238);">
+                                        <div class="minicolors-picker" style="top: 0px;"></div>
+                                    </div><div class="minicolors-opacity-slider"><div class="minicolors-picker"></div></div><div class="minicolors-grid"><div class="minicolors-grid-inner"></div><div class="minicolors-picker" style="top: 97.9813px; left: 55.7164px;"><div></div></div></div>
+                                </div>
+                            </div>
+                            <span asp-validation-for="Hex"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="xsinput">قیمت محصول</label>
+                            <input type="number" class="form-control" id="xsinput" placeholder="قیمت این رنگ" asp-for="Price">
+
+                        </div>
+                        <span asp-validation-for="Price"></span>
+                        <button type="submit" class="btn btn-success">ثبت</button>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
