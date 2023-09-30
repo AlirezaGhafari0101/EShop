@@ -45,6 +45,7 @@ namespace EShop.Data.Context
             modelBuilder.Entity<Product>().HasQueryFilter(p => !p.IsDelete);
             modelBuilder.Entity<ProductGallery>().HasQueryFilter(pg => !pg.IsDelete);
             modelBuilder.Entity<Discount>().HasQueryFilter(d => !d.IsDelete);
+            modelBuilder.Entity<ProductColor>().HasQueryFilter(pc => !pc.IsDelete);
         }
     }
 }
