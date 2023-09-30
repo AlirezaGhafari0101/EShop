@@ -9,6 +9,7 @@ using EShop.Domain.Models.Products;
 using EShop.Domain.Models.Users;
 using Microsoft.EntityFrameworkCore;
 using System.Drawing;
+using System.Security.Policy;
 
 namespace EShop.Application.Services.Implementation
 {
@@ -86,12 +87,9 @@ namespace EShop.Application.Services.Implementation
                 CategoryTitle = cg.CategoryTitle,
                 Id = cg.Id,
                 CreateDate = cg.CreateDate,
-                SubCategories = cg.Categories,
+              
             }).ToList();
-
-
         }
-
         public async Task<IEnumerable<ProductCategroyViewModel>> GetAllCategoriesForCreatingProductServiceAsync()
         {
             var categories = await _productRepository.GetAllCategoriesForCreatingProductAsync();
@@ -100,6 +98,18 @@ namespace EShop.Application.Services.Implementation
                 Id = c.Id,
                 CategoryTitle = c.CategoryTitle,
             }).ToList();
+        }
+
+        public async Task<IEnumerable<ProductCategroyViewModel>> GetAllCategoriesClientSideServiceAsync()
+        {
+            var categories = await _productRepository.GetAllCategoriesClientSideAsync();
+            return categories.Select(c => new ProductCategroyViewModel
+            {
+                CategoryTitle= c.CategoryTitle,
+                Id = c.Id,
+                ParentId = c.ParentId,
+                CreateDate = c.CreateDate,
+            });
         }
         public async Task<ProductCategroyViewModel> GetCategoryServiceAsync(int id)
         {
@@ -167,9 +177,47 @@ namespace EShop.Application.Services.Implementation
                 CategoryId = product.CategoryId,
                 DiscountId = product.DiscountId,
                 Count = product.Count,
-                CreatedDate = product.CreateDate
+                CreatedDate = product.CreateDate,
+                Colors = product.Colors.Select(c => new ProductColorViewModel
+                {
+                    Hex = c.Hex,
+                    Price = c.Price,
+                    ProductId = c.ProductId
+                }).ToList(),
+                Gallery = product.productGalleries.Select(gallery => new ProductGalleryViewModel
+                {
+                    ProductId = gallery.ProductId,
+                    ProductImageUrl = gallery.ProductImage,
+                }).ToList(),
+               Features=product.Features,
+
             };
 
+        }
+        public async Task<IEnumerable<ProductViewModel>> GetAllProductsByCategoryIdServiceAsync(int categoryId)
+        {
+            var products = await _productRepository.GetAllProductsByCategoryIdAsync(categoryId);
+            var price = await _productRepository.GetProductColorAsync(categoryId);
+          
+            return products.Select(p => new ProductViewModel()
+            {
+                Id = p.Id,
+                Title = p.Title,
+                Description = p.Description,
+                Count = p.Count,
+                Tag = p.Tag,
+                CategoryId = p.CategoryId,
+                ImageName = p.Image,
+                CreatedDate = p.CreateDate,
+                Price =   _productRepository.GetFirstColorByProductIdAsync(p.Id),
+                Colors=p.Colors.Select(c => new ProductColorViewModel 
+                {
+                    Hex = c.Hex,
+                    Price = c.Price,
+                    ProductId=c.ProductId
+                }).ToList()
+                
+            }).ToList();
         }
         public async Task<int> CreateProductServiceAsync(AddProductViewModel model)
         {
@@ -184,6 +232,7 @@ namespace EShop.Application.Services.Implementation
                 Image = ImageService.CreateImage(model.Image, "ProductImages"),
                 IsDelete = false,
                 CreateDate = DateTime.Now,
+                Features = model.Features,
             };
 
 
@@ -209,7 +258,8 @@ namespace EShop.Application.Services.Implementation
             {
                 selectedProduct.DiscountId = null;
             }
-
+          
+            selectedProduct.Features= model.Features;
             selectedProduct.Title = model.Title;
             selectedProduct.Description = model.Description;
             selectedProduct.Count = model.Count;
@@ -391,6 +441,8 @@ namespace EShop.Application.Services.Implementation
             };
         }
 
+     
+
         public async Task AddProductColorServiceAsync(AddProductColorViewModel color)
         {
             ProductColor pColor = new ProductColor()
@@ -401,6 +453,7 @@ namespace EShop.Application.Services.Implementation
 
             };
             await _productRepository.AddProductColorAsync(pColor);
+            await _productRepository.SaveChangeAsync();
         }
 
         public async Task UpdateProductColorServiceAsync(UpdateProductColorViewModel color)

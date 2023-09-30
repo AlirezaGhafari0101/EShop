@@ -8,6 +8,7 @@ namespace EShop.Application.Services.Interfaces
     public interface IProductService
     {
         #region Category
+        Task<IEnumerable<ProductCategroyViewModel>> GetAllCategoriesClientSideServiceAsync();
         Task<IEnumerable<ProductCategroyViewModel>> GetAllCategoriesServiceAsync(int? parentId);
         Task<IEnumerable<ProductCategroyViewModel>> GetAllCategoriesForCreatingProductServiceAsync();
         Task<ProductCategroyViewModel> GetCategoryServiceAsync(int id);
@@ -28,7 +29,7 @@ namespace EShop.Application.Services.Interfaces
         Task<IEnumerable<ProductViewModel>> GetAllProductsServiceAsync();
 
         Task<ProductViewModel> GetProductByIdServiceAsync(int id);
-
+        Task<IEnumerable<ProductViewModel>> GetAllProductsByCategoryIdServiceAsync(int categoryId);
         Task<int> CreateProductServiceAsync(AddProductViewModel model);
 
         Task<bool> DeleteProductServiceAsync(int id);
@@ -47,6 +48,7 @@ namespace EShop.Application.Services.Interfaces
         Task UpdateProductColorServiceAsync(UpdateProductColorViewModel color);
         Task<UpdateProductColorViewModel> GetColorForUpdateServiceAsync(int colorId);
         Task DeleteProductColorServiceAsync(int colorId);
+        
         #endregion
 
 
