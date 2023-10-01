@@ -15,6 +15,23 @@ namespace EShop.Domain.Models.Users.Ticket
         [Required]
         public int UserId { get; set; }
 
+        public enum Section 
+        {
+            Sopport=1,
+            Proposal=2,
+            Criticism=3
+        }
+       
+       
+        
+
+        public enum Priority
+        {
+            Normal=1,
+            Important=2,
+            VeryImportant=3
+        }
+
 
         #region Relations
         public List<TicketMessage> TicketMessages { get; set; }

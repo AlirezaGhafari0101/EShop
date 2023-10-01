@@ -35,6 +35,7 @@ namespace EShop.Domain.Models.Users
 
         #region Relations
         public List<Wallet> Wallets { get; set; }
+        public List<Ticket.Ticket> Tickets { get; set; }
         #endregion
 
     }

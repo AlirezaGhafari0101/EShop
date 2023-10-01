@@ -4,9 +4,14 @@
 @inject EShop.Application.Services.Interfaces.IUserService _userService
 
 @{
-    int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-    string userAvatar =User.FindFirstValue("UserAvatar").ToString();
-  
+    int userId = 0;
+    string userAvatar="";
+    if (User.Identity.IsAuthenticated)
+    {
+        userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        userAvatar = User.FindFirstValue("UserAvatar").ToString();
+    }
+
    
 }
 <header class="page-header d-md-block d-none">
