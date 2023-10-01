@@ -1,0 +1,109 @@
+﻿@model EShop.Application.ViewModels.User.UserPanel.ChargeWalletVM
+@using EShop.Application.ViewModels.User.UserPanel
+
+@using EShop.Application.Convertors
+@{
+    ViewData["Title"] = "شارژ کیف پول";
+    List<WalletVM> userWalletList = ViewBag.userWalletList as List<WalletVM>;
+
+}
+
+<main class="page-content">
+    <div class="container">
+        <div class="row mb-5">
+            <partial name="_Bar" />
+            <div class="col-xl-9 col-lg-8 col-md-7">
+                <div class="ui-box bg-white mb-5">
+                    <div class="ui-box-title">شارژ کیف پول</div>
+                    @*    <div class="ui-box-subtitle">
+                    فرم زیر را پر کنید (توضیحات کامل تر روند پاسخ دهی را کوتاه تر
+                    می
+                    کند.)
+                    </div> *@
+                    <div class="ui-box-content" data-select2-id="select2-data-8-si85">
+                        <form asp-action="ChargeWallet" asp-controller="Wallet" method="post" class="add-ticket-form" data-select2-id="select2-data-7-i3w9">
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <!-- start of form-element -->
+                                    <div class="form-element-row mb-5">
+                                        <label class="label">مبلغ</label>
+                                        <input  asp-for="Amount" class="form-control" placeholder="مبلغ را وارد کنید مثال 100000 تومان">
+                                    </div>
+                                    <span asp-validation-for="Amount"></span>
+                                    <!-- end of form-element -->
+                                </div>
+
+
+                            </div>
+
+                     
+
+
+                            <div class="row">
+                                <div class="col-md-7 col-sm-8 col-xs-12">
+                                    <button class="btn btn-success"> شارژ کن </button>
+                                </div>
+                            </div>
+
+                        </form>
+
+
+
+
+                       
+                    </div>
+
+
+
+
+                </div>
+
+
+                <div class="ui-box bg-white mb-5">
+                    <div class="ui-box-content fa-num">
+
+                        <table class="table">
+                            <tr>
+                                <th>ردیف</th>
+                                <th>مبلغ</th>
+                                <th>توضیحات</th>
+                                <th>وضعیت</th>
+                                <th>تاریخ</th>
+                            </tr>
+                             @for(var item=0; item < userWalletList.Count();item++)
+                            {
+                                <tr>
+                                    <td>@(item + 1)</td>
+                                    <td>@FixedText.MoenyFormatter(userWalletList[item].Amount)</td>
+                                    @if (userWalletList[item].TypeId == 1)
+                                    {
+                                        <td class="text-success">واریز به حساب</td>
+                                    }else{
+                                        <td class="text-warning">
+                                            برداشت از حساب
+                                        </td>
+                                    }
+                                    @if (userWalletList[item].IsPay == true)
+                                    {
+                                        <td class="text-success">موفقییت آمیز</td>
+                                    }else{
+                                        <td class="text-danger">ناموفق</td>
+
+                                    }
+
+
+                                    <td>@FixedText.FixDateToShamsi(userWalletList[item].CreateDate)</td>
+
+                                </tr>
+                                                        
+    }
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+</main>
+

@@ -99,7 +99,10 @@ namespace EShop.Web.Controllers
                     {
                         new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
                         new Claim(ClaimTypes.Name,user.Email),
-                       
+                        new Claim("UserAvatar",user.Avatar),
+
+
+
                     };
                     var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var principal = new ClaimsPrincipal(identity);

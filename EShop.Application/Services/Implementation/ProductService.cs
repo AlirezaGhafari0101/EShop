@@ -6,9 +6,6 @@ using EShop.Application.ViewModels.Product.Color;
 using EShop.Application.ViewModels.Product.ProductGallery;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Products;
-using EShop.Domain.Models.Users;
-using Microsoft.EntityFrameworkCore;
-using System.Drawing;
 
 namespace EShop.Application.Services.Implementation
 {
@@ -429,7 +426,7 @@ namespace EShop.Application.Services.Implementation
             ProductColor productColor = await _productRepository.GetProductColorAsync(colorId);
             productColor.IsDelete = true;
             await _productRepository.UpdateProductColorAsync(productColor);
-            await _productRepository.SaveChangeAsync(); 
+            await _productRepository.SaveChangeAsync();
         }
         #endregion
     }

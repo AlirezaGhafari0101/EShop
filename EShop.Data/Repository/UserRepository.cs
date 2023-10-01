@@ -100,6 +100,42 @@ namespace EShop.Data.Repository
 
 
 
+
+        #endregion
+
+
+
+
+        #region Wallet
+
+        public async Task<int> BalanceUeserWalletAsync(int userId)
+        {
+            List<int> diposit = await _ctx.Wallets.Where(w => w.UserId == userId && w.IsPay && w.TypeId == 1).Select(w => w.Amount).ToListAsync();
+
+            List<int> harvest=await _ctx.Wallets.Where(w => w.UserId == userId && w.IsPay && w.TypeId == 2).Select(w => w.Amount).ToListAsync();
+
+            return (diposit.Sum() - harvest.Sum());
+        }
+
+        public async Task<IEnumerable<Wallet>> GetAllUserWalletsAsync(int userId)
+        {
+            return await _ctx.Wallets.Where(w => w.UserId == userId).ToListAsync();
+        }
+
+        public async Task ChargeWalletAsync(Wallet wallet)
+        {
+           await _ctx.Wallets.AddAsync(wallet);
+        }
+
+        public async Task<Wallet> GetWalletByIdAsync(int id)
+        {
+            return await _ctx.Wallets.FirstOrDefaultAsync(w => w.Id == id);
+        }
+
+        public async Task UpdateWallet(Wallet wallet)
+        {
+            _ctx.Wallets.Update(wallet);
+        }
         #endregion
     }
 }

@@ -22,6 +22,8 @@ namespace EShop.Data.Context
 
         #region Users
         public DbSet<User> Users { get; set; }
+        public DbSet<Wallet> Wallets { get; set; }
+        public DbSet<WalletType> WalletTypes { get; set; }
         #endregion
 
         #region Products
@@ -45,6 +47,7 @@ namespace EShop.Data.Context
             modelBuilder.Entity<Product>().HasQueryFilter(p => !p.IsDelete);
             modelBuilder.Entity<ProductGallery>().HasQueryFilter(pg => !pg.IsDelete);
             modelBuilder.Entity<Discount>().HasQueryFilter(d => !d.IsDelete);
+            modelBuilder.Entity<ProductColor>().HasQueryFilter(d => !d.IsDelete);
         }
     }
 }

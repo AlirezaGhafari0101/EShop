@@ -3,6 +3,9 @@
 @inject IUserService _userService;
 @using  System.Security.Claims;
 @using Microsoft.AspNetCore.Mvc;
+@using EShop.Application.Convertors
+
+
 
 
 @{
@@ -34,9 +37,9 @@
                             <span class="label">کیف پول</span>
                             <span class="detail">
                                 <span class="d-block">
-                                    ۰ <span class="currency fs-7 fw-bold">تومان</span>
+                                    @FixedText.MoenyFormatter(await _userService.BalanceUserWalletAsyncService(userId)) <span class="currency fs-7 fw-bold">تومان</span>
                                 </span>
-                                <a href="#" class="link border-bottom-0 text-info fs-7 fw-bold">
+                                <a asp-action="ChargeWallet" asp-controller="Wallet" class="link border-bottom-0 text-info fs-7 fw-bold">
                                     افزایش
                                     موجودی <i class="ri-arrow-left-s-line"></i>
                                 </a>

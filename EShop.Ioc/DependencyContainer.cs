@@ -4,11 +4,12 @@ using EShop.Application.Services.Interfaces;
 using EShop.Data.Repository;
 using EShop.Domain.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ZarinPal.Interface;
+using ZarinPal.Class;
+
+
+
+
 
 namespace EShop.Ioc
 {
@@ -23,6 +24,8 @@ namespace EShop.Ioc
             service.AddScoped<IViewRenderService, RenderViewToString>();
 
             service.AddScoped<IUserService, UserService>();
+
+            service.AddScoped<Payment, Payment>();
         }
 
         public static void ContactUsServices(IServiceCollection service)

@@ -83,7 +83,7 @@ namespace EShop.Application.Services.Implementation
 
             if (model.Avatar != null)
             {
-                user.Avatar = ImageService.CreateImage(model.Avatar,"UserAvatar", model.AvatarName);
+                user.Avatar = ImageService.CreateImage(model.Avatar, "UserAvatar", model.AvatarName);
             }
             user.IsActive = model.IsActive;
             if (model.Password != null)
@@ -149,7 +149,7 @@ namespace EShop.Application.Services.Implementation
             user.FirstName = profileViewModel.FirstName;
             user.LastName = profileViewModel.LastName;
             user.Email = profileViewModel.Email;
-            user.Avatar = ImageService.CreateImage(profileViewModel.Avatar,"UserAvatar", profileViewModel.AvatarName);
+            user.Avatar = ImageService.CreateImage(profileViewModel.Avatar, "UserAvatar", profileViewModel.AvatarName);
 
             await _userRepository.UpdateUserAsync(user);
             await _userRepository.SaveChangeAsync();
@@ -178,6 +178,70 @@ namespace EShop.Application.Services.Implementation
 
         }
 
+        #region Wallet
+        public async Task<int> BalanceUserWalletAsyncService(int userId)
+        {
+            return await _userRepository.BalanceUeserWalletAsync(userId);
+        }
 
+        public async Task<IEnumerable<WalletVM>> GetAllUserWalletsAsyncService(int userId)
+        {
+            IEnumerable<Wallet> wallets = await _userRepository.GetAllUserWalletsAsync(userId);
+
+            return wallets.Select(w => new WalletVM()
+            {
+                Amount = w.Amount,
+                CreateDate = w.CreateDate,
+                TypeId = w.TypeId,
+                Description = w.Description,
+                IsPay=w.IsPay,
+            }).ToList();
+        }
+
+        public async Task<int> ChargeWalletAsyncService(int userId, int amount, string description)
+        {
+            Wallet wallet = new Wallet()
+            {
+                Amount = amount,
+                TypeId = 1,
+                Description = description,
+                IsPay = false,
+                UserId = userId,
+
+            };
+
+            await _userRepository.ChargeWalletAsync(wallet);
+            await _userRepository.SaveChangeAsync();
+
+            return wallet.Id;
+        }
+
+        public async Task<WalletVM> GetWalletByIdAsyncService(int id)
+        {
+            var wallet=await _userRepository.GetWalletByIdAsync(id);
+
+            return new WalletVM()
+            {
+                Amount= wallet.Amount,
+                TypeId = wallet.TypeId,
+                Description = wallet.Description,
+                CreateDate  = wallet.CreateDate,
+                IsPay= wallet.IsPay,
+                TypeID = wallet.TypeId,
+                
+                
+            };
+        }
+
+        public async Task IsPayWallet(int id)
+        {
+            Wallet wallet = await _userRepository.GetWalletByIdAsync(id);
+
+            wallet.IsPay = true;
+
+           await _userRepository.UpdateWallet(wallet);
+            await _userRepository.SaveChangeAsync();
+        }
+        #endregion
     }
 }

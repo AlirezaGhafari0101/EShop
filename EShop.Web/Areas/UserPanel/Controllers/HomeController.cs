@@ -17,7 +17,7 @@ namespace EShop.Web.Areas.UserPanel.Controllers
         {
             _userService = userService;
         }
-
+        [Route("userpanel")]
         public async Task<IActionResult> Index()
         {
             int usaerId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
