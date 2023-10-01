@@ -2,6 +2,7 @@
 using EShop.Domain.Models.Home;
 using EShop.Domain.Models.Products;
 using EShop.Domain.Models.Users;
+using EShop.Domain.Models.Users.Ticket;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,9 @@ namespace EShop.Data.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Wallet> Wallets { get; set; }
         public DbSet<WalletType> WalletTypes { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<TicketMessage> TicketMessages { get; set; }
+
         #endregion
 
         #region Products
