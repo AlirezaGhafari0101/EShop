@@ -105,6 +105,7 @@ namespace EShop.Application.Services.Implementation
                 userViewModel.Id = user.Id;
                 userViewModel.IsActive = user.IsActive;
                 userViewModel.Email = user.Email;
+                userViewModel.Avatar = user.Avatar;
 
                 return userViewModel;
 

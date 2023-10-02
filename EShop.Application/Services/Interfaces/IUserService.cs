@@ -35,6 +35,19 @@ namespace EShop.Application.Services.Interfaces
         Task<bool> ChangePasswordAsync(ChangePasswordViewModel changePasswordViewModel,int id);
 
         //End User Panel
-      
+
+
+
+
+
+
+        #region Wallet
+        Task<int> BalanceUserWalletAsyncService(int userId);
+        Task<IEnumerable<WalletVM>> GetAllUserWalletsAsyncService(int userId);
+        Task<int> ChargeWalletAsyncService(int userId,int amount,string description);
+        Task<WalletVM> GetWalletByIdAsyncService(int id);
+        Task IsPayWallet(int id);
+        #endregion
+
     }
 }

@@ -1,7 +1,18 @@
 ﻿
+@using System.Security.Claims;
+@using EShop.Application.Convertors
+@inject EShop.Application.Services.Interfaces.IUserService _userService
 
 @{
+    int userId = 0;
+    string userAvatar="";
+    if (User.Identity.IsAuthenticated)
+    {
+        userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        userAvatar = User.FindFirstValue("UserAvatar").ToString();
+    }
 
+   
 }
 <header class="page-header d-md-block d-none">
     <!-- start banner -->
@@ -125,10 +136,12 @@
                                     <div class="profile-detail">
                                         <div class="d-flex align-items-center">
                                             <div class="profile-avatar me-3">
-                                                <img src="/images/avatar/default.png" alt="avatar">
+                                                <a asp-action="Index" asp-controller="Home" asp-area="UserPanel">
+                                                    <img src="/images/UserAvatar/@userAvatar" alt="avatar">
+                                                </a>
                                             </div>
                                             <div class="profile-info">
-                                                <a href="/UserPanel/Home/Index" class="text-decoration-none text-dark fw-bold mb-2">
+                                                <a asp-action="Index" asp-controller="Home" asp-area="UserPanel" class="text-decoration-none text-dark fw-bold mb-2">
                                                     @User.Identity.Name
                                                 </a>
                                                 <div class="text-muted fs-7 fw-bold">۰۹xxxxxxxxx</div>
@@ -140,9 +153,9 @@
                                                     <span class="label">کیف پول</span>
                                                     <span class="detail">
                                                         <span class="d-block">
-                                                            ۰ <span class="currency fs-7 fw-bold">تومان</span>
+                                                            @FixedText.MoenyFormatter(await _userService.BalanceUserWalletAsyncService(userId)) <span class="currency fs-7 fw-bold">تومان</span>
                                                         </span>
-                                                        <a href="#"
+                                                        <a asp-action="ChargeWallet" asp-controller="Wallet"
                                                            class="link border-bottom-0 text-info fs-7 fw-bold">
                                                             افزایش
                                                             موجودی <i class="ri-arrow-left-s-line"></i>

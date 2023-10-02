@@ -6,10 +6,6 @@ using EShop.Application.ViewModels.Product.Color;
 using EShop.Application.ViewModels.Product.ProductGallery;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Products;
-using EShop.Domain.Models.Users;
-using Microsoft.EntityFrameworkCore;
-using System.Drawing;
-using System.Security.Policy;
 
 namespace EShop.Application.Services.Implementation
 {

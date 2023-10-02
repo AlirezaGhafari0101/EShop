@@ -1,9 +1,4 @@
 ﻿using EShop.Domain.Models.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EShop.Domain.Interfaces
 {
@@ -43,6 +38,27 @@ namespace EShop.Domain.Interfaces
         Task CreateUserAsync(User user);
         Task UpdateUserAsync(User user);
         Task DeleteUserByIdAsync(int userId);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Wallet
+        Task<int> BalanceUeserWalletAsync(int userId);
+        Task<IEnumerable<Wallet>> GetAllUserWalletsAsync(int userId);
+        Task ChargeWalletAsync(Wallet wallet);
+        Task<Wallet> GetWalletByIdAsync(int id);
+        Task UpdateWallet(Wallet wallet);
+        #endregion
 
     }
 }

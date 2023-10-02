@@ -30,5 +30,13 @@ namespace EShop.Domain.Models.Users
         public bool IsActive { get; set; }
         public bool IsAdmin { get; set; }
 
+
+
+
+        #region Relations
+        public List<Wallet> Wallets { get; set; }
+        public List<Ticket.Ticket> Tickets { get; set; }
+        #endregion
+
     }
 }
