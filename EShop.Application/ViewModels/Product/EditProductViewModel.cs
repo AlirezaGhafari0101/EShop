@@ -30,6 +30,7 @@ namespace EShop.Application.ViewModels.Product
         [Display(Name = "تصویر محصول")]
         public IFormFile? Image { get; set; }
 
+        public string Features { get; set; }
         public string? ImageName { get; set; }
 
         [Display(Name = "تعداد")]

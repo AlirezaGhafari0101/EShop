@@ -87,7 +87,7 @@ namespace EShop.Application.Services.Implementation
                 CategoryTitle = cg.CategoryTitle,
                 Id = cg.Id,
                 CreateDate = cg.CreateDate,
-              
+
             }).ToList();
         }
         public async Task<IEnumerable<ProductCategroyViewModel>> GetAllCategoriesForCreatingProductServiceAsync()
@@ -105,7 +105,7 @@ namespace EShop.Application.Services.Implementation
             var categories = await _productRepository.GetAllCategoriesClientSideAsync();
             return categories.Select(c => new ProductCategroyViewModel
             {
-                CategoryTitle= c.CategoryTitle,
+                CategoryTitle = c.CategoryTitle,
                 Id = c.Id,
                 ParentId = c.ParentId,
                 CreateDate = c.CreateDate,
@@ -182,42 +182,57 @@ namespace EShop.Application.Services.Implementation
                 {
                     Hex = c.Hex,
                     Price = c.Price,
-                    ProductId = c.ProductId
+                    ProductId = c.ProductId,
+                    ColorName = c.ColorName,
+
                 }).ToList(),
                 Gallery = product.productGalleries.Select(gallery => new ProductGalleryViewModel
                 {
                     ProductId = gallery.ProductId,
                     ProductImageUrl = gallery.ProductImage,
                 }).ToList(),
-               Features=product.Features,
+                Features = product.Features,
 
             };
 
         }
-        public async Task<IEnumerable<ProductViewModel>> GetAllProductsByCategoryIdServiceAsync(int categoryId)
+   
+
+        public async Task<List<ProductViewModel>> GetAllProductsByCategoryIdServiceAsync(int categoryId)
         {
-            var products = await _productRepository.GetAllProductsByCategoryIdAsync(categoryId);
-            var price = await _productRepository.GetProductColorAsync(categoryId);
-          
-            return products.Select(p => new ProductViewModel()
+            var category = await _productRepository.GetCategoryByIdAsync(categoryId);
+            List<int> categoryIDs = await _productRepository.GetAllChildCategoryIDsByCategoryId(categoryId);
+            List<ProductViewModel> products = new List<ProductViewModel>();
+
+            foreach (int categoryID in categoryIDs)
             {
-                Id = p.Id,
-                Title = p.Title,
-                Description = p.Description,
-                Count = p.Count,
-                Tag = p.Tag,
-                CategoryId = p.CategoryId,
-                ImageName = p.Image,
-                CreatedDate = p.CreateDate,
-                Price =   _productRepository.GetFirstColorByProductIdAsync(p.Id),
-                Colors=p.Colors.Select(c => new ProductColorViewModel 
+                var productsGetByCategoryId = await _productRepository.GetProductsByCategoryIdAsync(categoryID);
+                var mappedProducts = productsGetByCategoryId.Select(p => new ProductViewModel
                 {
-                    Hex = c.Hex,
-                    Price = c.Price,
-                    ProductId=c.ProductId
-                }).ToList()
-                
-            }).ToList();
+                    Id = p.Id,
+                    Title = p.Title,
+                    Description = p.Description,
+                    Count = p.Count,
+                    Tag = p.Tag,
+                    CategoryId = p.CategoryId,
+                    ImageName = p.Image,
+                    CreatedDate = p.CreateDate,
+                    Price = _productRepository.GetFirstColorByProductIdAsync(p.Id),
+                    Colors = p.Colors.Select(c => new ProductColorViewModel
+                    {
+                        Hex = c.Hex,
+                        Price = c.Price,
+                        ProductId = c.ProductId,
+                        ColorName = c.ColorName,
+                    }).ToList()
+                }).ToList();
+                products.AddRange(mappedProducts);
+
+
+            }
+            return products;
+
+
         }
         public async Task<int> CreateProductServiceAsync(AddProductViewModel model)
         {
@@ -258,8 +273,8 @@ namespace EShop.Application.Services.Implementation
             {
                 selectedProduct.DiscountId = null;
             }
-          
-            selectedProduct.Features= model.Features;
+
+            selectedProduct.Features = model.Features;
             selectedProduct.Title = model.Title;
             selectedProduct.Description = model.Description;
             selectedProduct.Count = model.Count;
@@ -438,10 +453,9 @@ namespace EShop.Application.Services.Implementation
                 ProductId = productColor.ProductId,
                 CreateDate = productColor.CreateDate,
                 IsDelete = productColor.IsDelete,
+                ColorName = productColor.ColorName,
             };
         }
-
-     
 
         public async Task AddProductColorServiceAsync(AddProductColorViewModel color)
         {
@@ -450,6 +464,7 @@ namespace EShop.Application.Services.Implementation
                 Hex = color.Hex,
                 Price = color.Price,
                 ProductId = color.ProductId,
+                ColorName = color.ColorName,
 
             };
             await _productRepository.AddProductColorAsync(pColor);
@@ -461,6 +476,7 @@ namespace EShop.Application.Services.Implementation
             ProductColor productColor = await _productRepository.GetProductColorAsync(color.Id);
             productColor.Hex = color.Hex;
             productColor.Price = color.Price;
+            productColor.ColorName = color.ColorName;
             await _productRepository.UpdateProductColorAsync(productColor);
             await _productRepository.SaveChangeAsync();
 
@@ -474,6 +490,7 @@ namespace EShop.Application.Services.Implementation
                 Id = productColor.Id,
                 Hex = productColor.Hex,
                 Price = productColor.Price,
+                ColorName = productColor.ColorName,
             };
         }
 
@@ -482,7 +499,7 @@ namespace EShop.Application.Services.Implementation
             ProductColor productColor = await _productRepository.GetProductColorAsync(colorId);
             productColor.IsDelete = true;
             await _productRepository.UpdateProductColorAsync(productColor);
-            await _productRepository.SaveChangeAsync(); 
+            await _productRepository.SaveChangeAsync();
         }
         #endregion
     }

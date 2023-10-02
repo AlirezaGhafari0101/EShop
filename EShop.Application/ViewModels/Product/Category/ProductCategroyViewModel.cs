@@ -13,6 +13,6 @@ namespace EShop.Application.ViewModels.Product.Category
         public int Id { get; set; }
         public string CategoryTitle { get; set; }
         public DateTime CreateDate { get; set; }
-        public List<EShop.Domain.Models.Products.Category>? SubCategories { get; set; }
+        public int? ParentId { get; set; }
     }
 }

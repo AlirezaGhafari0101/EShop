@@ -10,6 +10,7 @@ namespace EShop.Domain.Interfaces
     public interface IProductRepository
     {
         #region Category
+        Task<IEnumerable<Category>> GetAllCategoriesClientSideAsync();
         Task<IEnumerable<Category>> GetAllCategoriesAsync(int? parentId);
         Task<IEnumerable<Category>> GetAllCategoriesForCreatingProductAsync();
         Task<Category> GetCategoryByIdAsync(int id);
@@ -21,6 +22,10 @@ namespace EShop.Domain.Interfaces
 
         #region Product
         Task<IEnumerable<Product>> GetAllProductsAsync();
+        
+        //Task<List<Category>> GetAllProductsByCategoryIdAsync(int categoryId);
+        Task<List<int>> GetAllChildCategoryIDsByCategoryId(int categoryId);
+        Task<List<Product>> GetProductsByCategoryIdAsync(int categoryId);
         Task<Product> GetProductByIdAsync(int id);
         Task CreateProductAsync(Product product);
         Task<bool> DeleteProductAsync(int id);
@@ -52,6 +57,7 @@ namespace EShop.Domain.Interfaces
         Task AddProductColorAsync(ProductColor color);
         Task UpdateProductColorAsync(ProductColor color);
         Task DeleteProductColorAsync(ProductColor color);
+        int GetFirstColorByProductIdAsync(int productId);
 
 
 

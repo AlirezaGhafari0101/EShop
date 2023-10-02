@@ -14,7 +14,8 @@ namespace EShop.Web.Components
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View("/Views/Components/ProductCategoriesComponent.cshtml");
+            var categories = await _productService.GetAllCategoriesClientSideServiceAsync();
+            return View("/Views/Components/ProductCategoriesComponent.cshtml", categories);
         }
     }
 }
