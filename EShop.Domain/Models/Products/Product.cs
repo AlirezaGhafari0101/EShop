@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using EShop.Domain.Models.Discount;
+using EShop.Domain.Models.Order;
 
 namespace EShop.Domain.Models.Products
 {
@@ -24,7 +25,7 @@ namespace EShop.Domain.Models.Products
         [Required]
         public int CategoryId { get; set; }
 
-        
+
         public int? DiscountId { get; set; }
 
 
@@ -36,7 +37,7 @@ namespace EShop.Domain.Models.Products
         #endregion
 
         #region Gallery
-        
+
         public List<ProductGallery> productGalleries { get; set; }
 
         #endregion
@@ -50,7 +51,8 @@ namespace EShop.Domain.Models.Products
 
         #endregion
 
-        public List<ProductColor> Colors { get; set; }
+        public List<ProductColor>? Colors { get; set; }
+        public List<OrderDetail>? OrderDetails { get; set; }
 
         #endregion
 

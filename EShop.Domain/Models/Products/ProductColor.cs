@@ -1,4 +1,5 @@
 ﻿using EShop.Domain.common;
+using EShop.Domain.Models.Order;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,7 +21,8 @@ namespace EShop.Domain.Models.Products
 
         #region Relations
         [ForeignKey("ProductId")]
-        public Product Product { get; set; }
+        public Product? Product { get; set; }
+        public List<OrderDetail>? OrderDetails { get; set; }
         #endregion
 
     }

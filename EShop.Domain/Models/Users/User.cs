@@ -1,18 +1,12 @@
 ﻿using EShop.Domain.common;
+using EShop.Domain.Models.Order;
 using EShop.Domain.Models.Ticket;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EShop.Domain.Models.Users
 {
-    public class User:BaseEntity
+    public class User : BaseEntity
     {
-
         [Required]
         [StringLength(150)]
         public string Email { get; set; }
@@ -32,14 +26,11 @@ namespace EShop.Domain.Models.Users
         public bool IsActive { get; set; }
         public bool IsAdmin { get; set; }
 
-
-
-
         #region Relations
-        public List<Wallet> Wallets { get; set; }
-        public List<Models.Ticket.Ticket> Tickets { get; set; }
-       
-        public List<TicketMessage> TicketMessages { get; set; }
+        public List<Wallet>? Wallets { get; set; }
+        public List<Models.Ticket.Ticket>? Tickets { get; set; }
+        public List<TicketMessage>? TicketMessages { get; set; }
+        public List<Order.Order>? Orders { get; set; }
         #endregion
 
     }

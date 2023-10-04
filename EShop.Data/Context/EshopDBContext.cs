@@ -1,5 +1,6 @@
 ﻿using EShop.Domain.Models.Discount;
 using EShop.Domain.Models.Home;
+using EShop.Domain.Models.Order;
 using EShop.Domain.Models.Products;
 using EShop.Domain.Models.Ticket;
 using EShop.Domain.Models.Users;
@@ -35,6 +36,11 @@ namespace EShop.Data.Context
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductGallery> ProductGalleries { get; set; }
+        #endregion
+
+        #region Order
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
         #endregion
         public DbSet<ContactUs> ContactUs { get; set; }
 

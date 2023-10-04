@@ -52,5 +52,11 @@ namespace EShop.Ioc
             service.AddScoped<ITicketRepository, TicketRepository>();
             service.AddScoped<ITicketService, TicketService>();
         }
+
+        public static void OrderServices(IServiceCollection service)
+        {
+            service.AddScoped<IOrderRepository, OrderRepository>();
+            service.AddScoped<IOrderService, OrderService>();
+        }
     }
 }
