@@ -1,8 +1,9 @@
 ﻿using EShop.Domain.common;
+using EShop.Domain.Models.Users;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EShop.Domain.Models.Users.Ticket
+namespace EShop.Domain.Models.Ticket
 {
     public class Ticket : BaseEntity
     {

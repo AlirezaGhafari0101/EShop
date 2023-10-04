@@ -1,6 +1,6 @@
 ﻿@model EShop.Application.ViewModels.Ticket.CreateTicketVM
 @using EShop.Application.ViewModels
-@using EShop.Domain.Models.Users.Ticket;
+@using EShop.Domain.Models.Ticket;
 @{
     ViewData["Title"] = "ایجاد تیکت جدید";
     List<UserViewModel> userList = ViewBag.UserList as List<UserViewModel>;
@@ -15,12 +15,7 @@
                 <span class="widget-caption">جزئییات تیکت</span>
             </div>
             <div class="widget-body">
-
-
-
-
                 <div id="registration-form">
-
                     @*
                     @foreach (var item in ticketDetailList.Messages)
                     {
@@ -34,18 +29,10 @@
                     </span>
                     </div>
                     } *@
-
-
-
                     <form asp-action="CreateNewTicket" asp-controller="Ticket" asp-area="Admin" role="form" method="post">
                         <div class="form-title">
                             تیکت
                         </div>
-
-
-
-
-
                         <div class="row">
                             <div class="col-12">
                                 <div class="col-sm-6">
@@ -74,7 +61,6 @@
                             </div>
                            
                         </div>
-
                                   <div class="row">
                                 <div class="col-md-6">
                                     <!-- start of form-element -->
@@ -103,7 +89,6 @@
                                                 }
 
                                             }
-
 
                                         </select>
                                     </div>
@@ -134,8 +119,6 @@
                                                 }
 
                                             }
-
-
                                         </select>
                                     </div>
                                     <span asp-validation-for="TicketPriority"></span>

@@ -1,6 +1,6 @@
 ﻿using EShop.Data.Context;
 using EShop.Domain.Interfaces;
-using EShop.Domain.Models.Users.Ticket;
+using EShop.Domain.Models.Ticket;
 using Microsoft.EntityFrameworkCore;
 
 namespace EShop.Data.Repository

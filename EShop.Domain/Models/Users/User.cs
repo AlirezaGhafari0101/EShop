@@ -1,5 +1,5 @@
 ﻿using EShop.Domain.common;
-using EShop.Domain.Models.Users.Ticket;
+using EShop.Domain.Models.Ticket;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -37,7 +37,7 @@ namespace EShop.Domain.Models.Users
 
         #region Relations
         public List<Wallet> Wallets { get; set; }
-        public List<Ticket.Ticket> Tickets { get; set; }
+        public List<Models.Ticket.Ticket> Tickets { get; set; }
        
         public List<TicketMessage> TicketMessages { get; set; }
         #endregion

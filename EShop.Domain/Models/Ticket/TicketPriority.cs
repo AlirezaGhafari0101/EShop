@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EShop.Domain.Models.Users.Ticket
+namespace EShop.Domain.Models.Ticket
 {
     public enum TicketPriority
     {
-        Normal=1,
-        Important=2,
-        VeryImportant=3
+        Normal = 1,
+        Important = 2,
+        VeryImportant = 3
     }
 }

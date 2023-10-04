@@ -1,6 +1,7 @@
 ﻿@model EShop.Application.ViewModels.Ticket.CreateTicketVM;
-@using EShop.Domain.Models.Users.Ticket;
+@using EShop.Domain.Models.Ticket;
 @using System.Security.Claims;
+    using EShop.Domain.Models.Ticket;
 @{
     ViewData["Title"] = "ایجاد تیکت جدید";
     int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));

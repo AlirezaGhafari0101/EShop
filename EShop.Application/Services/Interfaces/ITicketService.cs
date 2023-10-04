@@ -1,5 +1,5 @@
 ﻿using EShop.Application.ViewModels.Ticket;
-using EShop.Domain.Models.Users.Ticket;
+using EShop.Domain.Models.Ticket;
 using System;
 using System.Collections.Generic;
 using System.Linq;

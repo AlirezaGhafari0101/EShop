@@ -1,7 +1,7 @@
 ﻿using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels.Ticket;
 using EShop.Domain.Interfaces;
-using EShop.Domain.Models.Users.Ticket;
+using EShop.Domain.Models.Ticket;
 
 namespace EShop.Application.Services.Implementation
 {

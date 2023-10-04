@@ -1,8 +1,8 @@
 ﻿using EShop.Domain.Models.Discount;
 using EShop.Domain.Models.Home;
 using EShop.Domain.Models.Products;
+using EShop.Domain.Models.Ticket;
 using EShop.Domain.Models.Users;
-using EShop.Domain.Models.Users.Ticket;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

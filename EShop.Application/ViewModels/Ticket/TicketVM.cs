@@ -1,5 +1,5 @@
 ﻿using EShop.Application.ViewModels.common;
-using EShop.Domain.Models.Users.Ticket;
+using EShop.Domain.Models.Ticket;
 using System.ComponentModel.DataAnnotations;
 
 namespace EShop.Application.ViewModels.Ticket

@@ -1,5 +1,5 @@
 ﻿using EShop.Domain.Models.Users;
-using EShop.Domain.Models.Users.Ticket;
+using EShop.Domain.Models.Ticket;
 
 namespace EShop.Domain.Interfaces
 {

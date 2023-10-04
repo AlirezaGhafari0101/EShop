@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EShop.Domain.Models.Users.Ticket
+namespace EShop.Domain.Models.Ticket
 {
     public enum TicketSection
     {
-        Sopport=1,
-        Proposal=2,
-        Criticism=3
+        Sopport = 1,
+        Proposal = 2,
+        Criticism = 3
     }
 }

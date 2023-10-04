@@ -8,7 +8,7 @@ using EShop.Application.ViewModels.User.UserPanel;
 using EShop.Application.ViewModels.Ticket;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Users;
-using EShop.Domain.Models.Users.Ticket;
+using EShop.Domain.Models.Ticket;
 
 namespace EShop.Application.Services.Implementation
 {
