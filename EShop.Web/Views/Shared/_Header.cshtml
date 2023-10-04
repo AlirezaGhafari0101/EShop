@@ -1,19 +1,21 @@
-﻿
-@using System.Security.Claims;
+﻿@using System.Security.Claims;
 @using EShop.Application.Convertors
 @inject EShop.Application.Services.Interfaces.IUserService _userService
 
 @{
     int userId = 0;
-    string userAvatar="";
+    string userAvatar = "";
+    bool IsAdmin=false;
     if (User.Identity.IsAuthenticated)
     {
         userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         userAvatar = User.FindFirstValue("UserAvatar").ToString();
+        IsAdmin = bool.Parse(User.FindFirstValue("IsAdmin").ToString());
     }
 
-   
+
 }
+
 <header class="page-header d-md-block d-none">
     <!-- start banner -->
     <div class="alert banner-container alert-dismissible fade show" role="alert">
@@ -127,7 +129,7 @@
                 {
                     <div class="user-options">
                         <div class="user-option user-option--account">
-                            <a href="/UserPanel/Home/Index" class="user-option-btn user-option-btn--account">
+                            <a asp-action="Index" asp-controller="Home" asp-area="UserPanel" class="user-option-btn user-option-btn--account">
                                 <i class="ri-user-fill icon"></i>
                                 <i class="ri-arrow-down-s-fill icon fs-7 text-muted"></i>
                             </a>
@@ -181,6 +183,16 @@
                                                 های من
                                             </a>
                                         </li>
+
+                                        @if (IsAdmin == true)
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link" asp-action="Index" asp-controller="Home" asp-area="Admin">
+                                                    <i class="nav-link-icon ri-file-list-3-line"></i>
+                                                    ورود به پنل ادمین
+                                                </a>
+                                            </li>
+                                        }
                                         <li class="nav-item">
                                             <a class="nav-link" href="#">
                                                 <i class="nav-link-icon ri-copper-coin-fill"></i>

@@ -1,0 +1,154 @@
+﻿@model List<EShop.Application.ViewModels.Ticket.TicketVM>
+@using EShop.Application.Convertors
+@{
+    ViewData["Title"] = "تیکت ها";
+}
+
+<div class="col-xs-12 col-md-12">
+    <div class="widget">
+        <div class="widget-header ">
+            <span class="widget-caption">لیست تیکت ها </span>
+            <div class="widget-buttons">
+                <a href="#" data-toggle="maximize">
+                    <i class="fa fa-expand"></i>
+                </a>
+                <a href="#" data-toggle="collapse">
+                    <i class="fa fa-minus"></i>
+                </a>
+                <a href="#" data-toggle="dispose">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+        <div class="widget-body">
+            <div class="table-toolbar">
+                <a asp-action="CreateNewTicket" asp-controller="Ticket" asp-area="Admin" id="editabledatatable_new" class="btn btn-primary">
+                    ارسال تیکت
+                </a>
+            </div>
+            <div id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
+                <table class="table table-striped table-hover table-bordered dataTable no-footer" id="editabledatatable" role="grid" aria-describedby="editabledatatable_info">
+                    <thead>
+                        <tr role="row">
+                            <th>ردیف</th>
+                            <th>تاریخ ایجاد</th>
+                            <th>موضوع</th>
+                            <th>وضعیت</th>
+                            <th>تاریخ اخرین بروزرسانی</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr role="row" id="@item.Id">
+                                <td>
+                                    @(Model.IndexOf(item) + 1)
+                                </td>
+                                <td>
+                                    @FixedText.FixDateToShamsi(item.CreateDate)
+                                </td>
+                                <td>
+                                    @item.Title
+                                </td>
+                                <td>
+                                    @if (item.Closed == true)
+                                    {
+                                    <span class="badge badge-danger">بسته شده</span>
+
+                                    }else{
+
+                                        @if (item.Pending == true && item.Answered == false)
+                                        {
+                                            <span class="badge badge-warning">در انتظار پاسخ</span>
+                                        }
+                                        else if (item.Pending == true && item.Answered == true)
+                                        {
+                                            <span class="badge badge-success">پاسخ ارسال شده</span>
+
+                                        }
+                                    }
+
+      
+                                </td>
+                                <td>
+                                    @FixedText.FixDateToShamsi(item.UpdateDate)
+                                </td>
+                                <td>
+                                    <a asp-action="TicketDetail" asp-controller="Ticket" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-info btn-xs edit"><i class="fa fa-edit"></i> نمایش</a>
+                                    <button type="button" class="btn btn-danger btn-xs delete" onclick="closedTicket('@item.Title','@item.Id')"><i class="fa fa-close"></i> بستن</button>
+                                    <button type="button" class="btn btn-danger btn-xs delete" onclick="DeleteTicket('@item.Title','@item.Id')"><i class="fa fa-trash-o"></i> حذف</button>
+
+
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table><div class="row DTTTFooter"><div class="col-sm-6"><div class="dataTables_info" id="editabledatatable_info" role="status" aria-live="polite">Showing 1 to 5 of 6 entries</div></div><div class="col-sm-6"><div class="dataTables_paginate paging_bootstrap" id="editabledatatable_paginate"><ul class="pagination"><li class="prev disabled"><a href="#">Prev</a></li><li class="active"><a href="#">1</a></li><li><a href="#">2</a></li><li class="next"><a href="#">Next</a></li></ul></div></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section FooterReferences {
+
+    <script>
+
+        function DeleteTicket(title, id) {
+
+            Swal.fire({
+                title: `ایا از حذف این تیکت با موضوع '${title}' مطمعا هستید؟`,
+
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: "حذف",
+                cancelButtonText: "خیر"
+
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "GET",
+                        url: `/admin/delete-ticket/${id}`,
+                        success: function (response) {
+                            if (response.status == "success") {
+                                document.getElementById(id).remove()
+                            }
+                        },
+
+                    });
+                }
+            })
+        }
+
+        function closedTicket(title, id) {
+
+            Swal.fire({
+                title: `ایا از بستن این تیکت با موضوع '${title}' مطمعا هستید؟`,
+
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: "بستن",
+                cancelButtonText: "خیر"
+
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "GET",
+                        url: `/admin/closed-ticket/${id}`,
+                        success: function (response) {
+                            if (response.status == "success") {
+                                document.getElementById(id).remove()
+                            }
+                        },
+
+                    });
+                }
+            })
+        }
+    </script>
+    }

@@ -59,16 +59,13 @@ namespace EShop.Application.Services.Implementation
         public async Task<UserViewModel> CheckForgotPasswordAsync(string code)
         {
             User user = await _userRepository.GetUserByActiveCodeAsync(code);
-
             user.ActiveCode = NameGenerator.GenerateUnipNDigitCode(6);
             await _userRepository.UpdateUserAsync(user);
             await _userRepository.SaveChangeAsync();
-
             var userViewModel = new UserViewModel()
             {
                 Email = user.Email
             };
-
             return userViewModel;
         }
 
@@ -100,15 +97,12 @@ namespace EShop.Application.Services.Implementation
 
             if (user != null)
             {
-
-
                 userViewModel.Id = user.Id;
                 userViewModel.IsActive = user.IsActive;
                 userViewModel.Email = user.Email;
                 userViewModel.Avatar = user.Avatar;
-
+                userViewModel.IsAdmin = user.IsAdmin;
                 return userViewModel;
-
             }
             else
             {
@@ -128,7 +122,6 @@ namespace EShop.Application.Services.Implementation
         {
             var hashedPassword = PasswordHelper.EncodePasswordMd5(registerViewModel.Password);
             User user = new User()
-
             {
                 FirstName = registerViewModel.FirstName,
                 LastName = registerViewModel.LastName,
@@ -137,18 +130,9 @@ namespace EShop.Application.Services.Implementation
                 ActiveCode = NameGenerator.GenerateUniqCode(),
                 CreateDate = DateTime.Now,
                 Avatar = "Defult.jpg"
-
-
-
-
             };
-
-
-
-
             await _userRepository.RegisterAsync(user);
             await _userRepository.SaveChangeAsync();
-
             var userViewModel = new UserViewModel()
             {
                 Email = user.Email,
@@ -156,7 +140,6 @@ namespace EShop.Application.Services.Implementation
                 LastName = user.LastName,
                 ActiveCode = user.ActiveCode,
             };
-
             return userViewModel;
         }
     }

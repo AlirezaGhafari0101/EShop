@@ -35,6 +35,7 @@ DependencyContainer.UserServices(builder.Services);
 DependencyContainer.ContactUsServices(builder.Services);
 DependencyContainer.ProductServieces(builder.Services);
 DependencyContainer.DiscountServices(builder.Services);
+DependencyContainer.TicketServices(builder.Services);
 
 
 var app = builder.Build();

@@ -1,0 +1,92 @@
+﻿@model EShop.Application.ViewModels.Ticket.SendTicketMessageVM
+@using System.Security.Claims;
+@using EShop.Application.Convertors
+
+@using EShop.Application.ViewModels.Ticket;
+
+
+@{
+    ViewData["Title"] = "نمایش جزئیات تیکت";
+    int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+    TicketDetailVM ticketDetailList = ViewBag.TicketMessageList as TicketDetailVM;
+}
+<main class="page-content">
+    <div class="container">
+        <div class="row mb-5">
+            <partial name="_Bar" />
+            <div class="col-xl-9 col-lg-8 col-md-7">
+                <div class="ui-box bg-white mb-5">
+                    <div class="ui-box-title">
+                        کالای غیراصل
+                    </div>
+                    <div class="ui-box-content">
+                        <!-- start of tickets -->
+                        <div class="tickets">
+                            <!-- start of ticket -->
+                            @*  <div class="ticket fa-num">
+                            <div class="avatar"></div>
+                            <div class="text">
+                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از
+                            طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که
+                            لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف
+                            بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و
+                            آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت
+                            بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در
+                            زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود
+                            در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل
+                            حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی
+                            اساسا مورد استفاده قرار گیرد.
+                            </div>
+                            <div class="date">25 دی 1400</div>
+                            </div> *@
+                            <!-- end of ticket -->
+                            <!-- start of ticket -->
+                            @foreach (var item in ticketDetailList.Messages)
+                            {
+
+                                <div class="@((item.SenderId)==@userId?" ticket fa-num":"ticket reply fa-num")">
+                                    <div class="@((item.SenderId)==@userId?"avatar":"avatar staff")"></div>
+                                    <div class="text">
+                                        @item.Message
+                                    </div>
+                                    <div class="date"> @FixedText.FixDateToShamsi(item.CreateDate) </div>
+                                </div>
+                            }
+                            <!-- end of ticket -->
+                        </div>
+                        <!-- end of tickets -->
+                        @if (ticketDetailList.Closed == false)
+                        {
+                            <div class="border-bottom my-4"></div>
+                            <div class="ui-box-title p-0 mb-4">
+                                ارسال پاسخ
+                            </div>
+                            <!-- start of add-ticket-form -->
+
+                            <form asp-action="TicketDetail" asp-controller="Ticket" asp-area="UserPanel" method="post" class="add-ticket-form">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <!-- start of form-element -->
+                                        <div class="form-element-row mb-5">
+                                            <label class="label">پیام</label>
+                                            <textarea rows="5" class="form-control" placeholder="متن پیام" asp-for="Message"></textarea>
+
+                                        </div>
+                                        <span asp-validation-for="Message"></span>
+                                        <!-- end of form-element -->
+                                    </div>
+
+                                    <div class="col-12 text-end">
+                                        <button type="submit" class="btn btn-primary">ارسال پاسخ <i class="ri-ball-pen-line ms-2"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        }
+                        <!-- end of add-ticket-form -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+

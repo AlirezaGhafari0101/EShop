@@ -1,0 +1,72 @@
+﻿@using EShop.Application.ViewModels.Ticket;
+@using System.Security.Claims;
+@model EShop.Application.ViewModels.Ticket.SendTicketMessageVM
+@{
+    ViewData["Title"] = "جزئییات تیکت";
+    int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+    TicketDetailVM ticketDetailList = ViewBag.TicketMessageList as TicketDetailVM;
+
+}
+
+
+<div class="col-xs-12 col-md-12">
+
+    <div class="col-12">
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bg-blue">
+                <span class="widget-caption">جزئییات تیکت</span>
+            </div>
+            <div class="widget-body">
+
+
+
+
+                <div id="registration-form">
+
+
+                    @foreach (var item in ticketDetailList.Messages)
+                    {
+                        <div class="mt-3" style="@((item.User?.Id==userId)?("display:flex;justify-content:start"):("display:flex;justify-content:end"));margin-top:20px">
+                            <div class="bg-success ticket-message-box">
+                                <p>
+                                    @item.Message
+                                </p>
+                            </div>
+                            <span class="">
+                            </span>
+                        </div>
+                    }
+
+               
+
+                    <form asp-action="TicketDetail" asp-controller="Ticket" asp-area="Admin" role="form" method="post">
+                        <div class="form-title">
+                            تیکت
+                        </div>
+                    
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail2">Message</label>
+                                    <span class="input-icon icon-right">
+                                        <textarea class="form-control" rows="10" asp-for="Message"></textarea>
+                                        <i class="glyphicon glyphicon-briefcase darkorange"></i>
+                                    </span>
+                                    <span asp-validation-for="Message"></span>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success">ثبت و ارسال</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+

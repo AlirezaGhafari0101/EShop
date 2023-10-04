@@ -1,10 +1,10 @@
-﻿using EShop.Domain.common;
+﻿using EShop.Application.ViewModels.common;
+using EShop.Domain.Models.Users.Ticket;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EShop.Domain.Models.Users.Ticket
+namespace EShop.Application.ViewModels.Ticket
 {
-    public class Ticket : BaseEntity
+    public class TicketVM : BaseViewModel
     {
         [Display(Name = "عنوان تیکت")]
         [Required(ErrorMessage = "پر کردن {0} الزامی می باشد.")]
@@ -14,18 +14,12 @@ namespace EShop.Domain.Models.Users.Ticket
         public bool Answered { get; set; }
         public bool Closed { get; set; }
         public DateTime UpdateDate { get; set; }
-
-
         [Required]
         public int UserId { get; set; }
 
+        public IEnumerable<TicketMessage> TicketMessages { get; set; }
+
         public TicketSection TicketSection { get; set; }
         public TicketPriority TicketPriority { get; set; }
-
-        #region Relations
-        public List<TicketMessage> TicketMessages { get; set; }
-        [ForeignKey("UserId")]
-        public User User { get; set; }
-        #endregion
     }
 }

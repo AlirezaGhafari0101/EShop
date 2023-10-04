@@ -23,3 +23,16 @@
 .img1 {
     width: 200px;
 }
+
+
+
+.display-flex{
+    display:flex!important
+}
+
+.flex-justify-content-start{
+    justify-content:flex-start!important
+}
+.flex-justify-content-end {
+    justify-content: flex-start!important
+}

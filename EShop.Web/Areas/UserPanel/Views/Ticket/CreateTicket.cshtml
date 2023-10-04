@@ -1,0 +1,135 @@
+﻿@model EShop.Application.ViewModels.Ticket.CreateTicketVM;
+@using EShop.Domain.Models.Users.Ticket;
+@using System.Security.Claims;
+@{
+    ViewData["Title"] = "ایجاد تیکت جدید";
+    int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+}
+
+<main class="page-content" data-select2-id="select2-data-12-zhuc">
+    <div class="container" data-select2-id="select2-data-11-h2g5">
+        <div class="row mb-5" data-select2-id="select2-data-10-jwlo">
+            <partial name="_Bar" />
+            <div class="col-xl-9 col-lg-8 col-md-7" data-select2-id="select2-data-9-qid3">
+
+                <div class="ui-box bg-white mb-5">
+                    <div class="ui-box-title">ایجاد تیکت جدید</div>
+                    <div class="ui-box-subtitle">
+                        فرم زیر را پر کنید (توضیحات کامل تر روند پاسخ دهی را کوتاه تر
+                        می
+                        کند.)
+                    </div>
+
+
+
+
+                    <div class="ui-box-content" data-select2-id="select2-data-8-q244">
+                        <!-- start of add-ticket-form -->
+                        <form asp-action="CreateTicket" asp-controller="Ticket" asp-area="UserPanel" method="post" class="add-ticket-form" data-select2-id="select2-data-7-114j">
+                            <input value="@userId" asp-for="WichUser" hidden />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <!-- start of form-element -->
+                                    <div class="form-element-row mb-5">
+                                        <label class="label">موضوع</label>
+                                        <input type="text" class="form-control" placeholder="" asp-for="Title">
+                                        <span asp-validation-for="Title"></span>
+                                    </div>
+                                    <!-- end of form-element -->
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <!-- start of form-element -->
+                                    <div class="form-element-row mb-5" data-select2-id="select2-data-6-7r53">
+                                        <label class="label">بخش</label>
+                                        <select asp-for="@Model.TicketSection">
+                                            <option value=0 >انتخاب کنید</option>
+                                            @foreach (TicketSection item in Enum.GetValues(typeof(TicketSection)))
+                                            {
+                                                if (item.ToString() == "Sopport")
+                                                {
+                                                    <option value="@item">پشتیبانی</option>
+                                                }
+                                                else if
+                                                (item.ToString() == "Proposal")
+                                                {
+                                                    <option value="@item">پشنهاد</option>
+
+                                                }
+                                                else if
+                                                (item.ToString() == "Criticism")
+                                                {
+
+                                                    <option value="@item">انتقاد</option>
+
+                                                }
+
+                                            }
+
+
+                                        </select>
+                                    </div>
+                                    <span asp-validation-for="TicketSection"></span>
+                                    <!-- end of form-element -->
+                                </div>
+                                <div class="col-md-6">
+                                    <!-- start of form-element -->
+                                    <div class="form-element-row mb-5">
+                                        <label class="label">اولویت</label>
+                                        <select asp-for="@Model.TicketPriority">
+                                            <option value=0>انتخاب کنید</option>
+                                            @foreach (TicketPriority item in Enum.GetValues(typeof(TicketPriority)))
+                                            {
+                                                if (item.ToString() == "Normal")
+                                                {
+                                                    <option value="@item">معمولی</option>
+                                                }
+                                                else if (item.ToString() == "Important")
+                                                {
+                                                    <option value="@item">مهم</option>
+
+                                                }
+                                                else if (item.ToString() == "VeryImportant")
+                                                {
+                                                    <option value="@item">خیلی مهم</option>
+
+                                                }
+
+                                            }
+
+
+                                        </select>
+                                    </div>
+                                    <span asp-validation-for="TicketPriority"></span>
+
+                                    <!-- end of form-element -->
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <!-- start of form-element -->
+                                    <div class="form-element-row mb-5">
+                                        <label class="label">پیام</label>
+                                        <textarea rows="5" class="form-control" placeholder="متن پیام" asp-for="Message"></textarea>
+                                        <span asp-validation-for="Message"></span>
+                                    </div>
+                                    <!-- end of form-element -->
+                                </div>
+
+                                <div class="col-12 text-end">
+                                    <button type="submit" class="btn btn-primary px-4">ثبت و ارسال <i class="ri-ball-pen-line ms-2"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- end of add-ticket-form -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+

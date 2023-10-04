@@ -5,8 +5,10 @@ using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels;
 using EShop.Application.ViewModels.User;
 using EShop.Application.ViewModels.User.UserPanel;
+using EShop.Application.ViewModels.Ticket;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Users;
+using EShop.Domain.Models.Users.Ticket;
 
 namespace EShop.Application.Services.Implementation
 {
@@ -194,7 +196,7 @@ namespace EShop.Application.Services.Implementation
                 CreateDate = w.CreateDate,
                 TypeId = w.TypeId,
                 Description = w.Description,
-                IsPay=w.IsPay,
+                IsPay = w.IsPay,
             }).ToList();
         }
 
@@ -218,18 +220,18 @@ namespace EShop.Application.Services.Implementation
 
         public async Task<WalletVM> GetWalletByIdAsyncService(int id)
         {
-            var wallet=await _userRepository.GetWalletByIdAsync(id);
+            var wallet = await _userRepository.GetWalletByIdAsync(id);
 
             return new WalletVM()
             {
-                Amount= wallet.Amount,
+                Amount = wallet.Amount,
                 TypeId = wallet.TypeId,
                 Description = wallet.Description,
-                CreateDate  = wallet.CreateDate,
-                IsPay= wallet.IsPay,
+                CreateDate = wallet.CreateDate,
+                IsPay = wallet.IsPay,
                 TypeID = wallet.TypeId,
-                
-                
+
+
             };
         }
 
@@ -239,9 +241,13 @@ namespace EShop.Application.Services.Implementation
 
             wallet.IsPay = true;
 
-           await _userRepository.UpdateWallet(wallet);
+            await _userRepository.UpdateWallet(wallet);
             await _userRepository.SaveChangeAsync();
         }
+
         #endregion
+
+
+
     }
 }

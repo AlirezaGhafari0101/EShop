@@ -2,10 +2,7 @@
 using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels.ContactUs;
 using EShop.Application.ViewModels.User.UserPanel;
-using EShop.Domain.Models.Users;
-using EShop.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using ZarinPal.Class;
 
 namespace EShop.Web.Controllers
@@ -83,7 +80,7 @@ namespace EShop.Web.Controllers
                     await _userService.IsPayWallet(id);
                     ViewBag.code = verification.RefId;
                     wallet.IsPay = true;
-                  
+
 
 
                 }
