@@ -18,6 +18,8 @@ namespace EShop.Application.ViewModels.Product.Color
  
         public int ProductId { get; set; }
 
+        public string ColorName { get; set; }
+
 
 
     }

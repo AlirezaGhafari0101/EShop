@@ -8,6 +8,9 @@ namespace EShop.Domain.Models.Products
     {
         [Required]
         [StringLength(150)]
+        public string ColorName { get; set; }
+        [Required]
+        [StringLength(150)]
         public string Hex { get; set; }
         [Required]
         public int Price { get; set; }

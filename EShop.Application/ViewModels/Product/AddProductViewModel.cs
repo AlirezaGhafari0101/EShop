@@ -25,6 +25,8 @@ namespace EShop.Application.ViewModels.Product
 
         public string Tag { get; set; }
 
+        public string? Features { get; set; }
+
         [Display(Name = "تصویر محصول")]  
         public IFormFile Image { get; set; }
 

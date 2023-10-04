@@ -12,6 +12,11 @@
                 <div class="col-lg-12 col-sm-12 col-xs-12">
 
                     <form asp-area="Admin" asp-controller="ProductColor" asp-action="Update" method="post">
+                        <div class="form-group">
+                            <label >اسم رنگ</label>
+                            <input type="texr" class="form-control" placeholder="اسم این رنگ" asp-for="ColorName">
+                            <span asp-validation-for="ColorName"></span>
+                        </div>
                         <input asp-for="Id" hidden />
                         <div class="form-group">
                             <label for="wheel-demo">رنگ محصول</label>

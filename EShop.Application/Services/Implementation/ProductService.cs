@@ -83,12 +83,9 @@ namespace EShop.Application.Services.Implementation
                 CategoryTitle = cg.CategoryTitle,
                 Id = cg.Id,
                 CreateDate = cg.CreateDate,
-                SubCategories = cg.Categories,
+
             }).ToList();
-
-
         }
-
         public async Task<IEnumerable<ProductCategroyViewModel>> GetAllCategoriesForCreatingProductServiceAsync()
         {
             var categories = await _productRepository.GetAllCategoriesForCreatingProductAsync();
@@ -97,6 +94,18 @@ namespace EShop.Application.Services.Implementation
                 Id = c.Id,
                 CategoryTitle = c.CategoryTitle,
             }).ToList();
+        }
+
+        public async Task<IEnumerable<ProductCategroyViewModel>> GetAllCategoriesClientSideServiceAsync()
+        {
+            var categories = await _productRepository.GetAllCategoriesClientSideAsync();
+            return categories.Select(c => new ProductCategroyViewModel
+            {
+                CategoryTitle = c.CategoryTitle,
+                Id = c.Id,
+                ParentId = c.ParentId,
+                CreateDate = c.CreateDate,
+            });
         }
         public async Task<ProductCategroyViewModel> GetCategoryServiceAsync(int id)
         {
@@ -164,8 +173,61 @@ namespace EShop.Application.Services.Implementation
                 CategoryId = product.CategoryId,
                 DiscountId = product.DiscountId,
                 Count = product.Count,
-                CreatedDate = product.CreateDate
+                CreatedDate = product.CreateDate,
+                Colors = product.Colors.Select(c => new ProductColorViewModel
+                {
+                    Hex = c.Hex,
+                    Price = c.Price,
+                    ProductId = c.ProductId,
+                    ColorName = c.ColorName,
+
+                }).ToList(),
+                Gallery = product.productGalleries.Select(gallery => new ProductGalleryViewModel
+                {
+                    ProductId = gallery.ProductId,
+                    ProductImageUrl = gallery.ProductImage,
+                }).ToList(),
+                Features = product.Features,
+
             };
+
+        }
+   
+
+        public async Task<List<ProductViewModel>> GetAllProductsByCategoryIdServiceAsync(int categoryId)
+        {
+            var category = await _productRepository.GetCategoryByIdAsync(categoryId);
+            List<int> categoryIDs = await _productRepository.GetAllChildCategoryIDsByCategoryId(categoryId);
+            List<ProductViewModel> products = new List<ProductViewModel>();
+
+            foreach (int categoryID in categoryIDs)
+            {
+                var productsGetByCategoryId = await _productRepository.GetProductsByCategoryIdAsync(categoryID);
+                var mappedProducts = productsGetByCategoryId.Select(p => new ProductViewModel
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    Description = p.Description,
+                    Count = p.Count,
+                    Tag = p.Tag,
+                    CategoryId = p.CategoryId,
+                    ImageName = p.Image,
+                    CreatedDate = p.CreateDate,
+                    Price = _productRepository.GetFirstColorByProductIdAsync(p.Id),
+                    Colors = p.Colors.Select(c => new ProductColorViewModel
+                    {
+                        Hex = c.Hex,
+                        Price = c.Price,
+                        ProductId = c.ProductId,
+                        ColorName = c.ColorName,
+                    }).ToList()
+                }).ToList();
+                products.AddRange(mappedProducts);
+
+
+            }
+            return products;
+
 
         }
         public async Task<int> CreateProductServiceAsync(AddProductViewModel model)
@@ -181,6 +243,7 @@ namespace EShop.Application.Services.Implementation
                 Image = ImageService.CreateImage(model.Image, "ProductImages"),
                 IsDelete = false,
                 CreateDate = DateTime.Now,
+                Features = model.Features,
             };
 
 
@@ -207,6 +270,7 @@ namespace EShop.Application.Services.Implementation
                 selectedProduct.DiscountId = null;
             }
 
+            selectedProduct.Features = model.Features;
             selectedProduct.Title = model.Title;
             selectedProduct.Description = model.Description;
             selectedProduct.Count = model.Count;
@@ -385,6 +449,7 @@ namespace EShop.Application.Services.Implementation
                 ProductId = productColor.ProductId,
                 CreateDate = productColor.CreateDate,
                 IsDelete = productColor.IsDelete,
+                ColorName = productColor.ColorName,
             };
         }
 
@@ -395,9 +460,11 @@ namespace EShop.Application.Services.Implementation
                 Hex = color.Hex,
                 Price = color.Price,
                 ProductId = color.ProductId,
+                ColorName = color.ColorName,
 
             };
             await _productRepository.AddProductColorAsync(pColor);
+            await _productRepository.SaveChangeAsync();
         }
 
         public async Task UpdateProductColorServiceAsync(UpdateProductColorViewModel color)
@@ -405,6 +472,7 @@ namespace EShop.Application.Services.Implementation
             ProductColor productColor = await _productRepository.GetProductColorAsync(color.Id);
             productColor.Hex = color.Hex;
             productColor.Price = color.Price;
+            productColor.ColorName = color.ColorName;
             await _productRepository.UpdateProductColorAsync(productColor);
             await _productRepository.SaveChangeAsync();
 
@@ -418,6 +486,7 @@ namespace EShop.Application.Services.Implementation
                 Id = productColor.Id,
                 Hex = productColor.Hex,
                 Price = productColor.Price,
+                ColorName = productColor.ColorName,
             };
         }
 

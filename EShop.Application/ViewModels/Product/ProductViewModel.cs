@@ -1,4 +1,7 @@
 ﻿using EShop.Application.ViewModels.common;
+using EShop.Application.ViewModels.Product.Color;
+using EShop.Application.ViewModels.Product.ProductGallery;
+using EShop.Domain.Models.Products;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -41,6 +44,10 @@ namespace EShop.Application.ViewModels.Product
         [Required(ErrorMessage = " یک {0} انتخاب کنید  .")]
         public int CategoryId { get; set; }
 
+        public List<ProductGalleryViewModel> Gallery { get; set; }
+
+        public int Price { get; set; }
+        public string Features { get; set; }
         public int? DiscountId { get; set; }
 
         [Display(Name = "دسته بندی")]
@@ -48,5 +55,7 @@ namespace EShop.Application.ViewModels.Product
         public string CategoryTitle { get; set; }
 
         public DateTime CreatedDate { get; set; }
+
+        public List<ProductColorViewModel> Colors { get; set; }
     }
 }

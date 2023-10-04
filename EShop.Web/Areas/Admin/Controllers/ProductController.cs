@@ -98,6 +98,7 @@ namespace EShop.Web.Areas.Admin.Controllers
                 Count = product.Count,
                 ProductGalleryImages = productGallery,
                 DiscountId = product.DiscountId,
+                Features = product.Features,
                
             };
             var categories = await _productService.GetAllCategoriesForCreatingProductServiceAsync();
