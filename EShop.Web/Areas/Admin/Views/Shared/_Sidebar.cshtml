@@ -59,7 +59,8 @@
                     <a asp-area="Admin" asp-controller="Discount" asp-action="Index">
                         <span class="menu-text">لیست کد های تخفیف</span>
                     </a>
-                </li> <li>
+                </li>
+                <li>
                     <a asp-area="Admin" asp-controller="Discount" asp-action="AddDiscount">
                         <span class="menu-text">افزودن کد تخفیف</span>
                     </a>
@@ -107,6 +108,14 @@
                     </a>
                 </li>
             </ul>
+        </li>
+
+        <li>
+            <a asp-action="Index" asp-controller="Ticket" asp-area="Admin" class="menu-dropdown">
+                <i class="menu-icon fa fa-envelope-o"></i>
+                <span class="menu-text"> تیکت ها  <span class="badge badge-info">0</span></span>
+                <i class="menu-expand"></i>
+            </a>
         </li>
     </ul>
     <!-- /Sidebar Menu -->

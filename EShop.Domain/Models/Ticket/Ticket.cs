@@ -1,8 +1,9 @@
 ﻿using EShop.Domain.common;
+using EShop.Domain.Models.Users;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EShop.Domain.Models.Users.Ticket
+namespace EShop.Domain.Models.Ticket
 {
     public class Ticket : BaseEntity
     {
@@ -12,26 +13,15 @@ namespace EShop.Domain.Models.Users.Ticket
         public string Title { get; set; }
         public bool Pending { get; set; }
         public bool Answered { get; set; }
+        public bool Closed { get; set; }
+        public DateTime UpdateDate { get; set; }
+
+
         [Required]
         public int UserId { get; set; }
 
-        public enum Section 
-        {
-            Sopport=1,
-            Proposal=2,
-            Criticism=3
-        }
-       
-       
-        
-
-        public enum Priority
-        {
-            Normal=1,
-            Important=2,
-            VeryImportant=3
-        }
-
+        public TicketSection TicketSection { get; set; }
+        public TicketPriority TicketPriority { get; set; }
 
         #region Relations
         public List<TicketMessage> TicketMessages { get; set; }

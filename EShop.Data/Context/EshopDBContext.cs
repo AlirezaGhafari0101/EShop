@@ -1,23 +1,18 @@
 ﻿using EShop.Domain.Models.Discount;
 using EShop.Domain.Models.Home;
+using EShop.Domain.Models.Order;
 using EShop.Domain.Models.Products;
+using EShop.Domain.Models.Ticket;
 using EShop.Domain.Models.Users;
-using EShop.Domain.Models.Users.Ticket;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EShop.Data.Context
 {
-    public class EshopDBContext:DbContext
+    public class EshopDBContext : DbContext
     {
-        public EshopDBContext(DbContextOptions<EshopDBContext> options):base(options)
+        public EshopDBContext(DbContextOptions<EshopDBContext> options) : base(options)
         {
-            
+
         }
 
 
@@ -35,6 +30,11 @@ namespace EShop.Data.Context
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductGallery> ProductGalleries { get; set; }
         #endregion
+
+        #region Order
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+        #endregion
         public DbSet<ContactUs> ContactUs { get; set; }
 
         public DbSet<ProductColor> ProductColors { get; set; }
@@ -51,7 +51,28 @@ namespace EShop.Data.Context
             modelBuilder.Entity<Product>().HasQueryFilter(p => !p.IsDelete);
             modelBuilder.Entity<ProductGallery>().HasQueryFilter(pg => !pg.IsDelete);
             modelBuilder.Entity<Discount>().HasQueryFilter(d => !d.IsDelete);
-            modelBuilder.Entity<ProductColor>().HasQueryFilter(pc => !pc.IsDelete);
+            modelBuilder.Entity<ProductColor>().HasQueryFilter(d => !d.IsDelete);
+            modelBuilder.Entity<Ticket>().HasQueryFilter(d => !d.IsDelete);
+            modelBuilder.Entity<TicketMessage>().HasQueryFilter(d => !d.IsDelete);
+
+            modelBuilder.Entity<User>().HasMany<TicketMessage>(u => u.TicketMessages)
+                            .WithOne(t => t.User)
+                            .HasForeignKey(t => t.SenderId)
+                            .OnDelete(DeleteBehavior.ClientSetNull);
+
+
+            modelBuilder.Entity<Ticket>().HasMany<TicketMessage>(u => u.TicketMessages)
+                .WithOne(t => t.Ticket)
+                .HasForeignKey(t => t.TicketId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+
+
+            modelBuilder.Entity<Product>().HasMany<OrderDetail>(u => u.OrderDetails)
+                .WithOne(t => t.Product)
+                .HasForeignKey(t => t.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
         }
     }
 }

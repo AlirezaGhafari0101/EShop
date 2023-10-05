@@ -1,6 +1,7 @@
 ﻿using EShop.Data.Context;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Users;
+using EShop.Domain.Models.Ticket;
 using Microsoft.EntityFrameworkCore;
 
 namespace EShop.Data.Repository
@@ -37,13 +38,13 @@ namespace EShop.Data.Repository
         public async Task UpdateUserAsync(User user)
         {
             _ctx.Users.Update(user);
-            
+
         }
 
         public async Task CreateUserAsync(User user)
         {
             _ctx.Users.Add(user);
-        
+
         }
 
         public async Task DeleteUserByIdAsync(int userId)
@@ -71,7 +72,7 @@ namespace EShop.Data.Repository
 
         public async Task<User> LoginUserAsync(string Email, string Password)
         {
-            
+
             return await _ctx.Users.FirstOrDefaultAsync(u => u.Email == Email && u.Password == Password);
         }
 
@@ -112,7 +113,7 @@ namespace EShop.Data.Repository
         {
             List<int> diposit = await _ctx.Wallets.Where(w => w.UserId == userId && w.IsPay && w.TypeId == 1).Select(w => w.Amount).ToListAsync();
 
-            List<int> harvest=await _ctx.Wallets.Where(w => w.UserId == userId && w.IsPay && w.TypeId == 2).Select(w => w.Amount).ToListAsync();
+            List<int> harvest = await _ctx.Wallets.Where(w => w.UserId == userId && w.IsPay && w.TypeId == 2).Select(w => w.Amount).ToListAsync();
 
             return (diposit.Sum() - harvest.Sum());
         }
@@ -124,7 +125,7 @@ namespace EShop.Data.Repository
 
         public async Task ChargeWalletAsync(Wallet wallet)
         {
-           await _ctx.Wallets.AddAsync(wallet);
+            await _ctx.Wallets.AddAsync(wallet);
         }
 
         public async Task<Wallet> GetWalletByIdAsync(int id)
@@ -136,6 +137,13 @@ namespace EShop.Data.Repository
         {
             _ctx.Wallets.Update(wallet);
         }
+
+
+
+
         #endregion
+
+
+      
     }
 }

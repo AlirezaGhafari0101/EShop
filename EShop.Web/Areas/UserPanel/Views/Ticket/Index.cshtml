@@ -1,4 +1,5 @@
-﻿
+﻿@model List<EShop.Application.ViewModels.Ticket.TicketVM>
+@using EShop.Application.Convertors
 @{
     ViewData["Title"] = "تیکت های من";
 }
@@ -13,7 +14,7 @@
                 <div class="ui-box bg-white mb-5">
                     <div class="ui-box-title align-items-center justify-content-between">
                         تیکتهای شما
-                        <a href="#" class="btn btn-outline-light">تیکت جدید <i class="ri-add-line ms-2"></i></a>
+                        <a asp-action="CreateTicket" asp-controller="Ticket" asp-area="UserPanel" class="btn btn-outline-light">تیکت جدید <i class="ri-add-line ms-2"></i></a>
                     </div>
                     <!-- <div class="ui-box-empty-content">
                         <div class="ui-box-empty-content-icon">
@@ -29,7 +30,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>زمان ایجاد</th>
-                                        <th>بخش</th>
+                                        @* <th>بخش</th> *@
                                         <th>موضوع</th>
                                         <th>وضعیت</th>
                                         <th>آخرین بروزرسانی</th>
@@ -37,86 +38,46 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="fa-num">1</td>
-                                        <td class="fa-num">1400 دی 25</td>
-                                        <td class="fa-num">پشتیبانی</td>
-                                        <td class="fa-num">کالای غیراصل</td>
-                                        <td class="fa-num">
-                                            <span class="badge bg-warning rounded-pill">
-                                                در حال
-                                                بررسی
-                                            </span>
-                                        </td>
-                                        <td class="fa-num">1400 دی 26</td>
-                                        <td>
-                                            <a href="#" class="btn btn-circle btn-info my-1"><i class="ri-eye-line"></i></a>
-                                            <a href="#" class="btn btn-circle btn-danger my-1"><i class="ri-close-line"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fa-num">1</td>
-                                        <td class="fa-num">1400 دی 25</td>
-                                        <td class="fa-num">پشتیبانی</td>
-                                        <td class="fa-num">کالای غیراصل</td>
-                                        <td class="fa-num">
-                                            <span class="badge bg-success rounded-pill">
-                                                پاسخ داده
-                                                شد
-                                            </span>
-                                        </td>
-                                        <td class="fa-num">1400 دی 26</td>
-                                        <td>
-                                            <a href="#" class="btn btn-circle btn-info my-1"><i class="ri-eye-line"></i></a>
-                                            <a href="#" class="btn btn-circle btn-danger my-1"><i class="ri-close-line"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fa-num">1</td>
-                                        <td class="fa-num">1400 دی 25</td>
-                                        <td class="fa-num">پشتیبانی</td>
-                                        <td class="fa-num">کالای غیراصل</td>
-                                        <td class="fa-num"><span class="badge bg-danger rounded-pill">بسته</span></td>
-                                        <td class="fa-num">1400 دی 26</td>
-                                        <td>
-                                            <a href="#" class="btn btn-circle btn-info my-1"><i class="ri-eye-line"></i></a>
-                                            <a href="#" class="btn btn-circle btn-danger my-1"><i class="ri-close-line"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fa-num">1</td>
-                                        <td class="fa-num">1400 دی 25</td>
-                                        <td class="fa-num">پشتیبانی</td>
-                                        <td class="fa-num">کالای غیراصل</td>
-                                        <td class="fa-num">
-                                            <span class="badge bg-warning rounded-pill">
-                                                در حال
-                                                بررسی
-                                            </span>
-                                        </td>
-                                        <td class="fa-num">1400 دی 26</td>
-                                        <td>
-                                            <a href="#" class="btn btn-circle btn-info my-1"><i class="ri-eye-line"></i></a>
-                                            <a href="#" class="btn btn-circle btn-danger my-1"><i class="ri-close-line"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fa-num">1</td>
-                                        <td class="fa-num">1400 دی 25</td>
-                                        <td class="fa-num">پشتیبانی</td>
-                                        <td class="fa-num">کالای غیراصل</td>
-                                        <td class="fa-num">
-                                            <span class="badge bg-warning rounded-pill">
-                                                در حال
-                                                بررسی
-                                            </span>
-                                        </td>
-                                        <td class="fa-num">1400 دی 26</td>
-                                        <td>
-                                            <a href="#" class="btn btn-circle btn-info my-1"><i class="ri-eye-line"></i></a>
-                                            <a href="#" class="btn btn-circle btn-danger my-1"><i class="ri-close-line"></i></a>
-                                        </td>
-                                    </tr>
+                                    @for (var item = 0; item < Model.Count(); item++)
+                                    {
+                                        <tr>
+                                            <td class="fa-num">@(item + 1)</td>
+                                            <td class="fa-num">@FixedText.FixDateToShamsi(Model[item].CreateDate)</td>
+                                            @* <td class="fa-num">پشتیبانی</td> *@
+                                            <td class="fa-num">@Model[item].Title</td>
+                                            <td class="fa-num">
+                                                @if (Model[item].Closed == true)
+                                                {
+                                                    <span class="badge bg-danger rounded-pill">
+                                                        بسته
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    @if (Model[item].Pending == true && Model[item].Answered == false)
+                                                    {
+                                                        <span class="badge bg-warning rounded-pill">
+                                                            درحال بررسی
+                                                        </span>
+                                                    }
+                                                    else if (Model[item].Pending == true && Model[item].Answered == true)
+                                                    {
+                                                        <span class="badge bg-success rounded-pill">
+                                                            پاسخ داده شده
+                                                        </span>
+                                                    }
+                                                }
+
+                                            </td>
+                                            <td class="fa-num">1400 دی 26</td>
+                                            <td>
+
+                                                <a asp-action="TicketDetail" asp-controller="Ticket" asp-area="UserPanel" asp-route-id="@Model[item].Id" class="btn btn-circle btn-info my-1"><i class="ri-eye-line"></i></a>
+
+                                            </td>
+                                        </tr>
+                                    }
+
                                 </tbody>
                             </table>
                         </div>

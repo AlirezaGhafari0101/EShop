@@ -1,4 +1,5 @@
 ﻿using EShop.Domain.Models.Users;
+using EShop.Domain.Models.Ticket;
 
 namespace EShop.Domain.Interfaces
 {
@@ -59,6 +60,10 @@ namespace EShop.Domain.Interfaces
         Task<Wallet> GetWalletByIdAsync(int id);
         Task UpdateWallet(Wallet wallet);
         #endregion
+
+
+
+
 
     }
 }

@@ -86,6 +86,8 @@ namespace EShop.Web.Controllers
 
 
         [HttpPost("login")]
+        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> Login(LoginViewModel login)
         {
             if (!ModelState.IsValid) { return View(); }
@@ -100,6 +102,7 @@ namespace EShop.Web.Controllers
                         new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
                         new Claim(ClaimTypes.Name,user.Email),
                         new Claim("UserAvatar",user.Avatar),
+                        new Claim("IsAdmin",user.IsAdmin.ToString())
 
 
 
@@ -147,6 +150,8 @@ namespace EShop.Web.Controllers
         }
 
         [HttpPost("forgotpassword")]
+        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel forgotPassword)
         {
             if (!ModelState.IsValid) { return View(forgotPassword); };

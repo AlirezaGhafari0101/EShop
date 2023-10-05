@@ -31,10 +31,14 @@ builder.Services.AddDbContext<EshopDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("EshopConnection"));
 });
 
+#region Injections
 DependencyContainer.UserServices(builder.Services);
 DependencyContainer.ContactUsServices(builder.Services);
 DependencyContainer.ProductServieces(builder.Services);
 DependencyContainer.DiscountServices(builder.Services);
+DependencyContainer.TicketServices(builder.Services);
+DependencyContainer.OrderServices(builder.Services);
+#endregion
 
 
 var app = builder.Build();
