@@ -5,13 +5,6 @@ using EShop.Domain.Models.Products;
 using EShop.Domain.Models.Ticket;
 using EShop.Domain.Models.Users;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EShop.Data.Context
 {
@@ -71,6 +64,13 @@ namespace EShop.Data.Context
             modelBuilder.Entity<Ticket>().HasMany<TicketMessage>(u => u.TicketMessages)
                 .WithOne(t => t.Ticket)
                 .HasForeignKey(t => t.TicketId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+
+
+            modelBuilder.Entity<Product>().HasMany<OrderDetail>(u => u.OrderDetails)
+                .WithOne(t => t.Product)
+                .HasForeignKey(t => t.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
         }
