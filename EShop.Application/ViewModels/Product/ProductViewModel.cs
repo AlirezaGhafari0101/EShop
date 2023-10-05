@@ -1,4 +1,5 @@
 ﻿using EShop.Application.ViewModels.common;
+using EShop.Application.ViewModels.Discount;
 using EShop.Application.ViewModels.Product.Color;
 using EShop.Application.ViewModels.Product.ProductGallery;
 using EShop.Domain.Models.Products;
@@ -57,5 +58,7 @@ namespace EShop.Application.ViewModels.Product
         public DateTime CreatedDate { get; set; }
 
         public List<ProductColorViewModel> Colors { get; set; }
+
+        public DiscountViewModel? Discount { get; set; }
     }
 }

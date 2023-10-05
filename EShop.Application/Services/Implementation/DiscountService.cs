@@ -54,6 +54,7 @@ namespace EShop.Application.Services.Implementation
 
         public async Task CreateDiscountServiceAsync(AddDiscountViewModel discountModel)
         {
+           
             var discount = new Discount
             {
                 IsDelete = false,

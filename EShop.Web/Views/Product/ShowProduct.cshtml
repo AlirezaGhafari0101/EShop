@@ -44,7 +44,7 @@
                                         @{
                                             foreach (var gallery in Model.Gallery)
                                             {
-                                                        <li data-fancybox="gallery-a" data-src="/images//ProductImages/@gallery.ProductImageUrl"><img src="/images//ProductImages/@gallery.ProductImageUrl" alt=""></li>
+                                                                            <li data-fancybox="gallery-a" data-src="/images//ProductImages/@gallery.ProductImageUrl"><img src="/images//ProductImages/@gallery.ProductImageUrl" alt=""></li>
                                             }
                                         }
                                     </ul>
@@ -100,14 +100,14 @@
 
                                     foreach (var c in Model.Colors)
                                     {
-                                                <div class="product-variant-item">
-                                                    <div class="custom-radio-circle">
-                                                <input type="radio" class="custom-radio-circle-input" name="productColor" id=@counter value=@c @(c == Model.Colors.First() ? "checked" : "") onclick="colorChangeHandler('@FixedText.MoenyFormatter(c.Price)')">
-                                                        <label for=@counter class="custom-radio-circle-label" data-variant-label=@c.ColorName>
-                                                            <span class="color" style="background-color: @c.Hex;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title=@c.ColorName aria-label=@c.ColorName></span>
-                                                        </label>
-                                                    </div>
-                                                </div>
+                                                                    <div class="product-variant-item">
+                                                                        <div class="custom-radio-circle">
+                                                    <input type="radio" class="custom-radio-circle-input" name="productColor" id=@counter value=@c @(c == Model.Colors.First() ? "checked" : "") onclick="colorChangeHandler('@c.Price', '@Model.Discount?.DiscountPercentage')">
+                                                                            <label for=@counter class="custom-radio-circle-label" data-variant-label=@c.ColorName>
+                                                                                <span class="color" style="background-color: @c.Hex;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title=@c.ColorName aria-label=@c.ColorName></span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
                                         counter++;
                                     }
 
@@ -126,10 +126,10 @@
                                             var featuresList = Model.Features.Split("/").ToList();
                                             foreach (var feature in featuresList)
                                             {
-                                                        <li>
-                                                            <span class="label">@feature.Split(":")[0]:</span>
-                                                            <span class="title">@feature.Split(":")[1]</span>
-                                                        </li>
+                                                                            <li>
+                                                                                <span class="label">@feature.Split(":")[0]:</span>
+                                                                                <span class="title">@feature.Split(":")[1]</span>
+                                                                            </li>
                                             }
                                         }
                                     }                            
@@ -240,7 +240,14 @@
                             </div>
                             <div class="product-seller-row product-seller-row--price">
                                 <div class="product-seller-row--price-now fa-num">
-                                    <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(Model.Colors.First().Price)</span>
+                                    @{
+                                        if(Model.Discount!= null)
+                                        {
+                                                                <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter((Model.Colors.First().Price * Model.Discount.DiscountPercentage) / 100)</span>
+                                        }else{
+                                                                <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(Model.Colors.First().Price) </span>
+                                        }
+                                    }
                                     <span class="currency">تومان</span>
                                 </div>
                             </div>
@@ -277,11 +284,26 @@
 
 @section Scripts{
     <script>
-
+   
         const priceElem = document.getElementById("addToCartPrice");
         const colors = []
-        const colorChangeHandler = (price) => {
-            priceElem.innerHTML = price
+        const colorChangeHandler = (price, discountPercentage) => {
+
+
+            console.log((parseInt(price) * parseInt(discountPercentage)) / 100)
+            console.log(price)
+            console.log(discountPercentage)
+            console.log(parseInt(price,10))
+            console.log(parseInt(discountPercentage,10))
+
+            
+            if (discountPercentage != null) {
+
+                priceElem.innerHTML = ((Number(price) * Number(discountPercentage)) / 100).toLocaleString();
+            } else {
+                priceElem.innerHTML = price
+            }
+          
         }
        
        

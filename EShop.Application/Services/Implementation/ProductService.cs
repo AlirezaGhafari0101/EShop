@@ -1,10 +1,12 @@
 ﻿using EShop.Application.Convertors;
 using EShop.Application.Services.Interfaces;
+using EShop.Application.ViewModels.Discount;
 using EShop.Application.ViewModels.Product;
 using EShop.Application.ViewModels.Product.Category;
 using EShop.Application.ViewModels.Product.Color;
 using EShop.Application.ViewModels.Product.ProductGallery;
 using EShop.Domain.Interfaces;
+using EShop.Domain.Models.Discount;
 using EShop.Domain.Models.Products;
 
 namespace EShop.Application.Services.Implementation
@@ -174,6 +176,15 @@ namespace EShop.Application.Services.Implementation
                 DiscountId = product.DiscountId,
                 Count = product.Count,
                 CreatedDate = product.CreateDate,
+                Discount = product.Discount != null? new DiscountViewModel()
+                {
+                    Id= product.Discount.Id,
+                    DiscountCode=product.Discount.DiscountCode,
+                    DiscountPercentage=product.Discount.DiscountPercentage,
+                    StartDate=product.Discount.StartDate,
+                    EndDate=product.Discount.EndDate,
+                    IsActive = product.Discount.IsActive,
+                } :null,
                 Colors = product.Colors.Select(c => new ProductColorViewModel
                 {
                     Hex = c.Hex,
@@ -199,11 +210,10 @@ namespace EShop.Application.Services.Implementation
             var category = await _productRepository.GetCategoryByIdAsync(categoryId);
             List<int> categoryIDs = await _productRepository.GetAllChildCategoryIDsByCategoryId(categoryId);
             List<ProductViewModel> products = new List<ProductViewModel>();
-
             foreach (int categoryID in categoryIDs)
             {
                 var productsGetByCategoryId = await _productRepository.GetProductsByCategoryIdAsync(categoryID);
-                var mappedProducts = productsGetByCategoryId.Select(p => new ProductViewModel
+                 var mappedProducts = productsGetByCategoryId.Select(p => new ProductViewModel
                 {
                     Id = p.Id,
                     Title = p.Title,
@@ -214,6 +224,14 @@ namespace EShop.Application.Services.Implementation
                     ImageName = p.Image,
                     CreatedDate = p.CreateDate,
                     Price = _productRepository.GetFirstColorByProductIdAsync(p.Id),
+                    Discount = p.Discount != null ? new DiscountViewModel
+                    {
+                        DiscountCode = p.Discount?.DiscountCode,
+                        DiscountPercentage = p.Discount.DiscountPercentage,
+                        StartDate = p.Discount.StartDate,
+                        EndDate = p.Discount.EndDate,
+                        IsActive = p.Discount.IsActive,
+                    } : null,
                     Colors = p.Colors.Select(c => new ProductColorViewModel
                     {
                         Hex = c.Hex,
@@ -222,10 +240,13 @@ namespace EShop.Application.Services.Implementation
                         ColorName = c.ColorName,
                     }).ToList()
                 }).ToList();
+
+                
                 products.AddRange(mappedProducts);
 
 
             }
+           
             return products;
 
 

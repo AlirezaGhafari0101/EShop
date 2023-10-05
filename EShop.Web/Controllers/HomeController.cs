@@ -22,7 +22,7 @@ namespace EShop.Web.Controllers
             IUserService userService, Payment payment
            )
         {
-            var expose = new Expose();
+           
 
             _logger = logger;
             _contactUsService = contactUsService;
