@@ -484,16 +484,24 @@
                                                                     
                                                                         <div class="product-price fa-num">
                                                                         @{
-                                                                            if(product.Discount != null)
+                                                                            if(product.Discount != null && product.Discount.EndDate > DateTime.Now && DateTime.Now > product.Discount.StartDate && product.Discount.IsActive)
                                                                             {
                                                                                 <div class="d-flex align-items-center">
                                                                                     <del class="price-old">@FixedText.MoenyFormatter(product.Price)</del>
                                                                                     <span class="discount ms-2">%@product.Discount.DiscountPercentage</span>
                                                                                 </div>
-                                                                                <span class="price-now">@FixedText.MoenyFormatter((product.Price * product.Discount.DiscountPercentage) / 100)<span class="currency">تومان</span></span>
+                                                                                <span class="price-now">@FixedText.MoenyFormatter(((long)product.Price * (long)(100 - product.Discount.DiscountPercentage)) / 100)<span class="currency">تومان</span></span>
                                                                             }
-                                                                            else
+                                                                            else if (ViewBag.globalDiscount.DiscountPercentage != 0 && ViewBag.globalDiscount.EndDate > DateTime.Now && DateTime.Now > ViewBag.globalDiscount.StartDate && ViewBag.globalDiscount.IsActive)
                                                                             {
+                                                                                <div class="d-flex align-items-center">
+                                                                                    <del class="price-old">@FixedText.MoenyFormatter(product.Price)</del>
+                                                                                    <span class="discount ms-2">%@ViewBag.globalDiscount.DiscountPercentage</span>
+                                                                                </div>
+
+                                                                                <span class="price-now">@FixedText.MoenyFormatter((((long)product.Price * (long)(100 - ViewBag.globalDiscount.DiscountPercentage))) / 100)<span class="currency">تومان</span></span>
+                                                                            }
+                                                                            else{
                                                                                 <span class="price-now">@FixedText.MoenyFormatter(product.Price)<span class="currency">تومان</span></span>
 
                                                                             }

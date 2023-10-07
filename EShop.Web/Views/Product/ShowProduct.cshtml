@@ -102,7 +102,7 @@
                                     {
                                                                     <div class="product-variant-item">
                                                                         <div class="custom-radio-circle">
-                                                    <input type="radio" class="custom-radio-circle-input" name="productColor" id=@counter value=@c @(c == Model.Colors.First() ? "checked" : "") onclick="colorChangeHandler('@c.Price', '@Model.Discount?.DiscountPercentage')">
+                                                    <input type="radio" class="custom-radio-circle-input" name="productColor" id=@counter value=@c.Id @(c == Model.Colors.First() ? "checked" : "") onclick="colorChangeHandler('@c.Price', '@Model.Discount?.DiscountPercentage')">
                                                                             <label for=@counter class="custom-radio-circle-label" data-variant-label=@c.ColorName>
                                                                                 <span class="color" style="background-color: @c.Hex;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title=@c.ColorName aria-label=@c.ColorName></span>
                                                                             </label>
@@ -241,11 +241,24 @@
                             <div class="product-seller-row product-seller-row--price">
                                 <div class="product-seller-row--price-now fa-num">
                                     @{
-                                        if(Model.Discount!= null)
+                                        if(Model.Discount!= null && Model.Discount.EndDate > DateTime.Now && DateTime.Now > Model.Discount.StartDate && Model.Discount.IsActive)
                                         {
-                                                                <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter((Model.Colors.First().Price * Model.Discount.DiscountPercentage) / 100)</span>
-                                        }else{
-                                                                <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(Model.Colors.First().Price) </span>
+                                            <div class="d-flex align-items-center">
+                                                <del class="price-old">@FixedText.MoenyFormatter(Model.Colors.First().Price)</del>
+                                                <span class="discount ms-2">%@Model.Discount.DiscountPercentage</span>
+                                            </div>
+                                            <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(((long)Model.Colors.First().Price * (long)(100 -Model.Discount.DiscountPercentage)) / 100)</span>
+                                        }
+                                        else if (ViewBag.globalDiscount.DiscountPercentage != 0 && ViewBag.globalDiscount.EndDate > DateTime.Now && DateTime.Now > ViewBag.globalDiscount.StartDate && ViewBag.globalDiscount.IsActive)
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <del class="price-old">@FixedText.MoenyFormatter(Model.Colors.First().Price)</del>
+                                                <span class="discount ms-2">%@ViewBag.globalDiscount.DiscountPercentage</span>
+                                            </div>
+                                            <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(((long)Model.Colors.First().Price * (long)(100 -ViewBag.globalDiscount.DiscountPercentage)) / 100)</span>
+                                        }
+                                        else{             
+                                            <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(Model.Colors.First().Price) </span>    
                                         }
                                     }
                                     <span class="currency">تومان</span>
@@ -284,24 +297,15 @@
 
 @section Scripts{
     <script>
-   
+        const oldPrice = document.getElementById("old-price")
         const priceElem = document.getElementById("addToCartPrice");
         const colors = []
         const colorChangeHandler = (price, discountPercentage) => {
-
-
-            console.log((parseInt(price) * parseInt(discountPercentage)) / 100)
-            console.log(price)
-            console.log(discountPercentage)
-            console.log(parseInt(price,10))
-            console.log(parseInt(discountPercentage,10))
-
-            
-            if (discountPercentage != null) {
-
-                priceElem.innerHTML = ((Number(price) * Number(discountPercentage)) / 100).toLocaleString();
+         
+            if (discountPercentage != 0) {
+                priceElem.innerHTML = ((Number(price) * Number( 100 - discountPercentage)) / 100).toLocaleString();
             } else {
-                priceElem.innerHTML = price
+                priceElem.innerHTML = Number(price).toLocaleString();
             }
           
         }
