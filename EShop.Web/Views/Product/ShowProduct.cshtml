@@ -1,6 +1,11 @@
 ﻿@model EShop.Application.ViewModels.Product.ProductViewModel
 @using EShop.Application.Convertors
+
+@{
+    
+}
 <main class="page-content">
+
     <div class="container">
         <!-- start of breadcrumb -->
         <nav class="mb-5" aria-label="breadcrumb">
@@ -44,7 +49,7 @@
                                         @{
                                             foreach (var gallery in Model.Gallery)
                                             {
-                                                                            <li data-fancybox="gallery-a" data-src="/images//ProductImages/@gallery.ProductImageUrl"><img src="/images//ProductImages/@gallery.ProductImageUrl" alt=""></li>
+                                                    <li data-fancybox="gallery-a" data-src="/images//ProductImages/@gallery.ProductImageUrl"><img src="/images//ProductImages/@gallery.ProductImageUrl" alt=""></li>
                                             }
                                         }
                                     </ul>
@@ -100,14 +105,14 @@
 
                                     foreach (var c in Model.Colors)
                                     {
-                                                                    <div class="product-variant-item">
-                                                                        <div class="custom-radio-circle">
-                                                    <input type="radio" class="custom-radio-circle-input" name="productColor" id=@counter value=@c @(c == Model.Colors.First() ? "checked" : "") onclick="colorChangeHandler('@c.Price', '@Model.Discount?.DiscountPercentage')">
-                                                                            <label for=@counter class="custom-radio-circle-label" data-variant-label=@c.ColorName>
-                                                                                <span class="color" style="background-color: @c.Hex;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title=@c.ColorName aria-label=@c.ColorName></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
+                                            <div class="product-variant-item">
+                                                <div class="custom-radio-circle">
+                                                    <input type="radio" class="custom-radio-circle-input" name="productColor"  id=@counter value=@c.Id @(c == Model.Colors.First() ? "checked" : "") onclick="colorChangeHandler('@c.Price', '@Model.Discount?.DiscountPercentage','@c.Id')">
+                                                    <label for=@counter class="custom-radio-circle-label" data-variant-label=@c.ColorName>
+                                                        <span class="color" style="background-color: @c.Hex;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title=@c.ColorName aria-label=@c.ColorName></span>
+                                                    </label>
+                                                </div>
+                                            </div>
                                         counter++;
                                     }
 
@@ -126,13 +131,13 @@
                                             var featuresList = Model.Features.Split("/").ToList();
                                             foreach (var feature in featuresList)
                                             {
-                                                                            <li>
-                                                                                <span class="label">@feature.Split(":")[0]:</span>
-                                                                                <span class="title">@feature.Split(":")[1]</span>
-                                                                            </li>
+                                                    <li>
+                                                        <span class="label">@feature.Split(":")[0]:</span>
+                                                        <span class="title">@feature.Split(":")[1]</span>
+                                                    </li>
                                             }
                                         }
-                                    }                            
+                                    }
                                 </ul>
                             </div>
                         </div>
@@ -241,11 +246,13 @@
                             <div class="product-seller-row product-seller-row--price">
                                 <div class="product-seller-row--price-now fa-num">
                                     @{
-                                        if(Model.Discount!= null)
+                                        if (Model.Discount != null)
                                         {
-                                                                <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter((Model.Colors.First().Price * Model.Discount.DiscountPercentage) / 100)</span>
-                                        }else{
-                                                                <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(Model.Colors.First().Price) </span>
+                                                <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter((Model.Colors.First().Price * Model.Discount.DiscountPercentage) / 100)</span>
+                                        }
+                                        else
+                                        {
+                                                <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(Model.Colors.First().Price) </span>
                                         }
                                     }
                                     <span class="currency">تومان</span>
@@ -259,9 +266,9 @@
                             </div>
                         </div>
                         <div class="product-seller--add-to-cart">
-                            <a href="#" class="btn btn-primary w-100" data-toast="" data-toast-type="success" data-toast-color="green" data-toast-position="topRight" data-toast-icon="ri-check-fill" data-toast-title="موفق!" data-toast-message="به سبد اضافه شد!">
+                            <button class="btn btn-primary w-100" data-toast="" data-toast-type="success" data-toast-color="green" data-toast-position="topRight" data-toast-icon="ri-check-fill" data-toast-title="موفق!" data-toast-message="به سبد اضافه شد!" onclick="addToOrder()">
                                 افزودن به سبد خرید
-                            </a>
+                            </button>
                         </div>
                     </div>
                     <!-- end of product-seller-info -->
@@ -269,7 +276,7 @@
             </div>
         </div>
         <!-- end of product-detail-container -->
-      
+
     </div>
     <!-- start of notification-modal -->
     <!-- end of notification-modal -->
@@ -284,28 +291,43 @@
 
 @section Scripts{
     <script>
-   
+
         const priceElem = document.getElementById("addToCartPrice");
         const colors = []
-        const colorChangeHandler = (price, discountPercentage) => {
-
-
+        const colorChangeHandler = (price, discountPercentage, colorid) => {
+        
             console.log((parseInt(price) * parseInt(discountPercentage)) / 100)
             console.log(price)
             console.log(discountPercentage)
-            console.log(parseInt(price,10))
-            console.log(parseInt(discountPercentage,10))
+            console.log(parseInt(price, 10))
+            console.log(parseInt(discountPercentage, 10))
 
-            
+
             if (discountPercentage != null) {
 
                 priceElem.innerHTML = ((Number(price) * Number(discountPercentage)) / 100).toLocaleString();
             } else {
                 priceElem.innerHTML = price
             }
-          
+
         }
-       
-       
+
+
+        const addToOrder = () => {
+            const colorInput = Number(document.querySelector('input[name="productColor"]:checked').value)
+
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.open("GET", "/add-to-order/@Model.Id/"+colorInput,true);
+            xhttp.send();
+            console.log(xhttp.responseText)
+
+
+
+
+
+        }
+
+
     </script>
 }

@@ -48,6 +48,7 @@ namespace EShop.Application.Services.Interfaces
         Task UpdateProductColorServiceAsync(UpdateProductColorViewModel color);
         Task<UpdateProductColorViewModel> GetColorForUpdateServiceAsync(int colorId);
         Task DeleteProductColorServiceAsync(int colorId);
+        Task<ProductColorViewModel> GetColorByIdServiceAsync(int id);
         
         #endregion
 
