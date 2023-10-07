@@ -8,6 +8,7 @@ using EShop.Application.ViewModels.Product.ProductGallery;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Discount;
 using EShop.Domain.Models.Products;
+using System.Drawing;
 
 namespace EShop.Application.Services.Implementation
 {
@@ -187,6 +188,7 @@ namespace EShop.Application.Services.Implementation
                 } :null,
                 Colors = product.Colors.Select(c => new ProductColorViewModel
                 {
+                    Id=c.Id,
                     Hex = c.Hex,
                     Price = c.Price,
                     ProductId = c.ProductId,
@@ -234,6 +236,7 @@ namespace EShop.Application.Services.Implementation
                     } : null,
                     Colors = p.Colors.Select(c => new ProductColorViewModel
                     {
+                        Id=c.Id,
                         Hex = c.Hex,
                         Price = c.Price,
                         ProductId = c.ProductId,
@@ -517,6 +520,21 @@ namespace EShop.Application.Services.Implementation
             productColor.IsDelete = true;
             await _productRepository.UpdateProductColorAsync(productColor);
             await _productRepository.SaveChangeAsync();
+        }
+
+        public async Task<ProductColorViewModel> GetColorByIdServiceAsync(int id)
+        {
+            ProductColor productColor = await _productRepository.GetProductColorAsync(id);
+            return new ProductColorViewModel()
+            {
+                Id = productColor.Id,
+                Hex = productColor.Hex,
+                Price = productColor.Price,
+                ProductId = productColor.ProductId,
+                CreateDate = productColor.CreateDate,
+                IsDelete = productColor.IsDelete,
+                ColorName = productColor.ColorName,
+            };
         }
         #endregion
     }

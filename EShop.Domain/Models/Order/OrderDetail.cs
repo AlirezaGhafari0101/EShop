@@ -16,6 +16,7 @@ namespace EShop.Domain.Models.Order
         public int ProductId { get; set; }
         public int ColorId { get; set; }
         public int Count { get; set; }
+        public int Price { get; set; }
 
 
 

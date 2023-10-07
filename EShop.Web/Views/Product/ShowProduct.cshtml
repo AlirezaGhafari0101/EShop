@@ -1,6 +1,11 @@
 ﻿@model EShop.Application.ViewModels.Product.ProductViewModel
 @using EShop.Application.Convertors
+
+@{
+    
+}
 <main class="page-content">
+
     <div class="container">
         <!-- start of breadcrumb -->
         <nav class="mb-5" aria-label="breadcrumb">
@@ -44,7 +49,7 @@
                                         @{
                                             foreach (var gallery in Model.Gallery)
                                             {
-                                                                            <li data-fancybox="gallery-a" data-src="/images//ProductImages/@gallery.ProductImageUrl"><img src="/images//ProductImages/@gallery.ProductImageUrl" alt=""></li>
+                                                    <li data-fancybox="gallery-a" data-src="/images//ProductImages/@gallery.ProductImageUrl"><img src="/images//ProductImages/@gallery.ProductImageUrl" alt=""></li>
                                             }
                                         }
                                     </ul>
@@ -126,13 +131,13 @@
                                             var featuresList = Model.Features.Split("/").ToList();
                                             foreach (var feature in featuresList)
                                             {
-                                                                            <li>
-                                                                                <span class="label">@feature.Split(":")[0]:</span>
-                                                                                <span class="title">@feature.Split(":")[1]</span>
-                                                                            </li>
+                                                    <li>
+                                                        <span class="label">@feature.Split(":")[0]:</span>
+                                                        <span class="title">@feature.Split(":")[1]</span>
+                                                    </li>
                                             }
                                         }
-                                    }                            
+                                    }
                                 </ul>
                             </div>
                         </div>
@@ -272,9 +277,9 @@
                             </div>
                         </div>
                         <div class="product-seller--add-to-cart">
-                            <a href="#" class="btn btn-primary w-100" data-toast="" data-toast-type="success" data-toast-color="green" data-toast-position="topRight" data-toast-icon="ri-check-fill" data-toast-title="موفق!" data-toast-message="به سبد اضافه شد!">
+                            <button class="btn btn-primary w-100" data-toast="" data-toast-type="success" data-toast-color="green" data-toast-position="topRight" data-toast-icon="ri-check-fill" data-toast-title="موفق!" data-toast-message="به سبد اضافه شد!" onclick="addToOrder()">
                                 افزودن به سبد خرید
-                            </a>
+                            </button>
                         </div>
                     </div>
                     <!-- end of product-seller-info -->
@@ -282,7 +287,7 @@
             </div>
         </div>
         <!-- end of product-detail-container -->
-      
+
     </div>
     <!-- start of notification-modal -->
     <!-- end of notification-modal -->
@@ -307,9 +312,25 @@
             } else {
                 priceElem.innerHTML = Number(price).toLocaleString();
             }
-          
+
         }
-       
-       
+
+
+        const addToOrder = () => {
+            const colorInput = Number(document.querySelector('input[name="productColor"]:checked').value)
+
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.open("GET", "/add-to-order/@Model.Id/"+colorInput,true);
+            xhttp.send();
+            console.log(xhttp.responseText)
+
+
+
+
+
+        }
+
+
     </script>
 }
