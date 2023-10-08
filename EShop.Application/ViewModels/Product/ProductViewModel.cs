@@ -60,6 +60,7 @@ namespace EShop.Application.ViewModels.Product
         public DateTime CreatedDate { get; set; }
 
         public List<ProductColorViewModel> Colors { get; set; }
+        public List<UserFavourite.UserFavouriteViewModel> UserFavourites { get; set; }
 
         public DiscountViewModel? Discount { get; set; }
     }

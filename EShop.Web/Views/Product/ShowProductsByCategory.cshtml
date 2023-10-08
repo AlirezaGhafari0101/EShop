@@ -1,5 +1,13 @@
 ﻿@model List<EShop.Application.ViewModels.Product.ProductViewModel>
 @using EShop.Application.Convertors
+@using System.Security.Claims
+@{
+    var userId = 0;
+    if (User.Identity.IsAuthenticated)
+    {
+        userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+    }
+}
 
 <main class="page-content">
     <div class="container">
@@ -456,84 +464,106 @@
                                             @{
                                                 foreach (var product in Model)
                                                 {
-                                                    if (product.Colors.Count()!=0)
+                                                    if (product.Colors.Count() != 0)
                                                     {
-                                                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4">
-                                                            <div class="product-card">
-                                                                <div class="product-thumbnail">
-                                                                    <a href="/product/@product.Id">
-                                                                        <img src="/images/ProductImages/@product.ImageName" alt="product title">
-                                                                    </a>
-                                                                </div>
-                                                                <div class="product-card-body">
-                                                                    <h2 class="product-title">
+                                                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4">
+                                                                <div class="product-card">
+                                                                    <div class="product-thumbnail">
                                                                         <a href="/product/@product.Id">
-                                                                            @product.Title
+                                                                            <img src="/images/ProductImages/@product.ImageName" alt="product title">
                                                                         </a>
-                                                                    </h2>
-                                                                    <div class="product-variant">
-                                                                        @{
+                                                                    </div>
+                                                                    <div class="product-card-body">
+                                                                        <h2 class="product-title">
+                                                                            <a href="/product/@product.Id">
+                                                                                @product.Title
+                                                                            </a>
+                                                                        </h2>
+                                                                        <div class="product-variant">
+                                                                            @{
                                                                             foreach (var color in product.Colors)
                                                                             {
-                                                                                <span class="color" style="background-color: @color.Hex;"></span>
+                                                                                        <span class="color" style="background-color: @color.Hex;"></span>
                                                                             }
-                                                                        }
+                                                                            }
 
-                                                                        <span>+</span>
-                                                                    </div>
-                                                                    
+                                                                            <span>+</span>
+                                                                        </div>
+
                                                                         <div class="product-price fa-num">
-                                                                        @{
-                                                                            if(product.Discount != null && product.Discount.EndDate > DateTime.Now && DateTime.Now > product.Discount.StartDate && product.Discount.IsActive)
+                                                                            @{
+                                                                            if (product.Discount != null && product.Discount.EndDate > DateTime.Now && DateTime.Now > product.Discount.StartDate && product.Discount.IsActive)
                                                                             {
-                                                                                <div class="d-flex align-items-center">
-                                                                                    <del class="price-old">@FixedText.MoenyFormatter(product.Price)</del>
-                                                                                    <span class="discount ms-2">%@product.Discount.DiscountPercentage</span>
-                                                                                </div>
-                                                                                <span class="price-now">@FixedText.MoenyFormatter(((long)product.Price * (long)(100 - product.Discount.DiscountPercentage)) / 100)<span class="currency">تومان</span></span>
+                                                                                        <div class="d-flex align-items-center">
+                                                                                            <del class="price-old">@FixedText.MoenyFormatter(product.Price)</del>
+                                                                                            <span class="discount ms-2">%@product.Discount.DiscountPercentage</span>
+                                                                                        </div>
+                                                                                        <span class="price-now">@FixedText.MoenyFormatter(((long)product.Price * (long)(100 - product.Discount.DiscountPercentage)) / 100)<span class="currency">تومان</span></span>
                                                                             }
                                                                             else if (ViewBag.globalDiscount.DiscountPercentage != 0 && ViewBag.globalDiscount.EndDate > DateTime.Now && DateTime.Now > ViewBag.globalDiscount.StartDate && ViewBag.globalDiscount.IsActive)
                                                                             {
-                                                                                <div class="d-flex align-items-center">
-                                                                                    <del class="price-old">@FixedText.MoenyFormatter(product.Price)</del>
-                                                                                    <span class="discount ms-2">%@ViewBag.globalDiscount.DiscountPercentage</span>
-                                                                                </div>
+                                                                                        <div class="d-flex align-items-center">
+                                                                                            <del class="price-old">@FixedText.MoenyFormatter(product.Price)</del>
+                                                                                            <span class="discount ms-2">%@ViewBag.globalDiscount.DiscountPercentage</span>
+                                                                                        </div>
 
-                                                                                <span class="price-now">@FixedText.MoenyFormatter((((long)product.Price * (long)(100 - ViewBag.globalDiscount.DiscountPercentage))) / 100)<span class="currency">تومان</span></span>
+                                                                                        <span class="price-now">@FixedText.MoenyFormatter((((long)product.Price * (long)(100 - ViewBag.globalDiscount.DiscountPercentage))) / 100)<span class="currency">تومان</span></span>
                                                                             }
-                                                                            else{
-                                                                                <span class="price-now">@FixedText.MoenyFormatter(product.Price)<span class="currency">تومان</span></span>
+                                                                            else
+                                                                            {
+                                                                                        <span class="price-now">@FixedText.MoenyFormatter(product.Price)<span class="currency">تومان</span></span>
 
                                                                             }
-                                                                        }
-                                                                    </div>
-                                                                       
-                                                                   
-                                                                </div>
-                                                                <div class="product-card-footer">
-                                                                    <div class="d-flex align-items-center justify-content-between border-top mt-2 py-2">
-                                                                        <div class="product-actions">
-                                                                            <ul>
-                                                                                <li>
-                                                                                    <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به سبد خرید" aria-label="افزودن به سبد خرید"><i class="ri-shopping-cart-line"></i></a>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="مشاهده سریع" aria-label="مشاهده سریع" data-remodal-target="quick-view-modal"><i class="ri-search-line"></i></a>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به علاقمندی" aria-label="افزودن به علاقمندی"><i class="ri-heart-3-line"></i></a>
-                                                                                </li>
-                                                                            </ul>
+                                                                            }
                                                                         </div>
-                                                                        <div class="product-rating fa-num">
-                                                                            <i class="ri-star-fill star"></i>
-                                                                            <strong>۴.۴</strong>
-                                                                            <span>(۴۳۶)</span>
+
+
+                                                                    </div>
+                                                                    <div class="product-card-footer">
+                                                                        <div class="d-flex align-items-center justify-content-between border-top mt-2 py-2">
+                                                                            <div class="product-actions">
+                                                                                <ul>
+                                                                                    <li>
+                                                                                        <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به سبد خرید" aria-label="افزودن به سبد خرید"><i class="ri-shopping-cart-line"></i></a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="مشاهده سریع" aria-label="مشاهده سریع" data-remodal-target="quick-view-modal"><i class="ri-search-line"></i></a>
+                                                                                    </li>
+                                                                                    @{
+                                                                                    if(product.UserFavourites != null)
+                                                                                    {
+                                                                                        if (product.UserFavourites.Exists(uf => uf.ProductId == product.Id && uf.UserId == userId)  )
+                                                                                        {
+                                                                                            <li onclick=" deleteLikeProduct('@product.Id')">
+                                                                                                        <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به علاقمندی" aria-label="افزودن به علاقمندی"><i class="ri-heart-3-fill"></i></a>
+                                                                                            </li>
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <li onclick="likeProduct('@product.Id')">
+                                                                                                        <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به علاقمندی" aria-label="افزودن به علاقمندی"><i class="ri-heart-3-line"></i></a>
+                                                                                                    </li>
+                                                                                        }
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <li onclick="likeProduct('@product.Id')">
+                                                                                                    <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به علاقمندی" aria-label="افزودن به علاقمندی"><i class="ri-heart-3-line"></i></a>
+                                                                                                </li>
+                                                                                    }
+                                                                                    
+                                                                                    }
+                                                                                </ul>
+                                                                            </div>
+                                                                            <div class="product-rating fa-num">
+                                                                                <i class="ri-star-fill star"></i>
+                                                                                <strong>۴.۴</strong>
+                                                                                <span>(۴۳۶)</span>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
                                                     }
 
                                                 }
@@ -580,5 +610,35 @@
     <!-- start of quick-view-modal -->
     <!-- end of quick-view-modal -->
 </main>
+
+@section Scripts{
+
+<script>
+    function likeProduct(productId) {
+            $.ajax({
+                type: "GET",
+                url: `/like/${productId}`,
+                success: function (response) {
+                    if (response.isSuccess) {
+                        location.reload()
+                    }
+                },
+
+            });
+    } 
+    function deleteLikeProduct(productId) {
+            $.ajax({
+                type: "GET",
+                url: `/deleteLike/${productId}`,
+                success: function (response) {
+                    if (response.isSuccess) {
+                        location.reload()
+                    }
+                },
+
+            });
+    }
+</script>
+}
 
 

@@ -249,7 +249,7 @@
                                         if(Model.Discount!= null && Model.Discount.EndDate > DateTime.Now && DateTime.Now > Model.Discount.StartDate && Model.Discount.IsActive)
                                         {
                                             <div class="d-flex align-items-center">
-                                                <del class="price-old">@FixedText.MoenyFormatter(Model.Colors.First().Price)</del>
+                                                <del class="price-old" id="old-price">@FixedText.MoenyFormatter(Model.Colors.First().Price)</del>
                                                 <span class="discount ms-2">%@Model.Discount.DiscountPercentage</span>
                                             </div>
                                             <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(((long)Model.Colors.First().Price * (long)(100 -Model.Discount.DiscountPercentage)) / 100)</span>
@@ -257,7 +257,7 @@
                                         else if (ViewBag.globalDiscount.DiscountPercentage != 0 && ViewBag.globalDiscount.EndDate > DateTime.Now && DateTime.Now > ViewBag.globalDiscount.StartDate && ViewBag.globalDiscount.IsActive)
                                         {
                                             <div class="d-flex align-items-center">
-                                                <del class="price-old">@FixedText.MoenyFormatter(Model.Colors.First().Price)</del>
+                                                <del class="price-old" id="old-price">@FixedText.MoenyFormatter(Model.Colors.First().Price)</del>
                                                 <span class="discount ms-2">%@ViewBag.globalDiscount.DiscountPercentage</span>
                                             </div>
                                             <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(((long)Model.Colors.First().Price * (long)(100 -ViewBag.globalDiscount.DiscountPercentage)) / 100)</span>
@@ -308,7 +308,9 @@
         const colorChangeHandler = (price, discountPercentage) => {
          
             if (discountPercentage != 0) {
-                priceElem.innerHTML = ((Number(price) * Number( 100 - discountPercentage)) / 100).toLocaleString();
+                console.log("discount");
+                priceElem.innerHTML = ((Number(price) * Number( 100 -discountPercentage)) / 100).toLocaleString();
+                oldPrice.innerHTML = Number(price).toLocaleString();
             } else {
                 priceElem.innerHTML = Number(price).toLocaleString();
             }

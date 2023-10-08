@@ -40,6 +40,7 @@ namespace EShop.Data.Context
         public DbSet<ProductColor> ProductColors { get; set; }
 
         public DbSet<Discount> Discounts { get; set; }
+        public DbSet<UserFavourite> UserFavourites { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

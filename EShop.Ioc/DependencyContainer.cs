@@ -26,6 +26,8 @@ namespace EShop.Ioc
             service.AddScoped<IUserService, UserService>();
 
             service.AddScoped<Payment, Payment>();
+
+            service.AddScoped<IUserFavouriteRepository, UserFavouriteRepository>();
         }
 
         public static void ContactUsServices(IServiceCollection service)

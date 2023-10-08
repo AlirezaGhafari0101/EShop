@@ -31,6 +31,7 @@ namespace EShop.Domain.Models.Users
         public List<Models.Ticket.Ticket>? Tickets { get; set; }
         public List<TicketMessage>? TicketMessages { get; set; }
         public List<Order.Order>? Orders { get; set; }
+        public List<UserFavourite>? UserFavourites { get; set; }
         #endregion
 
     }

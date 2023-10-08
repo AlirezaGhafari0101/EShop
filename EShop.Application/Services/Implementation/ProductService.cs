@@ -5,6 +5,7 @@ using EShop.Application.ViewModels.Product;
 using EShop.Application.ViewModels.Product.Category;
 using EShop.Application.ViewModels.Product.Color;
 using EShop.Application.ViewModels.Product.ProductGallery;
+using EShop.Application.ViewModels.UserFavourite;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Discount;
 using EShop.Domain.Models.Products;
@@ -186,6 +187,12 @@ namespace EShop.Application.Services.Implementation
                     EndDate=product.Discount.EndDate,
                     IsActive = product.Discount.IsActive,
                 } :null,
+                UserFavourites = product.UserFavourites.Select(uf => new UserFavouriteViewModel
+                {
+                    Id = uf.Id,
+                    ProductId = uf.ProductId,
+                    UserId = uf.UserId,
+                }).ToList(),
                 Colors = product.Colors.Select(c => new ProductColorViewModel
                 {
                     Id=c.Id,
@@ -226,7 +233,13 @@ namespace EShop.Application.Services.Implementation
                     ImageName = p.Image,
                     CreatedDate = p.CreateDate,
                     Price = _productRepository.GetFirstColorByProductIdAsync(p.Id),
-                    Discount = p.Discount != null ? new DiscountViewModel
+                     UserFavourites = p.UserFavourites.Select(uf => new UserFavouriteViewModel
+                     {
+                         Id = uf.Id,
+                         ProductId = uf.ProductId,
+                         UserId = uf.UserId,
+                     }).ToList(),
+                     Discount = p.Discount != null ? new DiscountViewModel
                     {
                         DiscountCode = p.Discount?.DiscountCode,
                         DiscountPercentage = p.Discount.DiscountPercentage,

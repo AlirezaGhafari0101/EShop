@@ -71,7 +71,7 @@ namespace EShop.Data.Repository
 
         public async Task<List<Product>> GetProductsByCategoryIdAsync(int categoryId)
         {
-            return await _ctx.Products.Where(p => p.CategoryId == categoryId).Include(p => p.Colors).Include(p => p.Discount).ToListAsync();
+            return await _ctx.Products.Where(p => p.CategoryId == categoryId).Include(p => p.Colors).Include(p => p.Discount).Include(p=>p.UserFavourites).ToListAsync();
         }
 
         //public async Task<List<Category>> GetAllProductsByCategoryIdAsync(int categoryId)
