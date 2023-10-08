@@ -2,7 +2,7 @@
 @using EShop.Application.Convertors
 
 @{
-    
+
 }
 <main class="page-content">
 
@@ -49,7 +49,7 @@
                                         @{
                                             foreach (var gallery in Model.Gallery)
                                             {
-                                                    <li data-fancybox="gallery-a" data-src="/images//ProductImages/@gallery.ProductImageUrl"><img src="/images//ProductImages/@gallery.ProductImageUrl" alt=""></li>
+                                                <li data-fancybox="gallery-a" data-src="/images//ProductImages/@gallery.ProductImageUrl"><img src="/images//ProductImages/@gallery.ProductImageUrl" alt=""></li>
                                             }
                                         }
                                     </ul>
@@ -105,14 +105,14 @@
 
                                     foreach (var c in Model.Colors)
                                     {
-                                                                    <div class="product-variant-item">
-                                                                        <div class="custom-radio-circle">
-                                                    <input type="radio" class="custom-radio-circle-input" name="productColor" id=@counter value=@c.Id @(c == Model.Colors.First() ? "checked" : "") onclick="colorChangeHandler('@c.Price', '@Model.Discount?.DiscountPercentage')">
-                                                                            <label for=@counter class="custom-radio-circle-label" data-variant-label=@c.ColorName>
-                                                                                <span class="color" style="background-color: @c.Hex;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title=@c.ColorName aria-label=@c.ColorName></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
+                                        <div class="product-variant-item">
+                                            <div class="custom-radio-circle">
+                                                <input type="radio" class="custom-radio-circle-input" name="productColor" id=@counter value=@c.Id @(c == Model.Colors.First() ? "checked" : "") onclick="colorChangeHandler('@c.Price', '@Model.Discount?.DiscountPercentage')">
+                                                <label for=@counter class="custom-radio-circle-label" data-variant-label=@c.ColorName>
+                                                    <span class="color" style="background-color: @c.Hex;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title=@c.ColorName aria-label=@c.ColorName></span>
+                                                </label>
+                                            </div>
+                                        </div>
                                         counter++;
                                     }
 
@@ -131,10 +131,10 @@
                                             var featuresList = Model.Features.Split("/").ToList();
                                             foreach (var feature in featuresList)
                                             {
-                                                    <li>
-                                                        <span class="label">@feature.Split(":")[0]:</span>
-                                                        <span class="title">@feature.Split(":")[1]</span>
-                                                    </li>
+                                                <li>
+                                                    <span class="label">@feature.Split(":")[0]:</span>
+                                                    <span class="title">@feature.Split(":")[1]</span>
+                                                </li>
                                             }
                                         }
                                     }
@@ -246,7 +246,7 @@
                             <div class="product-seller-row product-seller-row--price">
                                 <div class="product-seller-row--price-now fa-num">
                                     @{
-                                        if(Model.Discount!= null && Model.Discount.EndDate > DateTime.Now && DateTime.Now > Model.Discount.StartDate && Model.Discount.IsActive)
+                                        if (Model.Discount != null && Model.Discount.EndDate > DateTime.Now && DateTime.Now > Model.Discount.StartDate && Model.Discount.IsActive)
                                         {
                                             <div class="d-flex align-items-center">
                                                 <del class="price-old">@FixedText.MoenyFormatter(Model.Colors.First().Price)</del>
@@ -262,8 +262,9 @@
                                             </div>
                                             <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(((long)Model.Colors.First().Price * (long)(100 -ViewBag.globalDiscount.DiscountPercentage)) / 100)</span>
                                         }
-                                        else{             
-                                            <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(Model.Colors.First().Price) </span>    
+                                        else
+                                        {
+                                            <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(Model.Colors.First().Price) </span>
                                         }
                                     }
                                     <span class="currency">تومان</span>
@@ -277,7 +278,7 @@
                             </div>
                         </div>
                         <div class="product-seller--add-to-cart">
-                            <button class="btn btn-primary w-100" data-toast="" data-toast-type="success" data-toast-color="green" data-toast-position="topRight" data-toast-icon="ri-check-fill" data-toast-title="موفق!" data-toast-message="به سبد اضافه شد!" onclick="addToOrder()">
+                            <button class="btn btn-primary w-100" onclick="addToOrder()">
                                 افزودن به سبد خرید
                             </button>
                         </div>
@@ -306,9 +307,9 @@
         const priceElem = document.getElementById("addToCartPrice");
         const colors = []
         const colorChangeHandler = (price, discountPercentage) => {
-         
+
             if (discountPercentage != 0) {
-                priceElem.innerHTML = ((Number(price) * Number( 100 - discountPercentage)) / 100).toLocaleString();
+                priceElem.innerHTML = ((Number(price) * Number(100 - discountPercentage)) / 100).toLocaleString();
             } else {
                 priceElem.innerHTML = Number(price).toLocaleString();
             }
@@ -316,21 +317,53 @@
         }
 
 
-        const addToOrder = () => {
+        // var successToast = () => {
+        //     // t = this
+        //     a = "success",
+        //         e = "",
+        //         i = "topCenter",
+        //         n = "موفق!",
+        //         o = "به سبد خرید شما اضافه شد",
+        //         p = "green",
+        //         s = "";
+
+
+        //     s = {
+        //         rtl: true,
+        //         class: "iziToast-" + a || "",
+        //         title: n || "Title",
+        //         message: o || "toast message",
+        //         animateInside: !1,
+        //         position: "topRight",
+        //         progressBar: !1,
+        //         icon: e,
+        //         timeout: 3200,
+        //         transitionIn: "fadeInLeft",
+        //         transitionOut: "fadeOut",
+        //         transitionInMobile: "fadeIn",
+        //         transitionOutMobile: "fadeOut",
+        //         color: p || "blue",
+        //     };
+
+        //     iziToast.show(s);
+        // }
+
+
+        const addToOrder = (e) => {
+            // data - toast="" data - toast - type="success" data - toast - color="green" data - toast - position="topRight" data - toast - icon="ri-check-fill" data - toast - title="موفق!" data - toast - message="به سبد اضافه شد!"
+            event.preventDefault();
             const colorInput = Number(document.querySelector('input[name="productColor"]:checked').value)
+            // var xhttp = new XMLHttpRequest();
+            // xhttp.open("GET", "/add-to-order/@Model.Id/"+colorInput,true);
+            // xhttp.send();
+            $.ajax({
+                type: "GET",
+                url: `/add-to-order/@Model.Id/${colorInput}`,
+                success: function (response) {
+                    showToast("success", "موفق!", "به سبد خرید اضافه شد", "green", "topCenter")
 
-            var xhttp = new XMLHttpRequest();
-
-            xhttp.open("GET", "/add-to-order/@Model.Id/"+colorInput,true);
-            xhttp.send();
-            console.log(xhttp.responseText)
-
-
-
-
-
+                },
+            })
         }
-
-
     </script>
 }

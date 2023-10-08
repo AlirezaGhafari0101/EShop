@@ -137,7 +137,7 @@ namespace EShop.Web.Controllers
         public async Task<IActionResult> LogOut()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return Redirect("/Login");
+            return Redirect("/");
         }
         #endregion
 
