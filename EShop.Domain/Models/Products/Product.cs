@@ -44,10 +44,6 @@ namespace EShop.Domain.Models.Products
         #endregion
 
         #region Discount
-
-
-
-
         public Discount.Discount? Discount { get; set; }
 
         #endregion
@@ -59,6 +55,13 @@ namespace EShop.Domain.Models.Products
         public List<UserFavourite>? UserFavourites { get; set; }
 
         #endregion
+
+        #region Comments
+
+        public List<Comment.Comment>? Comments { get; set; }
+
+        #endregion
+
 
         #endregion
 

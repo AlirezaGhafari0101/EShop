@@ -1,4 +1,5 @@
-﻿using EShop.Domain.Models.Discount;
+﻿using EShop.Domain.Models.Comment;
+using EShop.Domain.Models.Discount;
 using EShop.Domain.Models.Home;
 using EShop.Domain.Models.Order;
 using EShop.Domain.Models.Products;
@@ -41,6 +42,8 @@ namespace EShop.Data.Context
 
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<UserFavourite> UserFavourites { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
