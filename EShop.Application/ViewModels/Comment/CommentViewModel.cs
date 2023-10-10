@@ -1,24 +1,18 @@
-﻿using EShop.Domain.common;
-using EShop.Domain.Models.Users;
+﻿using EShop.Application.ViewModels.common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EShop.Domain.Models.Comment
+namespace EShop.Application.ViewModels.Comment
 {
-    public class Comment:BaseEntity
+    public class CommentViewModel: BaseViewModel
     {
         public string Message { get; set; }
         public bool IsConfirmed { get; set; }
 
-        public int UserId { get; set; }
         public int ProductId { get; set; }
-
-        #region Relations
-        public User User { get; set; }
-
-        #endregion
+        public int UserId { get; set; }
     }
 }
