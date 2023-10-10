@@ -187,7 +187,7 @@ namespace EShop.Application.Services.Implementation
                     EndDate=product.Discount.EndDate,
                     IsActive = product.Discount.IsActive,
                 } :null,
-                UserFavourites = product.UserFavourites.Select(uf => new UserFavouriteViewModel
+                UserFavourites = product.UserFavourites == null ? null : product.UserFavourites.Select(uf => new UserFavouriteViewModel
                 {
                     Id = uf.Id,
                     ProductId = uf.ProductId,

@@ -66,7 +66,7 @@ namespace EShop.Data.Repository
 
         public async Task<Product> GetProductByIdAsync(int id)
         {
-            return await _ctx.Products.Include(p => p.productGalleries).Include(p => p.Colors).Include(p => p.Discount).FirstOrDefaultAsync(p => p.Id == id);
+            return await _ctx.Products.Include(p => p.productGalleries).Include(p => p.Colors).Include(p => p.Discount).Include(p => p.UserFavourites).FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<List<Product>> GetProductsByCategoryIdAsync(int categoryId)

@@ -92,6 +92,7 @@ namespace EShop.Web.Areas.UserPanel.Controllers
         }
 
         [HttpGet("deleteLike/{productId?}")]
+       
         public async Task<IActionResult> DeleteLikeProduct(int productId)
         {
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));

@@ -1,8 +1,12 @@
 ﻿@model EShop.Application.ViewModels.Product.ProductViewModel
 @using EShop.Application.Convertors
-
+@using System.Security.Claims
 @{
-
+    var userId = 0;
+    if (User.Identity.IsAuthenticated)
+    {
+        userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+    }
 }
 <main class="page-content">
 
@@ -31,7 +35,34 @@
                                         for example :
                                         <li><a href="#" class="added"><i class="ri-heart-3-fill"></i></a></li>
                                     -->
-                                    <li><a href="#"><i class="ri-heart-3-fill"></i></a></li>
+                                    @{
+                                        if (Model.UserFavourites != null)
+                                        {
+                                            if (Model.UserFavourites.Exists(uf => uf.ProductId == Model.Id && uf.UserId == userId))
+                                            {
+                                                <li>
+                                                    <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به علاقمندی" aria-label="افزودن به علاقمندی"><i class="ri-heart-3-fill" id="add-to-favourite@(Model.Id)" onclick=" likeOrDislike(event, ' @Model.Id')"></i></a>
+                                                </li>
+
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به علاقمندی" aria-label="افزودن به علاقمندی"><i class="ri-heart-3-line" id="add-to-favourite@(Model.Id)" onclick="likeOrDislike(event, '@Model.Id')"></i></a>
+                                                </li>
+
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <li>
+                                                <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به علاقمندی" aria-label="افزودن به علاقمندی"><i class="ri-heart-3-line" id="add-to-favourite@(Model.Id)" onclick="likeOrDislike(event, '@Model.Id')"></i></a>
+                                            </li>
+
+                                        }
+
+                                    }
+                                    @*   <li><a href="#"><i class="ri-heart-3-line" id="add-to-favourite@(Model.Id)" onclick="likeOrDislike(event, '@Model.Id')"></i></a></li> *@
                                     <li><a href="#" data-remodal-target="share-modal"><i class="ri-share-forward-fill"></i></a></li>
                                     <li><a href="#" data-remodal-target="notification-modal"><i class="ri-notification-fill"></i></a></li>
                                     <li><a href="#"><i class="ri-line-chart-fill"></i></a></li>
@@ -310,45 +341,13 @@
 
             if (discountPercentage != 0) {
                 console.log("discount");
-                priceElem.innerHTML = ((Number(price) * Number( 100 -discountPercentage)) / 100).toLocaleString();
+                priceElem.innerHTML = ((Number(price) * Number(100 - discountPercentage)) / 100).toLocaleString();
                 oldPrice.innerHTML = Number(price).toLocaleString();
             } else {
                 priceElem.innerHTML = Number(price).toLocaleString();
             }
 
         }
-
-
-        // var successToast = () => {
-        //     // t = this
-        //     a = "success",
-        //         e = "",
-        //         i = "topCenter",
-        //         n = "موفق!",
-        //         o = "به سبد خرید شما اضافه شد",
-        //         p = "green",
-        //         s = "";
-
-
-        //     s = {
-        //         rtl: true,
-        //         class: "iziToast-" + a || "",
-        //         title: n || "Title",
-        //         message: o || "toast message",
-        //         animateInside: !1,
-        //         position: "topRight",
-        //         progressBar: !1,
-        //         icon: e,
-        //         timeout: 3200,
-        //         transitionIn: "fadeInLeft",
-        //         transitionOut: "fadeOut",
-        //         transitionInMobile: "fadeIn",
-        //         transitionOutMobile: "fadeOut",
-        //         color: p || "blue",
-        //     };
-
-        //     iziToast.show(s);
-        // }
 
 
         const addToOrder = (e) => {
@@ -367,5 +366,41 @@
                 },
             })
         }
+
+
+        function likeOrDislike(e, productId) {
+            if (e.target.className == "ri-heart-3-line") {
+
+                $.ajax({
+                    type: "GET",
+                    url: `/like/${productId}`,
+                    success: function (response) {
+                        if (response.isSuccess) {
+                            e.target.className = "ri-heart-3-fill"
+                        }
+                    },
+                    error: function (xhr) {
+                        if (xhr.status == 401) {
+
+                            showToast("error", "ناموفق!", 'برای افزودن محصول به لیست علاقه مندی‌ها ابتدا <a href="/login">لاگین</a> کنید', "red", "topCenter")
+
+                        }
+                    }
+                });
+            } else {
+                e.target.className = "ri-heart-3-line"
+                $.ajax({
+                    type: "GET",
+                    url: `/deleteLike/${productId}`,
+
+                    success: function (response) {
+                        if (response.isSuccess) {
+                            e.target.className = "ri-heart-3-line"
+                        }
+                    }
+                });
+            }
+        }
+                                
     </script>
 }
