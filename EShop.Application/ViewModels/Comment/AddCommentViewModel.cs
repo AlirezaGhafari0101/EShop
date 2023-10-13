@@ -7,15 +7,11 @@ using System.Threading.Tasks;
 
 namespace EShop.Application.ViewModels.Comment
 {
-    public class CommentViewModel: BaseViewModel
+    public class AddCommentViewModel:BaseViewModel
     {
         public string Message { get; set; }
-        public bool IsConfirmed { get; set; }
-
+        public string ProductMainImage {  get; set; }
         public int ProductId { get; set; }
         public int UserId { get; set; }
-
-        public string? UserName { get; set; }
-        public DateTime CreatedDate { get; set; }
     }
 }

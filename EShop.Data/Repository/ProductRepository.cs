@@ -66,12 +66,12 @@ namespace EShop.Data.Repository
 
         public async Task<Product> GetProductByIdAsync(int id)
         {
-            return await _ctx.Products.Include(p => p.productGalleries).Include(p => p.Colors).Include(p => p.Discount).Include(p => p.UserFavourites).FirstOrDefaultAsync(p => p.Id == id);
+            return await _ctx.Products.Include(p => p.productGalleries).Include(p => p.Colors).Include(p => p.Discount).Include(p => p.UserFavourites).Include(p => p.Comments).ThenInclude(c => c.User).FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<List<Product>> GetProductsByCategoryIdAsync(int categoryId)
         {
-            return await _ctx.Products.Where(p => p.CategoryId == categoryId).Include(p => p.Colors).Include(p => p.Discount).Include(p=>p.UserFavourites).ToListAsync();
+            return await _ctx.Products.Where(p => p.CategoryId == categoryId).Include(p => p.Colors).Include(p => p.Discount).Include(p => p.UserFavourites).ToListAsync();
         }
 
         //public async Task<List<Category>> GetAllProductsByCategoryIdAsync(int categoryId)
@@ -82,9 +82,9 @@ namespace EShop.Data.Repository
 
         public async Task<List<int>> GetAllChildCategoryIDsByCategoryId(int categoryId)
         {
-            
 
-            var result = new List<int>() { categoryId};
+
+            var result = new List<int>() { categoryId };
             var categories = _ctx.Categories.ToList();
             foreach (var category in categories)
             {

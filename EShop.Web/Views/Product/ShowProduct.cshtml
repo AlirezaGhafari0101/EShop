@@ -319,7 +319,95 @@
             </div>
         </div>
         <!-- end of product-detail-container -->
+        <div class="row">
+            <div class="col-md-8">
 
+
+                <div class="product-tab-content product-comments tab-content border-bottom pb-2 mb-4" id="scrollspyHeading4">
+                    <div class="product-tab-title mb-0">
+                        <h2>امتیاز و دیدگاه کاربران</h2>
+                        <h3 class="subtitle">Samsung Galaxy M31 SM-M315F/DSN Dual SIM 128GB Mobile Phone</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-4 col-md-5 mb-3">
+                            <div class="ui-sticky ui-sticky-top pt-5 z-index-0">
+                                <!-- start of comments-sidebar -->
+                                <div class="comments-sidebar">
+                                    <div class="comments-sidebar-rating">
+                                        <div class="comments-sidebar-rating-main me-2">۴.۱</div>
+                                        <div class="comments-sidebar-rating-desc">از ۵</div>
+                                    </div>
+                                    <div class="comments-sidebar-rating-bottom">
+                                        <div class="stars-container justify-content-end">
+                                            <div class="stars-text ms-2">از مجموع ۹۴۰ امتیاز</div>
+                                            <div class="stars">
+                                                <div class="stars-val" style="width: 70%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                 
+                                    <div class="mb-2">دیدگاه خود را درباره این کالا بیان کنید</div>
+                                    <button class="btn btn-block btn-outline-primary">
+                                        افزودن
+                                        دیدگاه
+                                    </button>
+                                </div>
+                                <!-- end of comments-sidebar -->
+                            </div>
+                        </div>
+                        <div class="col-xl-9 col-lg-8 col-md-7 pt-5">
+                            <!-- start of filter-comments -->
+                            <div class="filter-comments mb-4">
+                                <div class="filter-comments-title me-2">
+                                    <i class="ri-list-settings-fill me-1"></i>
+                                    <span>مرتب سازی دیدگاه ها بر اساس:</span>
+                                </div>
+                                <div class="filter-comments-options">
+                                    <button class="filter-comments-option active">جدیدترین دیدگاه ها</button>
+                                    <button class="filter-comments-option">مفیدترین دیدگاه ها</button>
+                                    <button class="filter-comments-option">دیدگاه خریداران</button>
+                                </div>
+                            </div>
+                            <!-- end of filter-comments -->
+                            <!-- start of comments -->
+                            <div class="comments">
+
+                                @{
+                                    if(Model.Comments != null)
+                                    {
+                                        foreach (var c in Model.Comments)
+                                        {
+                                            <!-- start of comment -->
+                                            <div class="comment">
+                                                <div class="comment-header">
+                                                    <span>@FixedText.FixDateToShamsi(c.CreateDate)</span>
+                                                    <span>@c.UserId</span>
+                                                </div>
+                                                <div class="comment-body">
+                                                    <p>
+                                                        @c.Message
+                                                    </p>
+
+                                                </div>
+                                                <div class="comment-footer">
+                                                    <span class="me-2">آیا این دیدگاه برایتان مفید بود؟</span>
+                                                    <button class="comment-like">۷</button>
+                                                    <button class="comment-dislike">۲</button>
+                                                </div>
+                                            </div>
+                                            <!-- end of comment -->
+                                        }
+                                    }
+                                }
+
+                            </div>
+                            <!-- end of comments -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
     <!-- start of notification-modal -->
     <!-- end of notification-modal -->
@@ -401,6 +489,6 @@
                 });
             }
         }
-                                
+
     </script>
 }

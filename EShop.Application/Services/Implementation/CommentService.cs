@@ -18,7 +18,7 @@ namespace EShop.Application.Services.Implementation
         {
             _commentRepository = commentRepository;
         }
-        public async Task CreateCommentServiceAsync(CommentViewModel commentVM)
+        public async Task CreateCommentServiceAsync(AddCommentViewModel commentVM)
         {
             var comment = new Comment()
             {

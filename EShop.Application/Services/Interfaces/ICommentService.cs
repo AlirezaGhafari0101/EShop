@@ -10,7 +10,7 @@ namespace EShop.Application.Services.Interfaces
 {
     public interface ICommentService
     {
-        Task CreateCommentServiceAsync(CommentViewModel comment);
+        Task CreateCommentServiceAsync(AddCommentViewModel comment);
         Task UpdateCommentServiceAsync(CommentViewModel comment);
     }
 }

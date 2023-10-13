@@ -63,5 +63,7 @@ namespace EShop.Application.ViewModels.Product
         public List<UserFavourite.UserFavouriteViewModel>? UserFavourites { get; set; }
 
         public DiscountViewModel? Discount { get; set; }
+
+        public List<Comment.CommentViewModel>? Comments { get; set; }
     }
 }
