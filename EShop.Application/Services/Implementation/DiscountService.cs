@@ -37,6 +37,19 @@ namespace EShop.Application.Services.Implementation
                 IsActive = d.IsActive,
             }).ToList();
         }
+        public async Task<IEnumerable<DiscountViewModel>> GetAllDiscountsForProductServiceAsync()
+        {
+            var discounts = await _discountRepository.GetAllDiscountsForProductAsync();
+            return discounts.Select(d => new DiscountViewModel
+            {
+                Id = d.Id,
+                DiscountCode = d.DiscountCode,
+                DiscountPercentage = d.DiscountPercentage,
+                StartDate = d.StartDate,
+                EndDate = d.EndDate,
+                IsActive = d.IsActive,
+            }).ToList();
+        }
 
         public async Task<DiscountViewModel> GetDiscountByIdServiceAsync(int id)
         {
@@ -60,8 +73,8 @@ namespace EShop.Application.Services.Implementation
                 IsDelete = false,
                 DiscountCode = discountModel.DiscountCode,
                 DiscountPercentage = discountModel.DiscountPercentage,
-                StartDate = FixedText.FixShamsiDateToAdDate(discountModel.StartDate),
-                EndDate = FixedText.FixShamsiDateToAdDate(discountModel.EndDate),
+                StartDate = discountModel.StartDate!=null ?  FixedText.FixShamsiDateToAdDate(discountModel.StartDate) : DateTime.Now,
+                EndDate = discountModel.EndDate != null ? FixedText.FixShamsiDateToAdDate(discountModel.StartDate) : DateTime.Now.AddDays(30),
                 IsActive=discountModel.IsActive,
                 CreateDate=DateTime.Now,   
             };
@@ -95,6 +108,23 @@ namespace EShop.Application.Services.Implementation
                 await _productRepository.UpdateProductAsync(p);
             });
            await _productRepository.SaveChangeAsync();
+        }
+
+        public async Task<DiscountViewModel> GetGlobalDiscountServiceAsync()
+        {
+            var globalDiscount = await _discountRepository.GetGlobalDiscountAsync();
+            if (globalDiscount != null)
+            {
+                return new DiscountViewModel
+                {
+                    StartDate = globalDiscount.StartDate,
+                    EndDate = globalDiscount.EndDate,
+                    IsActive = globalDiscount.IsActive,
+                    DiscountPercentage = globalDiscount.DiscountPercentage,
+                };
+            }
+            return new DiscountViewModel { };
+          
         }
     }
 }

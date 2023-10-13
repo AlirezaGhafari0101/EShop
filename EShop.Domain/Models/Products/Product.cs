@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using EShop.Domain.Models.Discount;
 using EShop.Domain.Models.Order;
+using EShop.Domain.Models.Users;
 
 namespace EShop.Domain.Models.Products
 {
@@ -43,16 +44,24 @@ namespace EShop.Domain.Models.Products
         #endregion
 
         #region Discount
-
-
-
-
         public Discount.Discount? Discount { get; set; }
 
         #endregion
 
         public List<ProductColor>? Colors { get; set; }
         public List<OrderDetail>? OrderDetails { get; set; }
+
+        #region Favourite
+        public List<UserFavourite>? UserFavourites { get; set; }
+
+        #endregion
+
+        #region Comments
+
+        public List<Comment.Comment>? Comments { get; set; }
+
+        #endregion
+
 
         #endregion
 

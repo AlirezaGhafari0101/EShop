@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EShop.Web.Areas.Admin.Controllers
 {
+
     [Area("Admin")]
-    
     public class ProductCategory : Controller
     {
         private readonly IProductService _productService;

@@ -37,7 +37,7 @@ namespace EShop.Web.Areas.Admin.Controllers
         {
             var categories = await _productService.GetAllCategoriesForCreatingProductServiceAsync();
             ViewBag.categories = new SelectList(categories, "Id", "CategoryTitle");
-            var discounts = await _discountService.GetAllDiscountsServiceAsync();
+            var discounts = await _discountService.GetAllDiscountsForProductServiceAsync();
             ViewBag.discounts = new SelectList(discounts, "Id", "DiscountCode");
             return View();
         }
@@ -103,7 +103,7 @@ namespace EShop.Web.Areas.Admin.Controllers
             };
             var categories = await _productService.GetAllCategoriesForCreatingProductServiceAsync();
             ViewBag.categories = new SelectList(categories, "Id", "CategoryTitle");
-            var discounts = await _discountService.GetAllDiscountsServiceAsync();
+            var discounts = await _discountService.GetAllDiscountsForProductServiceAsync();
             ViewBag.discounts = new SelectList(discounts, "Id", "DiscountCode");
             return View(editableProduct);
         }

@@ -63,6 +63,16 @@ namespace EShop.Application.Convertors
 
             string result = string.Join(",", groups);
             return result;
+        } 
+        public static string MoenyFormatter(long moneny)
+        {
+           
+            string formattedNumber = moneny.ToString("N0");
+
+            string[] groups = formattedNumber.Split(',');
+
+            string result = string.Join(",", groups);
+            return result;
         }
     }
 }

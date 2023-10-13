@@ -1,5 +1,6 @@
 ﻿using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels.User.UserPanel;
+using EShop.Application.ViewModels.UserFavourite;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -18,9 +19,11 @@ namespace EShop.Web.Areas.UserPanel.Controllers
             _userService = userService;
         }
         [Route("userpanel")]
+
         public async Task<IActionResult> Index()
         {
             int usaerId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
             return View(await _userService.GetUserInforServiceAsync(usaerId));
         }
 
@@ -41,7 +44,7 @@ namespace EShop.Web.Areas.UserPanel.Controllers
             await _userService.EditUserProfileAsync(editViewModel, Id);
 
 
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
 
         }
 
@@ -71,5 +74,34 @@ namespace EShop.Web.Areas.UserPanel.Controllers
 
             return Redirect("/Login");
         }
+
+
+        #region UserFavourite
+
+        [HttpGet("like/{productId?}")]
+        public async Task<IActionResult> LikeProduct(int productId)
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var ufViewModel = new AddUserFavouriteViewModel
+            {
+                UserId = userId,
+                ProductId = productId
+            };
+            await _userService.CreateUserFavouriteServiceAsync(ufViewModel);
+            return Json(new { isSuccess = true });
+        }
+
+        [HttpGet("deleteLike/{productId?}")]
+       
+        public async Task<IActionResult> DeleteLikeProduct(int productId)
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            await _userService.DeleteUserFavouriteServiceAsync(productId, userId);
+            return Json(new { isSuccess = true });
+        }
+
+        #endregion
+
     }
 }

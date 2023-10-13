@@ -22,6 +22,11 @@ namespace EShop.Data.Repository
         {
             return await _ctx.Discounts.ToListAsync();
         }
+        
+        public async Task<IEnumerable<Discount>> GetAllDiscountsForProductAsync()
+        {
+            return await _ctx.Discounts.Where(d => d.DiscountCode != null && d.IsActive == true && d.EndDate > DateTime.Now).ToListAsync();
+        }
 
         public async Task<Discount> GetDiscountByIdAsync(int id)
         {
@@ -40,6 +45,11 @@ namespace EShop.Data.Repository
         public async Task SaveChangesAsync()
         {
             await _ctx.SaveChangesAsync();
+        }
+
+        public async Task<Discount> GetGlobalDiscountAsync()
+        {
+            return await _ctx.Discounts.Where(d => d.IsActive).FirstOrDefaultAsync(d => d.DiscountCode == null);
         }
     }
 }

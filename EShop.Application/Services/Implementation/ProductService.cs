@@ -1,13 +1,16 @@
 ﻿using EShop.Application.Convertors;
 using EShop.Application.Services.Interfaces;
+using EShop.Application.ViewModels.Comment;
 using EShop.Application.ViewModels.Discount;
 using EShop.Application.ViewModels.Product;
 using EShop.Application.ViewModels.Product.Category;
 using EShop.Application.ViewModels.Product.Color;
 using EShop.Application.ViewModels.Product.ProductGallery;
+using EShop.Application.ViewModels.UserFavourite;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Discount;
 using EShop.Domain.Models.Products;
+using System.Drawing;
 
 namespace EShop.Application.Services.Implementation
 {
@@ -176,17 +179,33 @@ namespace EShop.Application.Services.Implementation
                 DiscountId = product.DiscountId,
                 Count = product.Count,
                 CreatedDate = product.CreateDate,
-                Discount = product.Discount != null? new DiscountViewModel()
+                Discount = product.Discount != null ? new DiscountViewModel()
                 {
-                    Id= product.Discount.Id,
-                    DiscountCode=product.Discount.DiscountCode,
-                    DiscountPercentage=product.Discount.DiscountPercentage,
-                    StartDate=product.Discount.StartDate,
-                    EndDate=product.Discount.EndDate,
+                    Id = product.Discount.Id,
+                    DiscountCode = product.Discount.DiscountCode,
+                    DiscountPercentage = product.Discount.DiscountPercentage,
+                    StartDate = product.Discount.StartDate,
+                    EndDate = product.Discount.EndDate,
                     IsActive = product.Discount.IsActive,
-                } :null,
+                } : null,
+                UserFavourites = product.UserFavourites == null ? null : product.UserFavourites.Select(uf => new UserFavouriteViewModel
+                {
+                    Id = uf.Id,
+                    ProductId = uf.ProductId,
+                    UserId = uf.UserId,
+                }).ToList(),
+                Comments = product.Comments == null ? null : product.Comments.Select(c => new CommentViewModel
+                {
+                    Id = c.Id,
+                    ProductId = c.ProductId,
+                    UserId = c.UserId,
+                    Message = c.Message,
+                    UserName = c.User.FirstName + " " + c.User.LastName,
+                    CreateDate = c.CreateDate,
+                }).ToList(),
                 Colors = product.Colors.Select(c => new ProductColorViewModel
                 {
+                    Id = c.Id,
                     Hex = c.Hex,
                     Price = c.Price,
                     ProductId = c.ProductId,
@@ -203,7 +222,7 @@ namespace EShop.Application.Services.Implementation
             };
 
         }
-   
+
 
         public async Task<List<ProductViewModel>> GetAllProductsByCategoryIdServiceAsync(int categoryId)
         {
@@ -213,7 +232,7 @@ namespace EShop.Application.Services.Implementation
             foreach (int categoryID in categoryIDs)
             {
                 var productsGetByCategoryId = await _productRepository.GetProductsByCategoryIdAsync(categoryID);
-                 var mappedProducts = productsGetByCategoryId.Select(p => new ProductViewModel
+                var mappedProducts = productsGetByCategoryId.Select(p => new ProductViewModel
                 {
                     Id = p.Id,
                     Title = p.Title,
@@ -224,6 +243,12 @@ namespace EShop.Application.Services.Implementation
                     ImageName = p.Image,
                     CreatedDate = p.CreateDate,
                     Price = _productRepository.GetFirstColorByProductIdAsync(p.Id),
+                    UserFavourites = p.UserFavourites.Select(uf => new UserFavouriteViewModel
+                    {
+                        Id = uf.Id,
+                        ProductId = uf.ProductId,
+                        UserId = uf.UserId,
+                    }).ToList(),
                     Discount = p.Discount != null ? new DiscountViewModel
                     {
                         DiscountCode = p.Discount?.DiscountCode,
@@ -234,6 +259,7 @@ namespace EShop.Application.Services.Implementation
                     } : null,
                     Colors = p.Colors.Select(c => new ProductColorViewModel
                     {
+                        Id = c.Id,
                         Hex = c.Hex,
                         Price = c.Price,
                         ProductId = c.ProductId,
@@ -241,12 +267,12 @@ namespace EShop.Application.Services.Implementation
                     }).ToList()
                 }).ToList();
 
-                
+
                 products.AddRange(mappedProducts);
 
 
             }
-           
+
             return products;
 
 
@@ -517,6 +543,21 @@ namespace EShop.Application.Services.Implementation
             productColor.IsDelete = true;
             await _productRepository.UpdateProductColorAsync(productColor);
             await _productRepository.SaveChangeAsync();
+        }
+
+        public async Task<ProductColorViewModel> GetColorByIdServiceAsync(int id)
+        {
+            ProductColor productColor = await _productRepository.GetProductColorAsync(id);
+            return new ProductColorViewModel()
+            {
+                Id = productColor.Id,
+                Hex = productColor.Hex,
+                Price = productColor.Price,
+                ProductId = productColor.ProductId,
+                CreateDate = productColor.CreateDate,
+                IsDelete = productColor.IsDelete,
+                ColorName = productColor.ColorName,
+            };
         }
         #endregion
     }

@@ -1,4 +1,5 @@
 ﻿using EShop.Domain.common;
+using EShop.Domain.Models.Comment;
 using EShop.Domain.Models.Order;
 using EShop.Domain.Models.Ticket;
 using System.ComponentModel.DataAnnotations;
@@ -31,6 +32,8 @@ namespace EShop.Domain.Models.Users
         public List<Models.Ticket.Ticket>? Tickets { get; set; }
         public List<TicketMessage>? TicketMessages { get; set; }
         public List<Order.Order>? Orders { get; set; }
+        public List<UserFavourite>? UserFavourites { get; set; }
+        public List<Comment.Comment>? Comments { get; set; }
         #endregion
 
     }

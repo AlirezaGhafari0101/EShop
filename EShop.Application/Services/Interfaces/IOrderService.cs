@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EShop.Application.Services.Interfaces
+﻿namespace EShop.Application.Services.Interfaces
 {
     public interface IOrderService
     {
+        Task<int> AddToOrderServiceAsync(int userId, int productId, int colorId);
 
     }
 }

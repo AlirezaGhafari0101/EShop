@@ -13,6 +13,7 @@ namespace EShop.Application.ViewModels.Discount
 
 
         [Required(ErrorMessage = "پر کردن این فیلد الزامی می باشد.")]
+        [Range(0,100, ErrorMessage ="درصد تخفیف نمی تواند از 100 بیشتر باشد.")]
         public int DiscountPercentage { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

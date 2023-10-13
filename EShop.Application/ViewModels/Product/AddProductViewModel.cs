@@ -24,7 +24,7 @@ namespace EShop.Application.ViewModels.Product
         [Required(ErrorMessage = "پر کردن {0} الزامی می باشد.")]
 
         public string Tag { get; set; }
-
+      
         public string? Features { get; set; }
 
         [Display(Name = "تصویر محصول")]  

@@ -8,15 +8,18 @@ namespace EShop.Web.Controllers
     {
 
         private readonly IProductService _productService;
+        private readonly IDiscountService _discountService;
 
-        public ProductController(IProductService productService)
+        public ProductController(IProductService productService, IDiscountService discountService)
         {
             _productService = productService;
+            _discountService = discountService;
         }
         [Route("/category/{id}")]
         public async Task<IActionResult> ShowProductsByCategory(int id)
         {
             var products = await _productService.GetAllProductsByCategoryIdServiceAsync(id);
+            ViewBag.globalDiscount = await _discountService.GetGlobalDiscountServiceAsync();
             return View(products);
         }
 
@@ -24,6 +27,7 @@ namespace EShop.Web.Controllers
         public async Task<IActionResult> ShowProduct(int id)
         {
             var product = await _productService.GetProductByIdServiceAsync(id);
+            ViewBag.globalDiscount = await _discountService.GetGlobalDiscountServiceAsync();
             return View(product);
         }
 
