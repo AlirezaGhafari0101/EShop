@@ -18,6 +18,7 @@ namespace EShop.Domain.Models.Comment
 
         #region Relations
         public User User { get; set; }
+        public List<UserCommentLikeOrDislike>? UserCommentLikes { get; set; }
 
         #endregion
     }

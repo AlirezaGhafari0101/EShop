@@ -34,6 +34,7 @@ namespace EShop.Domain.Models.Users
         public List<Order.Order>? Orders { get; set; }
         public List<UserFavourite>? UserFavourites { get; set; }
         public List<Comment.Comment>? Comments { get; set; }
+        public List<UserCommentLikeOrDislike>? UserCommentLikes { get; set; }
         #endregion
 
     }

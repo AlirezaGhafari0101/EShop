@@ -44,6 +44,7 @@ namespace EShop.Data.Context
         public DbSet<UserFavourite> UserFavourites { get; set; }
 
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<UserCommentLikeOrDislike> UserCommentLikes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -77,6 +78,19 @@ namespace EShop.Data.Context
                 .HasForeignKey(t => t.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
+
+            modelBuilder.Entity<User>().HasMany<UserCommentLikeOrDislike>(u => u.UserCommentLikes)
+                .WithOne(ucl => ucl.User)
+                .HasForeignKey(ucl => ucl.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+
+            modelBuilder.Entity<Comment>().HasMany<UserCommentLikeOrDislike>(c => c.UserCommentLikes)
+                .WithOne(ucl => ucl.Comment)
+                .HasForeignKey(ucl => ucl.CommentId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+               
+               
         }
     }
 }

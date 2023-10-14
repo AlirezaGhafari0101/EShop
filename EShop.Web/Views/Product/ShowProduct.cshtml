@@ -371,35 +371,42 @@
                             <!-- end of filter-comments -->
                             <!-- start of comments -->
                             <div class="comments">
-
+                               
                                 @{
-                                    if (Model.Comments != null)
+                                    if (Model.Comments != null && Model.Comments.Any(c => c.IsConfirmed))
                                     {
-                                        foreach (var c in Model.Comments)
-                                        {
-                                            if (c.IsConfirmed )
+                                       
+                                            foreach (var c in Model.Comments)
                                             {
-                                                <!-- start of comment -->
-                                                <div class="comment">
-                                                    <div class="comment-header">
-                                                        <span>@FixedText.FixDateToShamsi(c.CreateDate)</span>
-                                                        <span>@c.UserName</span>
-                                                    </div>
-                                                    <div class="comment-body">
-                                                        <p>
-                                                            @c.Message
-                                                        </p>
 
+                                                if (c.IsConfirmed)
+                                                {
+
+                                                    <!-- start of comment -->
+                                                    <div class="comment">
+                                                        <div class="comment-header">
+                                                            <span>@FixedText.FixDateToShamsi(c.CreateDate)</span>
+                                                            <span>@c.UserName</span>
+                                                        </div>
+                                                        <div class="comment-body">
+                                                            <p>
+                                                                @c.Message
+                                                            </p>
+
+                                                        </div>
+                                                        <div class="comment-footer">
+                                                            <span class="me-2">آیا این دیدگاه برایتان مفید بود؟</span>
+                                                            <button class="comment-like">۷</button>
+                                                            <button class="comment-dislike">۲</button>
+                                                        </div>
                                                     </div>
-                                                    <div class="comment-footer">
-                                                        <span class="me-2">آیا این دیدگاه برایتان مفید بود؟</span>
-                                                        <button class="comment-like">۷</button>
-                                                        <button class="comment-dislike">۲</button>
-                                                    </div>
-                                                </div>
-                                                <!-- end of comment -->
+                                                    <!-- end of comment -->
+                                                }
+
                                             }
-                                        }
+                                        
+                                     
+                                     
                                     }
                                     else
                                     {
