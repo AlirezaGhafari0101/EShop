@@ -345,12 +345,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                 
+
                                     <div class="mb-2">دیدگاه خود را درباره این کالا بیان کنید</div>
-                                    <button class="btn btn-block btn-outline-primary">
+                                    <a class="btn btn-block btn-outline-primary" href="/add-Comment/@Model.Id">
                                         افزودن
                                         دیدگاه
-                                    </button>
+                                    </a>
                                 </div>
                                 <!-- end of comments-sidebar -->
                             </div>
@@ -373,30 +373,39 @@
                             <div class="comments">
 
                                 @{
-                                    if(Model.Comments != null)
+                                    if (Model.Comments != null)
                                     {
                                         foreach (var c in Model.Comments)
                                         {
-                                            <!-- start of comment -->
-                                            <div class="comment">
-                                                <div class="comment-header">
-                                                    <span>@FixedText.FixDateToShamsi(c.CreateDate)</span>
-                                                    <span>@c.UserId</span>
-                                                </div>
-                                                <div class="comment-body">
-                                                    <p>
-                                                        @c.Message
-                                                    </p>
+                                            if (c.IsConfirmed )
+                                            {
+                                                <!-- start of comment -->
+                                                <div class="comment">
+                                                    <div class="comment-header">
+                                                        <span>@FixedText.FixDateToShamsi(c.CreateDate)</span>
+                                                        <span>@c.UserName</span>
+                                                    </div>
+                                                    <div class="comment-body">
+                                                        <p>
+                                                            @c.Message
+                                                        </p>
 
+                                                    </div>
+                                                    <div class="comment-footer">
+                                                        <span class="me-2">آیا این دیدگاه برایتان مفید بود؟</span>
+                                                        <button class="comment-like">۷</button>
+                                                        <button class="comment-dislike">۲</button>
+                                                    </div>
                                                 </div>
-                                                <div class="comment-footer">
-                                                    <span class="me-2">آیا این دیدگاه برایتان مفید بود؟</span>
-                                                    <button class="comment-like">۷</button>
-                                                    <button class="comment-dislike">۲</button>
-                                                </div>
-                                            </div>
-                                            <!-- end of comment -->
+                                                <!-- end of comment -->
+                                            }
                                         }
+                                    }
+                                    else
+                                    {
+                                        <div class="alert alert-warning">
+                                        کامنتی برای نمایش وجود ندارد.
+                                        </div>
                                     }
                                 }
 
@@ -469,9 +478,7 @@
                     },
                     error: function (xhr) {
                         if (xhr.status == 401) {
-
                             showToast("error", "ناموفق!", 'برای افزودن محصول به لیست علاقه مندی‌ها ابتدا <a href="/login">لاگین</a> کنید', "red", "topCenter")
-
                         }
                     }
                 });

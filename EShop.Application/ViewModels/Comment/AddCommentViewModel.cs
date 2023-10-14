@@ -9,9 +9,9 @@ namespace EShop.Application.ViewModels.Comment
 {
     public class AddCommentViewModel:BaseViewModel
     {
-        public string Message { get; set; }
-        public string ProductMainImage {  get; set; }
+        public string Message { get; set; }      
         public int ProductId { get; set; }
         public int UserId { get; set; }
+       
     }
 }

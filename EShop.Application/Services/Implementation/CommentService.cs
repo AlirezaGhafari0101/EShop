@@ -28,6 +28,7 @@ namespace EShop.Application.Services.Implementation
                UserId = commentVM.UserId,
             };
             await _commentRepository.CreateCommentAsync(comment);
+            await _commentRepository.SaveChangesAsync();
         }
 
         public Task UpdateCommentServiceAsync(CommentViewModel comment)

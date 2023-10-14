@@ -31,6 +31,8 @@ namespace EShop.Domain.Interfaces
         Task<bool> DeleteProductAsync(int id);
         Task<bool> UpdateProductAsync(Product product);
         Task<bool> IsProductExistAsync(string title);
+
+        Task<Product> GetProductImageAndTitleByIdAsync(int id);
         #endregion
 
 

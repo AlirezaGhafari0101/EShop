@@ -131,6 +131,11 @@ namespace EShop.Data.Repository
         {
             return await _ctx.Products.AnyAsync(p => p.Title == title);
         }
+
+        public async Task<Product> GetProductImageAndTitleByIdAsync(int id)
+        {
+            return await _ctx.Products.FindAsync(id);
+        }
         #endregion
 
 

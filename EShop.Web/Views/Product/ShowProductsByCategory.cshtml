@@ -466,104 +466,104 @@
                                                 {
                                                     if (product.Colors.Count() != 0)
                                                     {
-                                                                                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4">
-                                                                                    <div class="product-card">
-                                                                                        <div class="product-thumbnail">
-                                                                                            <a href="/product/@product.Id">
-                                                                                                <img src="/images/ProductImages/@product.ImageName" alt="product title">
-                                                                                            </a>
-                                                                                        </div>
-                                                                                        <div class="product-card-body">
-                                                                                            <h2 class="product-title">
-                                                                                                <a href="/product/@product.Id">
-                                                                                                    @product.Title
-                                                                                                </a>
-                                                                                            </h2>
-                                                                                            <div class="product-variant">
-                                                                                                @{
+                                                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4">
+                                                            <div class="product-card">
+                                                                <div class="product-thumbnail">
+                                                                    <a href="/product/@product.Id">
+                                                                        <img src="/images/ProductImages/@product.ImageName" alt="product title">
+                                                                    </a>
+                                                                </div>
+                                                                <div class="product-card-body">
+                                                                    <h2 class="product-title">
+                                                                        <a href="/product/@product.Id">
+                                                                            @product.Title
+                                                                        </a>
+                                                                    </h2>
+                                                                    <div class="product-variant">
+                                                                        @{
                                                                             foreach (var color in product.Colors)
                                                                             {
-                                                                                                                                <span class="color" style="background-color: @color.Hex;"></span>
+                                                                                <span class="color" style="background-color: @color.Hex;"></span>
                                                                             }
-                                                                                                }
+                                                                        }
 
-                                                                                                <span>+</span>
-                                                                                            </div>
+                                                                        <span>+</span>
+                                                                    </div>
 
-                                                                                            <div class="product-price fa-num">
-                                                                                                @{
+                                                                    <div class="product-price fa-num">
+                                                                        @{
                                                                             if (product.Discount != null && product.Discount.EndDate > DateTime.Now && DateTime.Now > product.Discount.StartDate && product.Discount.IsActive)
                                                                             {
-                                                                                                                                <div class="d-flex align-items-center">
-                                                                                                                                    <del class="price-old">@FixedText.MoenyFormatter(product.Price)</del>
-                                                                                                                                    <span class="discount ms-2">%@product.Discount.DiscountPercentage</span>
-                                                                                                                                </div>
-                                                                                                                                <span class="price-now">@FixedText.MoenyFormatter(((long)product.Price * (long)(100 - product.Discount.DiscountPercentage)) / 100)<span class="currency">تومان</span></span>
+                                                                                <div class="d-flex align-items-center">
+                                                                                    <del class="price-old">@FixedText.MoenyFormatter(product.Price)</del>
+                                                                                    <span class="discount ms-2">%@product.Discount.DiscountPercentage</span>
+                                                                                </div>
+                                                                                <span class="price-now">@FixedText.MoenyFormatter(((long)product.Price * (long)(100 - product.Discount.DiscountPercentage)) / 100)<span class="currency">تومان</span></span>
                                                                             }
                                                                             else if (ViewBag.globalDiscount.DiscountPercentage != 0 && ViewBag.globalDiscount.EndDate > DateTime.Now && DateTime.Now > ViewBag.globalDiscount.StartDate && ViewBag.globalDiscount.IsActive)
                                                                             {
-                                                                                                                                <div class="d-flex align-items-center">
-                                                                                                                                    <del class="price-old">@FixedText.MoenyFormatter(product.Price)</del>
-                                                                                                                                    <span class="discount ms-2">%@ViewBag.globalDiscount.DiscountPercentage</span>
-                                                                                                                                </div>
+                                                                                <div class="d-flex align-items-center">
+                                                                                    <del class="price-old">@FixedText.MoenyFormatter(product.Price)</del>
+                                                                                    <span class="discount ms-2">%@ViewBag.globalDiscount.DiscountPercentage</span>
+                                                                                </div>
 
-                                                                                                                                <span class="price-now">@FixedText.MoenyFormatter((((long)product.Price * (long)(100 - ViewBag.globalDiscount.DiscountPercentage))) / 100)<span class="currency">تومان</span></span>
+                                                                                <span class="price-now">@FixedText.MoenyFormatter((((long)product.Price * (long)(100 - ViewBag.globalDiscount.DiscountPercentage))) / 100)<span class="currency">تومان</span></span>
                                                                             }
                                                                             else
                                                                             {
-                                                                                                                                <span class="price-now">@FixedText.MoenyFormatter(product.Price)<span class="currency">تومان</span></span>
+                                                                                <span class="price-now">@FixedText.MoenyFormatter(product.Price)<span class="currency">تومان</span></span>
 
                                                                             }
-                                                                                                }
-                                                                                            </div>
+                                                                        }
+                                                                    </div>
 
 
-                                                                                        </div>
-                                                                                        <div class="product-card-footer">
-                                                                                            <div class="d-flex align-items-center justify-content-between border-top mt-2 py-2">
-                                                                                                <div class="product-actions">
-                                                                                                    <ul id="icons-container@(product.Id)">
-                                                                                                        <li>
-                                                                                                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به سبد خرید" aria-label="افزودن به سبد خرید"><i class="ri-shopping-cart-line"></i></a>
-                                                                                                        </li>
-                                                                                                        <li>
-                                                                                                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="مشاهده سریع" aria-label="مشاهده سریع" data-remodal-target="quick-view-modal"><i class="ri-search-line"></i></a>
-                                                                                                        </li>
-                                                                                                        @{
+                                                                </div>
+                                                                <div class="product-card-footer">
+                                                                    <div class="d-flex align-items-center justify-content-between border-top mt-2 py-2">
+                                                                        <div class="product-actions">
+                                                                            <ul id="icons-container@(product.Id)">
+                                                                                <li>
+                                                                                    <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به سبد خرید" aria-label="افزودن به سبد خرید"><i class="ri-shopping-cart-line"></i></a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="مشاهده سریع" aria-label="مشاهده سریع" data-remodal-target="quick-view-modal"><i class="ri-search-line"></i></a>
+                                                                                </li>
+                                                                                @{
                                                                                     if (product.UserFavourites != null)
                                                                                     {
                                                                                         if (product.UserFavourites.Exists(uf => uf.ProductId == product.Id && uf.UserId == userId))
                                                                                         {
-                                                                                                                                            <li>
-                                                                                                                                                <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به علاقمندی" aria-label="افزودن به علاقمندی"><i class="ri-heart-3-fill" id="add-to-favourite@(product.Id)" onclick=" likeOrDislike(event, ' @product.Id')"></i></a>
-                                                                                                                                            </li>
+                                                                                            <li>
+                                                                                                <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به علاقمندی" aria-label="افزودن به علاقمندی"><i class="ri-heart-3-fill" id="add-to-favourite@(product.Id)" onclick=" likeOrDislike(event, ' @product.Id')"></i></a>
+                                                                                            </li>
                                                                                         }
                                                                                         else
                                                                                         {
-                                                                                                                                            <li>
-                                                                                                                                                <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به علاقمندی" aria-label="افزودن به علاقمندی"><i class="ri-heart-3-line" id="add-to-favourite@(product.Id)" onclick="likeOrDislike(event, '@product.Id')"></i></a>
-                                                                                                                                            </li>
+                                                                                            <li>
+                                                                                                <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به علاقمندی" aria-label="افزودن به علاقمندی"><i class="ri-heart-3-line" id="add-to-favourite@(product.Id)" onclick="likeOrDislike(event, '@product.Id')"></i></a>
+                                                                                            </li>
                                                                                         }
                                                                                     }
                                                                                     else
                                                                                     {
-                                                                                                                                        <li>
-                                                                                                                                            <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به علاقمندی" aria-label="افزودن به علاقمندی"><i class="ri-heart-3-line" id="add-to-favourite@(product.Id)" onclick="likeOrDislike(event, '@product.Id')"></i></a>
-                                                                                                                                        </li>
+                                                                                        <li>
+                                                                                            <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به علاقمندی" aria-label="افزودن به علاقمندی"><i class="ri-heart-3-line" id="add-to-favourite@(product.Id)" onclick="likeOrDislike(event, '@product.Id')"></i></a>
+                                                                                        </li>
                                                                                     }
 
-                                                                                                        }
-                                                                                                    </ul>
-                                                                                                </div>
-                                                                                                <div class="product-rating fa-num">
-                                                                                                    <i class="ri-star-fill star"></i>
-                                                                                                    <strong>۴.۴</strong>
-                                                                                                    <span>(۴۳۶)</span>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
+                                                                                }
+                                                                            </ul>
+                                                                        </div>
+                                                                        <div class="product-rating fa-num">
+                                                                            <i class="ri-star-fill star"></i>
+                                                                            <strong>۴.۴</strong>
+                                                                            <span>(۴۳۶)</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     }
 
                                                 }
@@ -621,23 +621,22 @@
 
         function likeOrDislike(e, productId) {
             if (e.target.className == "ri-heart-3-line") {
-               
+
                 $.ajax({
                     type: "GET",
                     url: `/like/${productId}`,
                     success: function (response) {
                         if (response.isSuccess) {
                             e.target.className = "ri-heart-3-fill"
-                        }                       
+                        }
                     },
-                     error: function (xhr)
-                     {
-                         if (xhr.status == 401) {
+                    error: function (xhr) {
+                        if (xhr.status == 401) {
 
                             showToast("error", "ناموفق!", 'برای افزودن محصول به لیست علاقه مندی‌ها ابتدا <a href="/login">لاگین</a> کنید', "red", "topCenter")
-                           
-                         }
-                     }    
+
+                        }
+                    }
 
                 });
             } else {
@@ -656,67 +655,67 @@
         }
 
 
-                        // function likeProduct(productId) {
-                        //     $.ajax({
-                        //         type: "GET",
-                        //         url: `/like/${productId}`,
-                        //         success: function ( response) {
-                        //             if (response.isSuccess) {
-                        //                 showToast("success", "موفق!", "به لیست علاقه مندی ها  اضافه شد", "green", "topCenter")
-                        //                 var li = $('<li>');
-                        //                 var a = $('<a>').attr({
-                        //                     'href': 'javascript:void(0)',
-                        //                     'data-bs-toggle': 'tooltip',
-                        //                     'data-bs-placement': 'top',
-                        //                     'title': '',
-                        //                     'data-bs-original-title': 'افزودن به علاقمندی',
-                        //                     'aria-label': 'افزودن به علاقمندی'
-                        //                 });
-                        //                 var i = $('<i>').addClass('ri-heart-3-fill').attr({
-                        //                     'id': 'add-to-favourite' + productId,
-                        //                     'onclick': 'deleteLikeProduct(' + productId + ')'
-                        //                 });
-                        //                 a.append(i);
-                        //                 li.append(a);
-                        //                 $("#icons-container" + productId).append(li);
-                        //                 $('#add-to-favourite' + productId).remove();
-                        //             }
-                        //         },
+                                // function likeProduct(productId) {
+                                //     $.ajax({
+                                //         type: "GET",
+                                //         url: `/like/${productId}`,
+                                //         success: function ( response) {
+                                //             if (response.isSuccess) {
+                                //                 showToast("success", "موفق!", "به لیست علاقه مندی ها  اضافه شد", "green", "topCenter")
+                                //                 var li = $('<li>');
+                                //                 var a = $('<a>').attr({
+                                //                     'href': 'javascript:void(0)',
+                                //                     'data-bs-toggle': 'tooltip',
+                                //                     'data-bs-placement': 'top',
+                                //                     'title': '',
+                                //                     'data-bs-original-title': 'افزودن به علاقمندی',
+                                //                     'aria-label': 'افزودن به علاقمندی'
+                                //                 });
+                                //                 var i = $('<i>').addClass('ri-heart-3-fill').attr({
+                                //                     'id': 'add-to-favourite' + productId,
+                                //                     'onclick': 'deleteLikeProduct(' + productId + ')'
+                                //                 });
+                                //                 a.append(i);
+                                //                 li.append(a);
+                                //                 $("#icons-container" + productId).append(li);
+                                //                 $('#add-to-favourite' + productId).remove();
+                                //             }
+                                //         },
 
-                        //     });
-                        // }
+                                //     });
+                                // }
 
-                        // function deleteLikeProduct( productId) {
-                        //     $.ajax({
-                        //         type: "GET",
-                        //         url: `/deleteLike/${productId}`,
-                        //         success: function (response) {
-                        //             if (response.isSuccess) {
-                        //                 console.log("log")
-                        //                 showToast("error", "موفق", "از لیست علاقه مندی ها حذف شد.", "red", "topCenter")
-                        //                 var li = $('<li>');
-                        //                 var a = $('<a>').attr({
-                        //                     'href': 'javascript:void(0)',
-                        //                     'data-bs-toggle': 'tooltip',
-                        //                     'data-bs-placement': 'top',
-                        //                     'title': '',
-                        //                     'data-bs-original-title': 'افزودن به علاقمندی',
-                        //                     'aria-label': 'افزودن به علاقمندی'
-                        //                 });
-                        //                 var i = $('<i>').addClass('ri-heart-3-line').attr({
-                        //                     'id': 'add-to-favourite' + productId,
-                        //                     'onclick': 'deleteLikeProduct(' + productId + ')'
-                        //                 });
-                        //                 a.append(i);
-                        //                 li.append(a);
-                        //                 $("#icons-container" + productId).append(li);
-                        //                 $('#add-to-favourite' + productId).remove();
+                                // function deleteLikeProduct( productId) {
+                                //     $.ajax({
+                                //         type: "GET",
+                                //         url: `/deleteLike/${productId}`,
+                                //         success: function (response) {
+                                //             if (response.isSuccess) {
+                                //                 console.log("log")
+                                //                 showToast("error", "موفق", "از لیست علاقه مندی ها حذف شد.", "red", "topCenter")
+                                //                 var li = $('<li>');
+                                //                 var a = $('<a>').attr({
+                                //                     'href': 'javascript:void(0)',
+                                //                     'data-bs-toggle': 'tooltip',
+                                //                     'data-bs-placement': 'top',
+                                //                     'title': '',
+                                //                     'data-bs-original-title': 'افزودن به علاقمندی',
+                                //                     'aria-label': 'افزودن به علاقمندی'
+                                //                 });
+                                //                 var i = $('<i>').addClass('ri-heart-3-line').attr({
+                                //                     'id': 'add-to-favourite' + productId,
+                                //                     'onclick': 'deleteLikeProduct(' + productId + ')'
+                                //                 });
+                                //                 a.append(i);
+                                //                 li.append(a);
+                                //                 $("#icons-container" + productId).append(li);
+                                //                 $('#add-to-favourite' + productId).remove();
 
-                        //             }
-                        //         },
+                                //             }
+                                //         },
 
-                        //     });
-                        // }
+                                //     });
+                                // }
     </script>
 }
 

@@ -38,6 +38,8 @@ namespace EShop.Application.Services.Interfaces
 
         Task<bool> IsProductExistServiceAsync(string title);
 
+        Task<ProductViewModel> GetProductImageAndTitleByIdServiceAsync(int id);
+
         #endregion
 
 

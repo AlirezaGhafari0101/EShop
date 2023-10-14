@@ -202,6 +202,7 @@ namespace EShop.Application.Services.Implementation
                     Message = c.Message,
                     UserName = c.User.FirstName + " " + c.User.LastName,
                     CreateDate = c.CreateDate,
+                    IsConfirmed = c.IsConfirmed,
                 }).ToList(),
                 Colors = product.Colors.Select(c => new ProductColorViewModel
                 {
@@ -346,6 +347,17 @@ namespace EShop.Application.Services.Implementation
         public async Task<bool> IsProductExistServiceAsync(string title)
         {
             return await _productRepository.IsProductExistAsync(title);
+        }
+
+        public async Task<ProductViewModel> GetProductImageAndTitleByIdServiceAsync(int id)
+        {
+            var product  = await _productRepository.GetProductImageAndTitleByIdAsync(id);
+            return new ProductViewModel
+            {
+                Title = product.Title,
+                ImageName = product.Image,
+                Id = id
+            };
         }
         #endregion
 
