@@ -1,12 +1,14 @@
 ﻿@model EShop.Application.ViewModels.Product.ProductViewModel
 @using EShop.Application.Convertors
 @using System.Security.Claims
+@using EShop.Domain.Models.Rating
 @{
     var userId = 0;
     if (User.Identity.IsAuthenticated)
     {
         userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
     }
+    var widthPercentage = Model.ProductRate * 100 / 5;
 }
 <main class="page-content">
 
@@ -40,24 +42,24 @@
                                         {
                                             if (Model.UserFavourites.Exists(uf => uf.ProductId == Model.Id && uf.UserId == userId))
                                             {
-                                                <li>
-                                                    <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به علاقمندی" aria-label="افزودن به علاقمندی"><i class="ri-heart-3-fill" id="add-to-favourite@(Model.Id)" onclick=" likeOrDislike(event, ' @Model.Id')"></i></a>
-                                                </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به علاقمندی" aria-label="افزودن به علاقمندی"><i class="ri-heart-3-fill" id="add-to-favourite@(Model.Id)" onclick=" likeOrDislike(event, ' @Model.Id')"></i></a>
+                                                    </li>
 
                                             }
                                             else
                                             {
-                                                <li>
-                                                    <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به علاقمندی" aria-label="افزودن به علاقمندی"><i class="ri-heart-3-line" id="add-to-favourite@(Model.Id)" onclick="likeOrDislike(event, '@Model.Id')"></i></a>
-                                                </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به علاقمندی" aria-label="افزودن به علاقمندی"><i class="ri-heart-3-line" id="add-to-favourite@(Model.Id)" onclick="likeOrDislike(event, '@Model.Id')"></i></a>
+                                                    </li>
 
                                             }
                                         }
                                         else
                                         {
-                                            <li>
-                                                <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به علاقمندی" aria-label="افزودن به علاقمندی"><i class="ri-heart-3-line" id="add-to-favourite@(Model.Id)" onclick="likeOrDislike(event, '@Model.Id')"></i></a>
-                                            </li>
+                                                <li>
+                                                    <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="افزودن به علاقمندی" aria-label="افزودن به علاقمندی"><i class="ri-heart-3-line" id="add-to-favourite@(Model.Id)" onclick="likeOrDislike(event, '@Model.Id')"></i></a>
+                                                </li>
 
                                         }
 
@@ -80,7 +82,7 @@
                                         @{
                                             foreach (var gallery in Model.Gallery)
                                             {
-                                                <li data-fancybox="gallery-a" data-src="/images//ProductImages/@gallery.ProductImageUrl"><img src="/images//ProductImages/@gallery.ProductImageUrl" alt=""></li>
+                                                    <li data-fancybox="gallery-a" data-src="/images//ProductImages/@gallery.ProductImageUrl"><img src="/images//ProductImages/@gallery.ProductImageUrl" alt=""></li>
                                             }
                                         }
                                     </ul>
@@ -136,14 +138,14 @@
 
                                     foreach (var c in Model.Colors)
                                     {
-                                        <div class="product-variant-item">
-                                            <div class="custom-radio-circle">
-                                                <input type="radio" class="custom-radio-circle-input" name="productColor" id=@counter value=@c.Id @(c == Model.Colors.First() ? "checked" : "") onclick="colorChangeHandler('@c.Price', '@Model.Discount?.DiscountPercentage')">
-                                                <label for=@counter class="custom-radio-circle-label" data-variant-label=@c.ColorName>
-                                                    <span class="color" style="background-color: @c.Hex;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title=@c.ColorName aria-label=@c.ColorName></span>
-                                                </label>
+                                            <div class="product-variant-item">
+                                                <div class="custom-radio-circle">
+                                                    <input type="radio" class="custom-radio-circle-input" name="productColor" id=@counter value=@c.Id @(c == Model.Colors.First() ? "checked" : "") onclick="colorChangeHandler('@c.Price', '@Model.Discount?.DiscountPercentage')">
+                                                    <label for=@counter class="custom-radio-circle-label" data-variant-label=@c.ColorName>
+                                                        <span class="color" style="background-color: @c.Hex;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title=@c.ColorName aria-label=@c.ColorName></span>
+                                                    </label>
+                                                </div>
                                             </div>
-                                        </div>
                                         counter++;
                                     }
 
@@ -162,10 +164,10 @@
                                             var featuresList = Model.Features.Split("/").ToList();
                                             foreach (var feature in featuresList)
                                             {
-                                                <li>
-                                                    <span class="label">@feature.Split(":")[0]:</span>
-                                                    <span class="title">@feature.Split(":")[1]</span>
-                                                </li>
+                                                    <li>
+                                                        <span class="label">@feature.Split(":")[0]:</span>
+                                                        <span class="title">@feature.Split(":")[1]</span>
+                                                    </li>
                                             }
                                         }
                                     }
@@ -279,23 +281,23 @@
                                     @{
                                         if (Model.Discount != null && Model.Discount.EndDate > DateTime.Now && DateTime.Now > Model.Discount.StartDate && Model.Discount.IsActive)
                                         {
-                                            <div class="d-flex align-items-center">
-                                                <del class="price-old" id="old-price">@FixedText.MoenyFormatter(Model.Colors.First().Price)</del>
-                                                <span class="discount ms-2">%@Model.Discount.DiscountPercentage</span>
-                                            </div>
-                                            <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(((long)Model.Colors.First().Price * (long)(100 -Model.Discount.DiscountPercentage)) / 100)</span>
+                                                <div class="d-flex align-items-center">
+                                                    <del class="price-old" id="old-price">@FixedText.MoenyFormatter(Model.Colors.First().Price)</del>
+                                                    <span class="discount ms-2">%@Model.Discount.DiscountPercentage</span>
+                                                </div>
+                                                <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(((long)Model.Colors.First().Price * (long)(100 -Model.Discount.DiscountPercentage)) / 100)</span>
                                         }
                                         else if (ViewBag.globalDiscount.DiscountPercentage != 0 && ViewBag.globalDiscount.EndDate > DateTime.Now && DateTime.Now > ViewBag.globalDiscount.StartDate && ViewBag.globalDiscount.IsActive)
                                         {
-                                            <div class="d-flex align-items-center">
-                                                <del class="price-old" id="old-price">@FixedText.MoenyFormatter(Model.Colors.First().Price)</del>
-                                                <span class="discount ms-2">%@ViewBag.globalDiscount.DiscountPercentage</span>
-                                            </div>
-                                            <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(((long)Model.Colors.First().Price * (long)(100 -ViewBag.globalDiscount.DiscountPercentage)) / 100)</span>
+                                                <div class="d-flex align-items-center">
+                                                    <del class="price-old" id="old-price">@FixedText.MoenyFormatter(Model.Colors.First().Price)</del>
+                                                    <span class="discount ms-2">%@ViewBag.globalDiscount.DiscountPercentage</span>
+                                                </div>
+                                                <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(((long)Model.Colors.First().Price * (long)(100 -ViewBag.globalDiscount.DiscountPercentage)) / 100)</span>
                                         }
                                         else
                                         {
-                                            <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(Model.Colors.First().Price) </span>
+                                                <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(Model.Colors.First().Price) </span>
                                         }
                                     }
                                     <span class="currency">تومان</span>
@@ -334,103 +336,123 @@
                                 <!-- start of comments-sidebar -->
                                 <div class="comments-sidebar">
                                     <div class="comments-sidebar-rating">
-                                        <div class="comments-sidebar-rating-main me-2">۴.۱</div>
+                                        <div id="avg-rate" class="comments-sidebar-rating-main me-2">@Model.ProductRate</div>
                                         <div class="comments-sidebar-rating-desc">از ۵</div>
                                     </div>
+                                    <div class="stars-container justify-content-end">
+                                        <div class="stars">
+                                            <div id="display-rates" class="stars-val" style="width: @widthPercentage%;"></div>
+                                        </div>
+                                        <div class="stars-text ms-2">از مجموع @Model.RatesCount امتیاز</div>
+                                    </div>
                                     <div class="comments-sidebar-rating-bottom">
-                                          <div class="stars-container justify-content-end">
-                                        <div class="stars-text ms-2">از مجموع ۹۴۰ امتیاز</div>
-                                      
-                                                <div class="star-rating">
-                                                    <input type="radio" id="5-stars" name="rating" value="5" />
-                                                    <label for="5-stars" class="star">&#9733;</label>
-                                                    <input type="radio" id="4-stars" name="rating" value="4" />
-                                                    <label for="4-stars" class="star">&#9733;</label>
-                                                    <input type="radio" id="3-stars" name="rating" value="3" />
-                                                    <label for="3-stars" class="star">&#9733;</label>
-                                                    <input type="radio" id="2-stars" name="rating" value="2" />
-                                                    <label for="2-stars" class="star">&#9733;</label>
-                                                    <input type="radio" id="1-star" name="rating" value="1" />
-                                                    <label for="1-star" class="star">&#9733;</label>
-                                                </div>
-                                       
-                                      
+                                       @*  <form action="" method="post">
+                                            <!-- دیگر فیلدهای فرم -->
+                                            <label>
+                                                <input type="radio" name="Rating" value="OneStar"> 1 ستاره
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="Rating" value="TwoStars"> 2 ستاره
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="Rating" value="ThreeStars"> 3 ستاره
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="Rating" value="FourStars"> 4 ستاره
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="Rating" value="FiveStars"> 5 ستاره
+                                            </label>
+                                            <button type="submit">ثبت امتیاز</button>
+                                        </form> *@
+                                        <form id="rate-form" onsubmit="addRating(event, '@Model.Id')" method="post">
+                                            <select id="rate-select" name="scoreRatingElem" class="form-control" asp-items="Html.GetEnumSelectList<RatingScores>()">
+                                                
+                                            >
+                                            <option>امتیاز خود را وارد کنید.</option>
+                                                
+                                        </select>
+                                            <button class="btn btn-block btn-outline-primary" type="submit">
+                                              ارسال امتیاز
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
 
+                                
+                            </div>
+                            <!-- end of comments-sidebar -->
+                        </div>
+                        <div class="col-xl-9 col-lg-8 col-md-7 pt-5">
+                            <!-- start of filter-comments -->
+                            <div class="filter-comments mb-4">
+                                <div class="filter-comments-title me-2">
+                                    <i class="ri-list-settings-fill me-1"></i>
+                                    <span>مرتب سازی دیدگاه ها بر اساس:</span>
+                                </div>
+                                <div class="filter-comments-options">
+                                    <button class="filter-comments-option active">جدیدترین دیدگاه ها</button>
+                                    <button class="filter-comments-option">مفیدترین دیدگاه ها</button>
+                                    <button class="filter-comments-option">دیدگاه خریداران</button>
+                                </div>
+                            </div>
+                            <!-- end of filter-comments -->
+                            <!-- start of comments -->
+                            <div class="comments" id="comment-container">
+
+                                @{
+                                    if (Model.Comments != null && Model.Comments.Any(c => c.IsConfirmed))
+                                    {
+
+                                        foreach (var c in Model.Comments)
+                                        {
+
+                                            if (c.IsConfirmed)
+                                            {
+
+                                                    <!-- start of comment -->
+                                                    <div class="comment">
+                                                        <div class="comment-header">
+                                                            <span>@FixedText.FixDateToShamsi(c.CreateDate)</span>
+                                                            <span>@c.UserName</span>
+                                                        </div>
+                                                        <div class="comment-body">
+                                                            <p>
+                                                                @c.Message
+                                                            </p>
+
+                                                        </div>
+                                                        <div class="comment-footer">
+                                                            <span class="me-2">آیا این دیدگاه برایتان مفید بود؟</span>
+                                                            <button onclick="likeComment(event,'@c.Id', '@Model.Id')" class='@((c.UserCommentLikeOrDislike.Any(uc => uc.UserId == userId && uc.CommentLikeOrDislike == EShop.Domain.Models.Comment.CommentLikeOrDislike.like)) ? "comment-like comment-reaction-active" : "comment-like")' id="like@(c.Id)">@c.LikeCounts</button>
+                                                            <button onclick="dislikeComment(event,'@c.Id', '@Model.Id')" class='@((c.UserCommentLikeOrDislike.Any(uc => uc.UserId == userId && uc.CommentLikeOrDislike == EShop.Domain.Models.Comment.CommentLikeOrDislike.dislike)) ? "comment-dislike comment-reaction-active" : "comment-dislike")' id="dislike@(c.Id)">@c.DislikeCounts</button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- end of comment -->
+                                            }
+
+                                        }
+
+
+
+                                    }
+                                    else
+                                    {
+                                            <div class="alert alert-warning">
+                                                کامنتی برای نمایش وجود ندارد.
+                                            </div>
+                                    }
+                                }
                                 <div class="mb-2">دیدگاه خود را درباره این کالا بیان کنید</div>
                                 <a class="btn btn-block btn-outline-primary" href="/add-Comment/@Model.Id">
                                     افزودن
                                     دیدگاه
                                 </a>
                             </div>
-                            <!-- end of comments-sidebar -->
+                            <!-- end of comments -->
                         </div>
                     </div>
-                    <div class="col-xl-9 col-lg-8 col-md-7 pt-5">
-                        <!-- start of filter-comments -->
-                        <div class="filter-comments mb-4">
-                            <div class="filter-comments-title me-2">
-                                <i class="ri-list-settings-fill me-1"></i>
-                                <span>مرتب سازی دیدگاه ها بر اساس:</span>
-                            </div>
-                            <div class="filter-comments-options">
-                                <button class="filter-comments-option active">جدیدترین دیدگاه ها</button>
-                                <button class="filter-comments-option">مفیدترین دیدگاه ها</button>
-                                <button class="filter-comments-option">دیدگاه خریداران</button>
-                            </div>
-                        </div>
-                        <!-- end of filter-comments -->
-                        <!-- start of comments -->
-                        <div class="comments" id="comment-container">
-
-                            @{
-                                if (Model.Comments != null && Model.Comments.Any(c => c.IsConfirmed))
-                                {
-
-                                    foreach (var c in Model.Comments)
-                                    {
-
-                                        if (c.IsConfirmed)
-                                        {
-
-                                            <!-- start of comment -->
-                                            <div class="comment">
-                                                <div class="comment-header">
-                                                    <span>@FixedText.FixDateToShamsi(c.CreateDate)</span>
-                                                    <span>@c.UserName</span>
-                                                </div>
-                                                <div class="comment-body">
-                                                    <p>
-                                                        @c.Message
-                                                    </p>
-
-                                                </div>
-                                                <div class="comment-footer">
-                                                    <span class="me-2">آیا این دیدگاه برایتان مفید بود؟</span>
-                                                    <button onclick="likeComment(event,'@c.Id', '@Model.Id')" class='@((c.UserCommentLikeOrDislike.Any(uc => uc.UserId == userId && uc.CommentLikeOrDislike == EShop.Domain.Models.Comment.CommentLikeOrDislike.like)) ? "comment-like comment-reaction-active" : "comment-like")' id="like@(c.Id)">@c.LikeCounts</button>
-                                                    <button onclick="dislikeComment(event,'@c.Id', '@Model.Id')" class='@((c.UserCommentLikeOrDislike.Any(uc => uc.UserId == userId && uc.CommentLikeOrDislike == EShop.Domain.Models.Comment.CommentLikeOrDislike.dislike)) ? "comment-dislike comment-reaction-active" : "comment-dislike")' id="dislike@(c.Id)">@c.DislikeCounts</button>
-                                                </div>
-                                            </div>
-                                            <!-- end of comment -->
-                                        }
-
-                                    }
-
-
-
-                                }
-                                else
-                                {
-                                    <div class="alert alert-warning">
-                                        کامنتی برای نمایش وجود ندارد.
-                                    </div>
-                                }
-                            }
-
-                        </div>
-                        <!-- end of comments -->
-                    </div>
+                 
                 </div>
             </div>
         </div>
@@ -535,7 +557,6 @@
             });
         }
 
-
         function dislikeComment(e, commentId, productId) {
             console.log("dislike")
             $.ajax({
@@ -546,6 +567,27 @@
 
                         $(`#like${commentId}`).text(response.likesCount);
                         $(`#dislike${commentId}`).text(response.dislikesCount);
+                    }
+
+                },
+
+            });
+        }
+
+        function addRating(e, productId) {
+            e.preventDefault()
+            var formData = $('#rate-form').serialize(); // Serialize the form data
+            $.ajax({
+                type: "Post",
+                url: `/rate/${productId}/`,
+                data: formData,
+                success: function (response) {
+                    if (response.isSuccess) {
+                        $('#rate-select option:first').prop('selected', true);
+                        $("#avg-rate").text(response.averageScore);
+                        var newWidthPercentage = response.averageScore * 100 / 5;
+                        $("#display-rates").css("width", newWidthPercentage + "%");
+
                     }
 
                 },

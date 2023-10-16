@@ -40,6 +40,8 @@ namespace EShop.Ioc
         {
             service.AddScoped<IProductRepository, ProductRepository>();
             service.AddScoped<IProductService, ProductService>();
+            service.AddScoped<IRateRepository, RateRepository>();
+            
         }
 
         public static void DiscountServices(IServiceCollection service)

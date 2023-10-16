@@ -66,7 +66,17 @@ namespace EShop.Data.Repository
 
         public async Task<Product> GetProductByIdAsync(int id)
         {
-            return await _ctx.Products.Include(p => p.productGalleries).Include(p => p.Colors).Include(p => p.Discount).Include(p => p.UserFavourites).Include(p => p.Comments).ThenInclude(c => c.User).FirstOrDefaultAsync(p => p.Id == id);
+            return await _ctx.Products
+                .Include(p => p.productGalleries)
+                .Include(p => p.Colors)
+                .Include(p => p.Discount)
+                .Include(p => p.UserFavourites)
+                .Include(p => p.Comments)
+                .Include(p=>p.Rates)
+                .ThenInclude(c => c.User)
+                .Include(p => p.Comments)
+                .ThenInclude(p => p.UserCommentLikes)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<List<Product>> GetProductsByCategoryIdAsync(int categoryId)

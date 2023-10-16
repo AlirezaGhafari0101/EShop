@@ -6,11 +6,13 @@ using EShop.Application.ViewModels.Product;
 using EShop.Application.ViewModels.Product.Category;
 using EShop.Application.ViewModels.Product.Color;
 using EShop.Application.ViewModels.Product.ProductGallery;
+using EShop.Application.ViewModels.Product.Rate;
 using EShop.Application.ViewModels.UserFavourite;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Comment;
 using EShop.Domain.Models.Discount;
 using EShop.Domain.Models.Products;
+using EShop.Domain.Models.Rating;
 using System.Drawing;
 
 namespace EShop.Application.Services.Implementation
@@ -18,10 +20,11 @@ namespace EShop.Application.Services.Implementation
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
-        private readonly IUserCommentLikeOrDislikeRepository _userCommentLikeOrDislikeRepository;
-        public ProductService(IProductRepository productRepository, IUserCommentLikeOrDislikeRepository userCommentLikeOrDislikeRepository)
+        private readonly IRateRepository _rateRepository;
+        public ProductService(IProductRepository productRepository, IRateRepository rateRepository)
         {
             _productRepository = productRepository;
+            _rateRepository = rateRepository;
         }
         #region Category
         public async Task AddCategoryServiceAsync(CreateCategoryViewModel category, int? categoryId)
@@ -169,8 +172,8 @@ namespace EShop.Application.Services.Implementation
         public async Task<ProductViewModel> GetProductByIdServiceAsync(int id)
         {
 
-            var product = await _productRepository.GetProductByIdAsync(id);           
-            return  new ProductViewModel
+            var product = await _productRepository.GetProductByIdAsync(id);
+            return new ProductViewModel
             {
                 Id = product.Id,
                 Title = product.Title,
@@ -181,6 +184,8 @@ namespace EShop.Application.Services.Implementation
                 DiscountId = product.DiscountId,
                 Count = product.Count,
                 CreatedDate = product.CreateDate,
+                ProductRate = product.Rates.Average(p => (double)p.RateScore),
+                RatesCount= product.Rates.Count(),
                 Discount = product.Discount != null ? new DiscountViewModel()
                 {
                     Id = product.Discount.Id,
@@ -198,8 +203,8 @@ namespace EShop.Application.Services.Implementation
                     UserId = uf.UserId,
                 })
                 .ToList(),
-                Comments =  product.Comments
-                .Select(c  =>  new CommentViewModel
+                Comments = product.Comments
+                .Select(c => new CommentViewModel
                 {
                     Id = c.Id,
                     ProductId = c.ProductId,
@@ -209,15 +214,15 @@ namespace EShop.Application.Services.Implementation
                     CreateDate = c.CreateDate,
                     IsConfirmed = c.IsConfirmed,
                     LikeCounts = c.UserCommentLikes
-                    .Count(c => c.CommentLikeOrDislike == Domain.Models.Comment.CommentLikeOrDislike.like ),
+                    .Count(c => c.CommentLikeOrDislike == Domain.Models.Comment.CommentLikeOrDislike.like),
                     DislikeCounts = c.UserCommentLikes
-                    .Count(c => c.CommentLikeOrDislike == Domain.Models.Comment.CommentLikeOrDislike.dislike ),
-                    UserCommentLikeOrDislike= c.UserCommentLikes
+                    .Count(c => c.CommentLikeOrDislike == Domain.Models.Comment.CommentLikeOrDislike.dislike),
+                    UserCommentLikeOrDislike = c.UserCommentLikes
                     .Select(uc => new UserCommentLikeOrDislikeViewModel
-                    { 
+                    {
                         Id = uc.Id,
-                        CommentId=uc.CommentId,
-                        UserId=uc.UserId,
+                        CommentId = uc.CommentId,
+                        UserId = uc.UserId,
 
                     }).ToList(),
 
@@ -262,6 +267,7 @@ namespace EShop.Application.Services.Implementation
                     ImageName = p.Image,
                     CreatedDate = p.CreateDate,
                     Price = _productRepository.GetFirstColorByProductIdAsync(p.Id),
+
                     UserFavourites = p.UserFavourites.Select(uf => new UserFavouriteViewModel
                     {
                         Id = uf.Id,
@@ -369,7 +375,7 @@ namespace EShop.Application.Services.Implementation
 
         public async Task<ProductViewModel> GetProductImageAndTitleByIdServiceAsync(int id)
         {
-            var product  = await _productRepository.GetProductImageAndTitleByIdAsync(id);
+            var product = await _productRepository.GetProductImageAndTitleByIdAsync(id);
             return new ProductViewModel
             {
                 Title = product.Title,
@@ -588,6 +594,37 @@ namespace EShop.Application.Services.Implementation
                 IsDelete = productColor.IsDelete,
                 ColorName = productColor.ColorName,
             };
+        }
+        #endregion
+
+        #region Rate
+
+        public async Task CreateRateServiceAsync(int productId, int userId, RatingScores ratingScores)
+        {
+            var rate = await _rateRepository.FindRateExistAsync(productId, userId);
+            if (rate != null)
+            {
+                rate.RateScore = ratingScores;
+                await _productRepository.SaveChangeAsync();
+
+            }
+            else
+            {
+                var newRate = new Rate
+                {
+                    ProductId = productId,
+                    UserId = userId,
+                    RateScore = ratingScores,
+                };
+                await _rateRepository.CreateRateAsync(newRate);
+                await _productRepository.SaveChangeAsync();
+            }
+
+        }
+
+        public async Task<double> CalculateAverageRateForProductAsync(int productId)
+        {
+            return await _rateRepository.CalculateAverageRateForProductAsync(productId);
         }
         #endregion
     }

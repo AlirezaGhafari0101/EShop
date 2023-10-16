@@ -1,6 +1,7 @@
 ﻿using EShop.Data.Context;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Comment;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,17 +19,19 @@ namespace EShop.Data.Repository
         {
             _ctx = ctx;
         }
-
         public async Task CreateCommentAsync(Comment comment)
         {
             await _ctx.Comments.AddAsync(comment);
         }
-
         public async Task UpdateCommentAsync(Comment comment)
         {
              _ctx.Comments.Update(comment);
         }
 
+        public async Task<List<Comment>> GetAllCommentsForProductAsync(int productId)
+        {
+            return await _ctx.Comments.Where(c => productId == c.ProductId).Include(c => c.UserCommentLikes).Include(c => c.User).ToListAsync();
+        }
         public async Task SaveChangesAsync()
         {
             await _ctx.SaveChangesAsync();

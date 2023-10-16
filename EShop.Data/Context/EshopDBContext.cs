@@ -3,6 +3,7 @@ using EShop.Domain.Models.Discount;
 using EShop.Domain.Models.Home;
 using EShop.Domain.Models.Order;
 using EShop.Domain.Models.Products;
+using EShop.Domain.Models.Rating;
 using EShop.Domain.Models.Ticket;
 using EShop.Domain.Models.Users;
 using Microsoft.EntityFrameworkCore;
@@ -44,7 +45,8 @@ namespace EShop.Data.Context
         public DbSet<UserFavourite> UserFavourites { get; set; }
 
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<UserCommentLikeOrDislike> UserCommentLikes { get; set; }
+        public DbSet<UserCommentLikeOrDislike> UserCommentLikesOrDislikes { get; set; }
+        public DbSet<Rate> Rates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
