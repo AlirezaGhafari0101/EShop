@@ -17,9 +17,6 @@ namespace EShop.Web.Areas.Admin.Controllers
         {
             return View();
         }
-
-    
-
    
     }
 }

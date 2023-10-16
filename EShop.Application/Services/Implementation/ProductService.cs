@@ -8,6 +8,7 @@ using EShop.Application.ViewModels.Product.Color;
 using EShop.Application.ViewModels.Product.ProductGallery;
 using EShop.Application.ViewModels.UserFavourite;
 using EShop.Domain.Interfaces;
+using EShop.Domain.Models.Comment;
 using EShop.Domain.Models.Discount;
 using EShop.Domain.Models.Products;
 using System.Drawing;
@@ -17,7 +18,8 @@ namespace EShop.Application.Services.Implementation
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
-        public ProductService(IProductRepository productRepository)
+        private readonly IUserCommentLikeOrDislikeRepository _userCommentLikeOrDislikeRepository;
+        public ProductService(IProductRepository productRepository, IUserCommentLikeOrDislikeRepository userCommentLikeOrDislikeRepository)
         {
             _productRepository = productRepository;
         }
@@ -167,8 +169,8 @@ namespace EShop.Application.Services.Implementation
         public async Task<ProductViewModel> GetProductByIdServiceAsync(int id)
         {
 
-            var product = await _productRepository.GetProductByIdAsync(id);
-            return new ProductViewModel
+            var product = await _productRepository.GetProductByIdAsync(id);           
+            return  new ProductViewModel
             {
                 Id = product.Id,
                 Title = product.Title,
@@ -188,13 +190,16 @@ namespace EShop.Application.Services.Implementation
                     EndDate = product.Discount.EndDate,
                     IsActive = product.Discount.IsActive,
                 } : null,
-                UserFavourites = product.UserFavourites == null ? null : product.UserFavourites.Select(uf => new UserFavouriteViewModel
+                UserFavourites = product.UserFavourites == null ? null : product.UserFavourites
+                .Select(uf => new UserFavouriteViewModel
                 {
                     Id = uf.Id,
                     ProductId = uf.ProductId,
                     UserId = uf.UserId,
-                }).ToList(),
-                Comments = product.Comments == null ? null : product.Comments.Select(c => new CommentViewModel
+                })
+                .ToList(),
+                Comments =  product.Comments
+                .Select(c  =>  new CommentViewModel
                 {
                     Id = c.Id,
                     ProductId = c.ProductId,
@@ -203,6 +208,19 @@ namespace EShop.Application.Services.Implementation
                     UserName = c.User.FirstName + " " + c.User.LastName,
                     CreateDate = c.CreateDate,
                     IsConfirmed = c.IsConfirmed,
+                    LikeCounts = c.UserCommentLikes
+                    .Count(c => c.CommentLikeOrDislike == Domain.Models.Comment.CommentLikeOrDislike.like ),
+                    DislikeCounts = c.UserCommentLikes
+                    .Count(c => c.CommentLikeOrDislike == Domain.Models.Comment.CommentLikeOrDislike.dislike ),
+                    UserCommentLikeOrDislike= c.UserCommentLikes
+                    .Select(uc => new UserCommentLikeOrDislikeViewModel
+                    { 
+                        Id = uc.Id,
+                        CommentId=uc.CommentId,
+                        UserId=uc.UserId,
+
+                    }).ToList(),
+
                 }).ToList(),
                 Colors = product.Colors.Select(c => new ProductColorViewModel
                 {

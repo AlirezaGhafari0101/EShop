@@ -11,6 +11,8 @@ namespace EShop.Domain.Interfaces
     {
         Task CreateCommentAsync(Comment comment);
         Task UpdateCommentAsync(Comment comment);
+
+        Task<List<Comment>> GetAllCommentsForProductAsync(int productId);
         Task SaveChangesAsync();
     }
 }

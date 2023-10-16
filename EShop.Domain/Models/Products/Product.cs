@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using EShop.Domain.Models.Discount;
 using EShop.Domain.Models.Order;
 using EShop.Domain.Models.Users;
+using EShop.Domain.Models.Rating;
 
 namespace EShop.Domain.Models.Products
 {
@@ -59,6 +60,7 @@ namespace EShop.Domain.Models.Products
         #region Comments
 
         public List<Comment.Comment>? Comments { get; set; }
+        public List<Rate> Rates { get; set; }
 
         #endregion
 

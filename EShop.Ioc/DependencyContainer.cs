@@ -65,6 +65,9 @@ namespace EShop.Ioc
         {
             service.AddScoped<ICommentRepository, CommentRepository>();
             service.AddScoped<ICommentService, CommentService>();
+            service.AddScoped<IUserCommentLikeOrDislikeRepository, UserCommentLikeOrDislikeRepository>();
         }
+
+  
     }
 }
