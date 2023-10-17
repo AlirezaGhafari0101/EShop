@@ -52,7 +52,8 @@ namespace EShop.Application.Services.Interfaces
         //Task<UserFavouriteViewModel> GetUserFavouriteByIdServiceAsync(int id);
         Task CreateUserFavouriteServiceAsync(AddUserFavouriteViewModel uf);
         Task DeleteUserFavouriteServiceAsync(int productId, int userId);
-       
+        Task<List<UserFavouriteViewModel>> GetUserFavouritesProductsServiceAsync(int userId);
+
         #endregion
 
 

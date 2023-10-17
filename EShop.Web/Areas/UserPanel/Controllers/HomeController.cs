@@ -101,6 +101,13 @@ namespace EShop.Web.Areas.UserPanel.Controllers
             return Json(new { isSuccess = true });
         }
 
+        public async Task<IActionResult> Favourites()
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var favourites = await _userService.GetUserFavouritesProductsServiceAsync(userId);
+            return View(favourites);
+        }
+
         #endregion
 
     }

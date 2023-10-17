@@ -13,6 +13,7 @@ namespace EShop.Domain.Interfaces
         Task CreateUserFavouriteAsync(UserFavourite userFavourite);
         Task DeleteUserFavouriteAsync(UserFavourite userFavourite);
         Task<UserFavourite> GetUserFavouriteByProductIdAndUserIdAsync(int productId, int userId);
+        Task<List<UserFavourite>> GetUserFavouritesProductsAsync(int userId);
         Task SaveChangesAsync();
 
     }

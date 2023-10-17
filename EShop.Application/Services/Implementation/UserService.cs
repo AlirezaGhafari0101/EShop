@@ -290,7 +290,18 @@ namespace EShop.Application.Services.Implementation
             await _userFavouriteRepository.SaveChangesAsync();
         }
 
-       
+       public async Task<List<UserFavouriteViewModel>> GetUserFavouritesProductsServiceAsync(int userId)
+        {
+            var favourites = await _userFavouriteRepository.GetUserFavouritesProductsAsync(userId);
+            return favourites.Select(uf => new UserFavouriteViewModel
+            {
+                Id = uf.Id,
+                ProductId= uf.ProductId,
+                ProductImageName=uf.Product.Image,
+                ProductTitle=uf.Product.Title,
+                ProductPrice=uf.Product.Colors.First().Price
+            }).ToList();
+        }
 
         #endregion
 

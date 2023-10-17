@@ -11,5 +11,8 @@ namespace EShop.Application.ViewModels.UserFavourite
     {
         public int ProductId { get; set; }
         public int UserId { get; set; }
+        public string? ProductImageName { get; set; }
+        public string? ProductTitle { get; set; }
+        public int ProductPrice { get; set; }
     }
 }

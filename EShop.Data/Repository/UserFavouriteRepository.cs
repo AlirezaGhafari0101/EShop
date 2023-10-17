@@ -36,6 +36,14 @@ namespace EShop.Data.Repository
         {
             _ctx.UserFavourites.Remove(userFavourite);
         }
+        public async Task<List<UserFavourite>> GetUserFavouritesProductsAsync(int userId)
+        {
+            return await _ctx.UserFavourites
+                .Where(uf => uf.UserId == userId)
+                .Include(uf => uf.Product)
+                .ThenInclude(p => p.Colors)
+                .ToListAsync();
+        }
 
         public async Task SaveChangesAsync()
         {
