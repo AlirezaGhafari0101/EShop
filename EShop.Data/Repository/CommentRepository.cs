@@ -32,6 +32,15 @@ namespace EShop.Data.Repository
         {
             return await _ctx.Comments.Where(c => productId == c.ProductId).Include(c => c.UserCommentLikes).Include(c => c.User).ToListAsync();
         }
+        public async Task<List<Comment>> GetAllCommentsAsync()
+        {
+            return await _ctx.Comments.Include(c => c.User).ToListAsync();
+        }
+
+        public async Task<Comment> GetCommentByIdAsync(int commentId)
+        {
+            return await _ctx.Comments.FindAsync(commentId);
+        }
         public async Task SaveChangesAsync()
         {
             await _ctx.SaveChangesAsync();

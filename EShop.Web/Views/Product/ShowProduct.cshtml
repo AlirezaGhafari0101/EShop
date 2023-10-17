@@ -424,8 +424,8 @@
                                                         </div>
                                                         <div class="comment-footer">
                                                             <span class="me-2">آیا این دیدگاه برایتان مفید بود؟</span>
-                                                            <button onclick="likeComment(event,'@c.Id', '@Model.Id')" class='@((c.UserCommentLikeOrDislike.Any(uc => uc.UserId == userId && uc.CommentLikeOrDislike == EShop.Domain.Models.Comment.CommentLikeOrDislike.like)) ? "comment-like comment-reaction-active" : "comment-like")' id="like@(c.Id)">@c.LikeCounts</button>
-                                                            <button onclick="dislikeComment(event,'@c.Id', '@Model.Id')" class='@((c.UserCommentLikeOrDislike.Any(uc => uc.UserId == userId && uc.CommentLikeOrDislike == EShop.Domain.Models.Comment.CommentLikeOrDislike.dislike)) ? "comment-dislike comment-reaction-active" : "comment-dislike")' id="dislike@(c.Id)">@c.DislikeCounts</button>
+                                                            <button onclick="likeComment(event,'@c.Id', '@Model.Id')" class="comment-like" id="like@(c.Id)">@c.LikeCounts</button>
+                                                            <button onclick="dislikeComment(event,'@c.Id', '@Model.Id')" class="comment-dislike" id="dislike@(c.Id)">@c.DislikeCounts</button>
                                                         </div>
                                                     </div>
                                                     <!-- end of comment -->

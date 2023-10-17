@@ -3,7 +3,7 @@
 @{
     bool isUserCreated = TempData["UserCreated"] as bool? ?? false;
     bool isUserEdited = TempData["UserEdited"] as bool? ?? false;
-   
+
 }
 <div class="col-xs-12 col-md-12">
 
@@ -24,7 +24,7 @@
         </div>
     }
 
-   
+
     <div class="widget">
         <div class="widget-header ">
             <span class="widget-caption">لیست محصولات </span>
@@ -42,12 +42,12 @@
         </div>
         <div class="widget-body">
             <div class="table-toolbar">
-              
+
                 <a id="editabledatatable_new" asp-area="Admin" asp-controller="User" asp-action="AddUser" class="btn btn-primary">
                     افزودن کاربر جدید
                 </a>
-               
-             
+
+
                 <div class="btn-group pull-right">
 
 
@@ -75,17 +75,17 @@
                             <th class="sorting_asc" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="
                                                     Username
                                                 : activate to sort column descending" style="width: 193.4px;">
-                                ایمیل 
+                                ایمیل
                             </th>
                             <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
                                                     Full Name
                                                 : activate to sort column ascending" style="width: 287.4px;">
-                                نام  
+                                نام
                             </th>
                             <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
                                                     Full Name
                                                 : activate to sort column ascending" style="width: 287.4px;">
-                               نام خانوادگی
+                                نام خانوادگی
                             </th>
                             <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
                                                     Points
@@ -120,35 +120,35 @@
                         @{
                             for (var i = 0; i < Model.Count(); i++)
                             {
-                                    <tr role="row" class="@((i + 1)%2 == 0) ? 'odd' : 'even' " id="@Model[i].Id">
+                                <tr role="row" class="@((i + 1)%2 == 0) ? 'odd' : 'even' " id="@Model[i].Id">
 
-                                        <td class="sorting_1">@Model[i].Email</td>
-                                        <td>@Model[i].FirstName</td>
-                                        <td class="center ">@Model[i].LastName</td>
-                                        @if (Model[i].IsActive)
+                                    <td class="sorting_1">@Model[i].Email</td>
+                                    <td>@Model[i].FirstName</td>
+                                    <td class="center ">@Model[i].LastName</td>
+                                    @if (Model[i].IsActive)
                                     {
-                                            <td><i class="fa fa-check"></i></td>
+                                        <td><i class="fa fa-check"></i></td>
                                     }
                                     else
                                     {
-                                            <td><i class="fa fa-close"></i></td>
+                                        <td><i class="fa fa-close"></i></td>
                                     }
-                                        @if (Model[i].IsAdmin)
+                                    @if (Model[i].IsAdmin)
                                     {
-                                            <td><i class="fa fa-check"></i></td>
+                                        <td><i class="fa fa-check"></i></td>
                                     }
                                     else
                                     {
-                                            <td><i class="fa fa-close"></i></td>
+                                        <td><i class="fa fa-close"></i></td>
                                     }
-                                        <td>@FixedText.FixDateToShamsi(Model[i].CreateDate)</td>
+                                    <td>@FixedText.FixDateToShamsi(Model[i].CreateDate)</td>
 
-                                        <td>
-                                        <a href="/Admin/User/EditUser/@Model[i].Id"   class="btn btn-info btn-xs edit"  ><i class="fa fa-edit"></i> ویرایش</a>
-                                            <button type="button" class="btn btn-danger btn-xs delete" onclick="DeleteUser('@Model[i].FirstName', '@Model[i].LastName', '@Model[i].Id')"><i class="fa fa-trash-o"></i> حذف</button>
+                                    <td>
+                                        <a href="/Admin/User/EditUser/@Model[i].Id" class="btn btn-info btn-xs edit"><i class="fa fa-edit"></i> ویرایش</a>
+                                        <button type="button" class="btn btn-danger btn-xs delete" onclick="DeleteUser('@Model[i].FirstName', '@Model[i].LastName', '@Model[i].Id')"><i class="fa fa-trash-o"></i> حذف</button>
 
-                                        </td>
-                                    </tr>
+                                    </td>
+                                </tr>
                             }
                         }
 
@@ -166,7 +166,7 @@
     <script>
 
         function DeleteUser(firstname, lastname, id) {
-          
+
             Swal.fire({
                 title: `آیا از حذف ${firstname} ${lastname} مطمئن هستید؟`,
 
@@ -185,9 +185,9 @@
                         success: function (response) {
                             if (response.status == "success") {
                                 document.getElementById(id).remove()
-                            } 
+                            }
                         },
-                       
+
                     });
                 }
             })
@@ -202,18 +202,18 @@
 
 
         //         beforeSend: function () {
-             
+
         //         },
         //         success: function (response) {
 
         //             const modal = document.getElementById("editusermodal");
         //             modal.innerHTML = response;
-                 
-                   
-                    
+
+
+
         //         },
         //         complete: function () {
-                   
+
         //         },
         //         failure: function (jqXHR, textStatus, errorThrown) {
         //             alert("HTTP Status: " + jqXHR.status + "; Error Text: " + jqXHR.responseText); // Display error message
@@ -222,17 +222,17 @@
         // }
     </script>
     <script>
-     
+
         setTimeout(function () {
             if ($('#successCreation').length > 0) {
                 $('#successCreation').remove();
-            } 
+            }
             if ($('#successEdit').length > 0) {
                 $('#successEdit').remove();
             } if ($('#successDelete').length > 0) {
                 $('#successDelete').remove();
             }
-            
+
         }, 3000)
     </script>
 }

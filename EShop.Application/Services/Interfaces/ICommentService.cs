@@ -12,6 +12,9 @@ namespace EShop.Application.Services.Interfaces
     {
         Task CreateCommentServiceAsync(AddCommentViewModel comment);
         Task UpdateCommentServiceAsync(CommentViewModel comment);
+        Task<List<CommentViewModel>> GetAllCommentsServiceAsync();
+        Task ConfirmCommentToShowServiceAsync(int commentId);
+        Task DeleteCommentServiceAsync(int commentId);
 
         #region Like Or Dislike
 

@@ -139,5 +139,29 @@ namespace EShop.Application.Services.Implementation
         {
             return await _userCommentLikeOrDislikeRepository.GetCommentDislikesCountAsync(commentId);   
         }
+        public async Task<List<CommentViewModel>> GetAllCommentsServiceAsync()
+        {
+            var comments = await _commentRepository.GetAllCommentsAsync();
+            return comments.Select(c => new CommentViewModel
+            {
+                Id= c.Id,
+                IsConfirmed = c.IsConfirmed, 
+                Message= c.Message,
+                UserName= c.User.FirstName+" "+c.User.LastName,
+                CreateDate= c.CreateDate,
+            }).ToList();
+        }
+        public async Task ConfirmCommentToShowServiceAsync(int commentId)
+        {
+            var comment = await _commentRepository.GetCommentByIdAsync(commentId);
+            comment.IsConfirmed = true;
+            await _commentRepository.SaveChangesAsync();
+        }
+        public async Task DeleteCommentServiceAsync(int commentId)
+        {
+            var comment = await _commentRepository.GetCommentByIdAsync(commentId);
+            comment.IsDelete = true;
+            await _commentRepository.SaveChangesAsync();
+        }
     }
 }

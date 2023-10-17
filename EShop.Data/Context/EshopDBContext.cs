@@ -61,6 +61,7 @@ namespace EShop.Data.Context
             modelBuilder.Entity<ProductColor>().HasQueryFilter(d => !d.IsDelete);
             modelBuilder.Entity<Ticket>().HasQueryFilter(d => !d.IsDelete);
             modelBuilder.Entity<TicketMessage>().HasQueryFilter(d => !d.IsDelete);
+            modelBuilder.Entity<Comment>().HasQueryFilter(d => !d.IsDelete);
 
             modelBuilder.Entity<User>().HasMany<TicketMessage>(u => u.TicketMessages)
                             .WithOne(t => t.User)

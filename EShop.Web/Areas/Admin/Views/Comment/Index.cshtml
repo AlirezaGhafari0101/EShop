@@ -1,0 +1,147 @@
+﻿@model List<EShop.Application.ViewModels.Comment.CommentViewModel>
+@using EShop.Application.Convertors
+
+<div class="col-xs-12 col-md-12">
+
+
+    <div id="message-modal" class="modal modal-primary"></div>
+
+    <div class="widget">
+        <div class="widget-header ">
+            <span class="widget-caption">لیست کامنت ها </span>
+            <div class="widget-buttons">
+                <a href="#" data-toggle="maximize">
+                    <i class="fa fa-expand"></i>
+                </a>
+                <a href="#" data-toggle="collapse">
+                    <i class="fa fa-minus"></i>
+                </a>
+                <a href="#" data-toggle="dispose">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+        <div class="widget-body">
+            <div class="table-toolbar">
+                <div class="btn-group pull-right">
+
+
+                    <ul class="dropdown-menu dropdown-default">
+                        <li>
+                            <a href="javascript:void(0);">Action</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">Another action</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">Something else here</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="javascript:void(0);">Separated link</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
+                <table class="table table-striped table-hover table-bordered dataTable no-footer" id="editabledatatable" role="grid" aria-describedby="editabledatatable_info">
+                    <thead>
+                        <tr role="row">
+                            <th class="sorting_asc" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="
+                                                    Username
+                                                : activate to sort column descending" style="width: 193.4px;">
+                                کاربر
+                            </th>
+                            <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
+                                                    Full Name
+                                                : activate to sort column ascending" style="width: 287.4px;">
+                                متن پیام
+                            </th>
+                            <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
+                                                    Full Name
+                                                : activate to sort column ascending" style="width: 287.4px;">
+                              تاریخ ثبت پیام
+                            </th>
+                            <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
+                                                    Points
+                                                : activate to sort column ascending" style="width: 127.4px;">
+                                وضعیت تایید
+                            </th>
+
+                            <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="
+
+                                                " style="width: 332.4px;">
+
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+
+
+
+
+                        @{
+                            for (var i = 0; i < Model.Count(); i++)
+                            {
+                                            <tr role="row" class="@((i + 1)%2 == 0) ? 'odd' : 'even' " id="@Model[i].Id">
+
+                                                <td class="sorting_1">@Model[i].UserName</td>
+                                                <td>@Model[i].Message</td>
+                                                <td class="center ">@FixedText.FixDateToShamsi(Model[i].CreateDate)</td>
+                                        <td><i class="fa@(Model[i].IsConfirmed == true ? " fa-check": " fa-close")" id="confirm-icon@(Model[i].Id)"></i></td>
+                                                <td>
+                                                <button id="confirm-btn" type="button" class="btn btn-info btn-xs edit" onclick="confirmComment(event, '@Model[i].Id')"><i class="fa fa-edit"></i> تایید</button>
+                                            <button id="delete-btn" type="button" class="btn btn-danger btn-xs delete" onclick="deleteComment(event, '@Model[i].Id')"><i class=" fa fa-trash-o"></i> عدم تایید</button>
+
+                                                </td>
+                                        
+                                            </tr>
+                            }
+                        }
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section FooterReferences {
+
+    <script>
+
+      function confirmComment(e, commentId){
+            $.ajax({
+                type: "Get",
+                url: `/confirm-comment/${commentId}`,
+                success: function (response) {
+                    if (response.isSuccess) {
+                        document.getElementById(`confirm-icon${commentId}`).classList = "fa fa-check"
+                    }
+                },
+            })
+      }
+      
+      function deleteComment(e, commentId){
+            $.ajax({
+                type: "Get",
+                url: `/delete-comment/${commentId}`,
+                success: function (response) {
+                    if (response.isSuccess) {
+                        document.getElementById(commentId).remove()
+                    }
+                },
+            })
+      }
+        
+   
+        
+   
+
+
+    </script>
+}
