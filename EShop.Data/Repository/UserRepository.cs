@@ -3,6 +3,7 @@ using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Users;
 using EShop.Domain.Models.Ticket;
 using Microsoft.EntityFrameworkCore;
+using EShop.Domain.Models.Wallet;
 
 namespace EShop.Data.Repository
 {
@@ -109,13 +110,15 @@ namespace EShop.Data.Repository
 
         #region Wallet
 
-        public async Task<int> BalanceUeserWalletAsync(int userId)
+        public async Task<double> BalanceUeserWalletAsync(int userId)
         {
-            List<int> diposit = await _ctx.Wallets.Where(w => w.UserId == userId && w.IsPay && w.TypeId == 1).Select(w => w.Amount).ToListAsync();
+            List<double> diposit = await _ctx.Wallets.Where(w => w.UserId == userId && w.IsPay && w.TypeId == 1).Select(w => w.Amount).ToListAsync();
 
-            List<int> harvest = await _ctx.Wallets.Where(w => w.UserId == userId && w.IsPay && w.TypeId == 2).Select(w => w.Amount).ToListAsync();
+            List<double> harvest = await _ctx.Wallets.Where(w => w.UserId == userId && w.IsPay && w.TypeId == 2).Select(w => w.Amount).ToListAsync();
+         
 
-            return (diposit.Sum() - harvest.Sum());
+            double result = diposit.Sum() - harvest.Sum();
+            return result;
         }
 
         public async Task<IEnumerable<Wallet>> GetAllUserWalletsAsync(int userId)

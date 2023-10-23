@@ -27,7 +27,7 @@ namespace EShop.Domain.Models.Users
         public bool IsAdmin { get; set; }
 
         #region Relations
-        public List<Wallet>? Wallets { get; set; }
+        public List<Wallet.Wallet>? Wallets { get; set; }
         public List<Models.Ticket.Ticket>? Tickets { get; set; }
         public List<TicketMessage>? TicketMessages { get; set; }
         public List<Order.Order>? Orders { get; set; }

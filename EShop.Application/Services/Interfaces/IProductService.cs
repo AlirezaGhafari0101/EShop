@@ -44,6 +44,7 @@ namespace EShop.Application.Services.Interfaces
         #region ProductColor
         Task<IEnumerable<ProductColorViewModel>> GetAllProductColorsServiceAsync(int productId);
         Task<UpdateProductColorViewModel> GetProductColorServiceAsync(int colorId);
+      
         Task AddProductColorServiceAsync(AddProductColorViewModel color);
         Task UpdateProductColorServiceAsync(UpdateProductColorViewModel color);
         Task<UpdateProductColorViewModel> GetColorForUpdateServiceAsync(int colorId);

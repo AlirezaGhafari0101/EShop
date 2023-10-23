@@ -1,5 +1,5 @@
-﻿@model EShop.Application.ViewModels.User.UserPanel.WalletVM
-@using EShop.Application.Convertors
+﻿@model EShop.Application.ViewModels.Wallet.WalletVM;
+@using EShop.Application.Convertors;
 @{
     ViewData["Title"] = "Yektakala|CheckOute";
 }
@@ -20,18 +20,12 @@
                                 <div class="fs-5 fw-bold text-success mb-3">
                                     با موفقیت پرداخت و ثبت گردید.
                                 </div>
-                                <div class="d-flex align-items-center flex-wrap mb-3">
-                                    <div class="text-secondary me-3">شماره سفارش:</div>
-                                    <div class="font-en">DKC-244424454</div>
-                                </div>
+                       
                                 <div class="text-success mb-3">
-                                    پرداخت با موفقیت انجام شد. سفارش شما با موفقیت
-                                    ثبت
-                                    شد و در زمان تعیین‌شده برای شما ارسال خواهد شد. از اینکه ما را برای
-                                    خرید انتخاب کردید از شما سپاسگزاریم.
+                                    پرداخت با موفقیت انجام شد. 
                                 </div>
                                 <div class="d-flex align-items-center flex-wrap">
-                                    <a href="#" class="btn btn-primary me-4">پیگیری سفارش</a>
+                                    <a href="/" class="btn btn-primary me-4">صفحه اصلی</a>
                                 </div>
                             </div>
                             <div class="col-md-4 order-md-2 order-1 mb-md-0 mb-4 text-center">
@@ -51,7 +45,7 @@
                             
                           
                                 <div class="d-flex align-items-center flex-wrap">
-                                    <a href="#" class="btn btn-primary me-4">پرداخت مجدد</a>
+                                        <a href="/userpanel/chargeFaildwallet/@Model.Id" class="btn btn-primary me-4">پرداخت مجدد</a>
                                     <a href="#" class="btn btn-link">تغییر روش پرداخت</a>
                                 </div>
                             </div>
@@ -82,7 +76,7 @@
 
                             <div class="col-lg-2 col-md-3 col-sm-4 col-6">
                                 <div class="text-muted mb-2">شرح</div>
-                                @if (Model.TypeID == 1)
+                                @if (Model.TypeId == 1)
                                 {
                                     <div class="text-dark">شارژ کیف پول</div>
                                 }

@@ -1,0 +1,104 @@
+﻿@model List<EShop.Application.ViewModels.Order.OrderDetailVM>;
+@using EShop.Application.Convertors;
+@using EShop.Application.ViewModels
+@{
+    ViewData["Title"] = "ShowOrderDetails";
+    UserViewModel orderUser = ViewBag.OrderUser as UserViewModel;
+}
+
+
+<div class="col-lg-12 col-sm-12 col-xs-12">
+    <div class="well invoice-container">
+        <div class="row">
+            <div class="col-xs-6">
+                <h3 class="">
+                    <i class="fa fa-check"></i>
+                    جزئیات سفارش
+                </h3>
+
+            </div>
+       
+        </div>
+        <div class="row">
+            <div class="col-xs-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h6>اطلاعات سفارش دهنده</h6>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                          
+                            <li>ایمیل: @orderUser.Email</li>
+                            <li>نام:@($"{orderUser.FirstName} {orderUser.LastName}")</li>
+                       
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- / end client details section -->
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th><h5 class="no-margin-bottom">تصویر محصول</h5></th>
+                    <th><h5 class="no-margin-bottom">نام محصول</h5></th>
+                    <th><h5 class="no-margin-bottom">قیمت محصول</h5></th>
+                    <th><h5 class="no-margin-bottom text-center">تعداد سفارش</h5></th>
+                    <th><h5 class="no-margin-bottom text-center">رنگ</h5></th>
+                    <th><h5 class="no-margin-bottom text-center">جمع این سفارش</h5></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <img src="/images/ProductImages/@item.Product.Image" alt="" class=" rounded-circle" style="max-width:130px;max-height:130px">
+                        </td>
+                        <td>@item.Product.Title</td>
+                        <td><a href="#">@FixedText.MoenyFormatter(item.Color.Price)</a></td>
+                        <td class="text-center">@item.Count</td>
+                        <td class="text-center">@item.Color.ColorName</td>
+                        <td class="text-center">@FixedText.MoenyFormatter(item.Price)</td>
+                    </tr>
+                }
+                @*         <tr>
+                    <td>Template Design</td>
+                    <td><a href="#">Details of project here</a></td>
+                    <td class="text-center">10</td>
+                    <td class="text-center">75.00</td>
+                    <td class="text-center">$750.00</td>
+                </tr>
+                <tr>
+                    <td>Development</td>
+                    <td><a href="#">WordPress Blogging theme</a></td>
+                    <td class="text-center">5</td>
+                    <td class="text-center">50.00</td>
+                    <td class="text-center">$250.00</td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="invisible bg-snow"></td>
+                    <td class="text-center">Sub Total</td>
+                    <td class="text-center">$1200.00 </td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="invisible bg-snow"></td>
+                    <td class="text-center">TAX</td>
+                    <td class="text-center">N/A</td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="invisible bg-snow"></td>
+                    <td class="text-center"><strong>Total</strong></td>
+                    <td class="text-center "><strong>$1200.00</strong></td>
+                </tr> *@
+            </tbody>
+        </table>
+
+
+    </div>
+</div>
+
+
+
+
+

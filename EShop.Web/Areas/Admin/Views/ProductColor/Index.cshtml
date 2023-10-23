@@ -44,6 +44,12 @@
                                                 : activate to sort column descending" style="width: 188.4px;">
                                     کدرنگ
                                 </th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="
+                                                    Count
+                                                : activate to sort column descending" style="width: 188.4px;">
+                                    تعداد
+                                </th>
                                 <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
                                                     productPrice 
                                                 : activate to sort column ascending" style="width: 287.4px;">
@@ -73,6 +79,9 @@
                                             <span class="label" style="background-color:@Model[item].Hex;color:black">
                                                 @Model[item].Hex
                                             </span>
+                                        </td>
+                                        <td class="sorting_1">
+                                           @Model[item].Count
                                         </td>
                                         <td class="sorting_1">
                                             @FixedText.MoenyFormatter(Model[item].Price) تومان

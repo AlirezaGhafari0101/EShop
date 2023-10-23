@@ -58,5 +58,11 @@ namespace EShop.Ioc
             service.AddScoped<IOrderRepository, OrderRepository>();
             service.AddScoped<IOrderService, OrderService>();
         }
+
+        public static void WalletServices(IServiceCollection service)
+        {
+            service.AddScoped<IWalletRepository, WalletRepository>();
+            service.AddScoped<IWalletService, WalletService>();
+        }
     }
 }

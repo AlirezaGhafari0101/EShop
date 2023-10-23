@@ -1,0 +1,129 @@
+﻿@using EShop.Application.Convertors;
+@using EShop.Application.ViewModels.Order;
+@model IEnumerable<EShop.Application.ViewModels.Order.OrderDetailVM>;
+@{
+    ViewData["Title"] = "ShowOrderDetails";
+    OrderVM orderInfor = ViewBag.OrderInfor as OrderVM;
+}
+
+<main class="page-content">
+    <div class="container">
+        <div class="row">
+            <partial name="_Bar" />
+            <div class="col-xl-9 col-lg-8 col-md-7">
+                <div class="ui-box bg-white">
+                    <div class="ui-box-title flex-wrap">
+                        <a href="#" class="link border-bottom-0 fs-3 me-2"><i class="ri-arrow-right-fill"></i></a>
+                        <span class="me-3">جزئیات سفارش</span>
+                        <span class="fs-7 fa-num">@FixedText.FixDateToShamsi(orderInfor.CreateDate)</span>
+                        <i class="ri-record-circle-fill fs-7 text-muted mx-2"></i>
+                        <span class="font-en">DKC-542455386</span>
+                    </div>
+                    <div class="ui-box-content">
+                        <!-- start of user-order-items -->
+                        <div class="user-order-items">
+                            <!-- start of user-order-item -->
+                            <div class="user-order-item">
+                                <div class="user-order-item-header">
+                                    <div class="mb-3">
+                                        <div class="row">
+                                  
+                                            <div class="col-xl-3 col-lg-4 col-md-auto col-sm-6">
+                                                <span class="user-order-meta fa-num"> @FixedText.FixDateToShamsi(orderInfor.CreateDate) </span>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-4 col-md-auto col-sm-6">
+                                                <span class="user-order-meta">DKC-233189114</span>
+                                            </div>
+                                      
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <span class="text-muted fw-bold">مبلغ کل:</span>
+                                        <span class="fw-bold fa-num">
+                                            @FixedText.MoenyFormatter((double)orderInfor.OrderSum)
+                                            <span>تومان</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="user-order-item-content">
+                                    <div class="my-3">
+                                        <span class="text-dark fa-num">مرسوله 1 از 1</span>
+                                    </div>
+                                    <div class="cart-items">
+                                        
+                                        @foreach(var item in Model)
+                                        {
+                                            <div class="cart-item">
+                                                <div class="cart-item--thumbnail">
+                                                    <a href="#">
+                                                        <img src="/images/ProductImages/@item.Product.Image" alt="">
+                                                    </a>
+                                                </div>
+                                                <div class="cart-item--detail">
+                                                    <h2 class="cart-item--title mb-2">
+                                                        <a href="#">
+                                                       @item.Product.Title
+                                                        </a>
+                                                    </h2>
+                                                    <div class="cart-item--variant mb-2">
+                                                        <span class="color" style="background-color: @item.Color.Hex;"></span>
+                                                        <span class="ms-1">@item.Color.ColorName</span>
+                                                    </div>
+
+                                                    <div class="cart-item--variant mb-2">
+                                                        <span class="">تعداد:</span>
+                                                        <span class="ms-1">@item.Count</span>
+                                                    </div>
+
+                                                    <div class="cart-item--variant mb-2">
+                                                        <span class="">قیمت محصول:</span>
+                                                        <span class="ms-1">@FixedText.MoenyFormatter(item.Color.Price)</span>
+
+
+                                                    </div>
+                                                    @if (item.Product.Discount != null && DateTime.Now >= item.Product.Discount.StartDate && DateTime.Now <= item.Product.Discount.EndDate)
+                                                    {
+                                                        <div class="cart-item--variant mb-2 text-danger">
+                                                            <span>تخفیف محصول : </span>
+                                                            <del >
+                                                                @FixedText.MoenyFormatter(((double)item.Color.Price * (double)((double)item.Product.Discount.DiscountPercentage / (double)100)))
+                                                            </del>
+                                                            <span class="currency">تومان</span>
+                                                        </div>
+                                                    }
+
+                                                    <div class="cart-item--price--actions justify-content-end">
+                                                        <div class="cart-item--price fa-num d-flex align-items-center flex-wrap">
+                                                            <div class="cart-item--price-now me-3">
+                                                                <span>@FixedText.MoenyFormatter(item.Price)</span>
+                                                                <span class="currency">تومان</span>
+                                                            </div>
+                                                            @if(item.Product.Discount!=null && DateTime.Now >= item.Product.Discount.StartDate && DateTime.Now <= item.Product.Discount.EndDate)
+                                                            {
+                                                                <div class="cart-item--discount">
+                                                                    <span>تخفیف</span>
+                                                                    <del>
+                                                                        @FixedText.MoenyFormatter(((double)item.Color.Price * (double)((double)item.Product.Discount.DiscountPercentage / (double)100) * @item.Count))
+                                                                        </del>
+                                                                    <span class="currency">تومان</span>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end of user-order-item -->
+                        </div>
+                        <!-- end of user-order-items -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+

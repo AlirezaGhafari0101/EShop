@@ -47,7 +47,7 @@ namespace EShop.Application.ViewModels.Product
 
         public List<ProductGalleryViewModel> Gallery { get; set; }
 
-        public int Price { get; set; }
+        public double Price { get; set; }
         [Display(Name = "ویژگی ها")]
         [Required(ErrorMessage = "پر کردن {0} الزامی می باشد.")]
         public string Features { get; set; }

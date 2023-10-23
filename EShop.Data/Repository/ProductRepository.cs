@@ -217,7 +217,7 @@ namespace EShop.Data.Repository
             _ctx.ProductColors.Remove(color);
         }
 
-        public int GetFirstColorByProductIdAsync(int productId)
+        public double GetFirstColorByProductIdAsync(int productId)
         {
 
             var pColor = _ctx.ProductColors.FirstOrDefault(pc => pc.ProductId == productId);

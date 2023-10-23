@@ -14,9 +14,11 @@ namespace EShop.Domain.Models.Products
         [StringLength(150)]
         public string Hex { get; set; }
         [Required]
-        public int Price { get; set; }
+        public double Price { get; set; }
         [Required]
         public int ProductId { get; set; }
+        [Required]
+        public int count { get; set; }
 
 
         #region Relations

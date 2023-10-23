@@ -1,0 +1,266 @@
+﻿@using EShop.Application.Convertors;
+@using EShop.Application.ViewModels.Wallet;
+@using EShop.Domain.Models.Wallet;
+@model EShop.Application.ViewModels.Order.OrderVM;
+@{
+    ViewData["Title"] = "Payment";
+
+}
+
+<main class="page-content">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-xl-9 col-lg-8 mb-lg-0 mb-4">
+                <!-- start of box => payment-methods -->
+                <div class="ui-box bg-white payment-methods mb-5" id="ChosePaymentMehtod">
+                    <div class="ui-box-title">شیوه پرداخت</div>
+                    <div class="ui-box-content">
+                        <!-- start of custom-radio-outline -->
+                        @foreach (PaymentType item in Enum.GetValues(typeof(PaymentType)))
+                        {
+                            <div class="custom-radio-outline">
+                                <input type="radio"  value=@(item.GetHashCode()) class="custom-radio-outline-input" name="PaymentMethod" id=@($"checkoutPayment0{item.GetHashCode() + 1}")>
+                                <label for=@($"checkoutPayment0{item.GetHashCode() + 1}") class="custom-radio-outline-label">
+                                    <span class="label">
+                                        <span class="icon"><i class="ri-wallet-3-fill"></i></span>
+                                        <span class="detail">
+                                            <span class="title">@item</span>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                        }
+                        <!-- end of custom-radio-outline -->
+                        @*                             <!-- start of custom-radio-outline -->
+                        <div class="custom-radio-outline">
+                        <input type="radio" class="custom-radio-outline-input" name="checkoutPayment" id="checkoutPayment02" value="wallet">
+                        <label for="checkoutPayment02" class="custom-radio-outline-label">
+                        <span class="label">
+                        <span class="icon"><i class="ri-wallet-3-fill"></i></span>
+                        <span class="detail">
+                        <span class="title">پرداخت از طریق کیف پول</span>
+                        </span>
+                        </span>
+                        </label>
+                        </div>
+                        <!-- end of custom-radio-outline --> *@
+
+                    </div>
+                </div>
+                <!-- end of box => payment-methods -->
+                <!-- start of box => coupon-gift -->
+                <div class="ui-box bg-white mb-5">
+                    <div class="ui-box-title">تخفیف و کارت هدیه</div>
+                    <div class="ui-box-content">
+                        <div class="coupon-gift--container">
+                            <!-- start of coupon -->
+                            <div class="coupon">
+                                <!-- start of coupon-form -->
+                                <form action="#" class="coupon-form">
+                                    <!-- start of form-element -->
+                                    <div class="form-element-row with-btn">
+                                        <input type="text" class="form-control" placeholder="افزودن کد تخفیف">
+                                        <button class="btn btn-primary">ثبت</button>
+                                    </div>
+                                    <!-- end of form-element -->
+                                </form>
+                                <!-- end of coupon-form -->
+                            </div>
+                            <!-- end of coupon -->
+                            <!-- start of divider -->
+                            <div class="divider-container">
+                                <span class="divider"></span>
+                            </div>
+                            <!-- end of divider -->
+                            <!-- start of gift -->
+                            <div class="gift">
+                                <!-- start of gift-form -->
+                                <form action="#" class="coupon-form">
+                                    <!-- start of form-element -->
+                                    <div class="form-element-row with-btn">
+                                        <input type="text" class="form-control" placeholder="افزودن کارت هدیه">
+                                        <button class="btn btn-primary">ثبت</button>
+                                    </div>
+                                    <!-- end of form-element -->
+                                </form>
+                                <!-- end of gift-form -->
+                            </div>
+                            <!-- end of gift -->
+                        </div>
+                    </div>
+                </div>
+                <!-- end of box => coupon-gift -->
+                <div class="ui-box bg-white mb-3">
+                    <div class="ui-box-title">خلاصه سفارش</div>
+                    <div class="ui-box-content">
+                        <!-- start of nav-tabs -->
+                        <nav>
+                            <div class="nav nav-tabs fa-num" id="shipping-type" role="tablist">
+                                <button class="nav-link fs-6 fw-bold active" id="shipping-type-1-tab" data-bs-toggle="tab" data-bs-target="#shipping-type-1" type="button" role="tab" aria-controls="shipping-type-1" aria-selected="true">
+                                    <span class="d-flex flex-column align-items-start">
+                                        <span class="d-flex align-items-center">مرسوله 1</span>
+                                    </span>
+                                </button>
+
+                            </div>
+                        </nav>
+                        <!-- end of nav-tabs -->
+                        <!-- start of tab-content -->
+                        <div class="tab-content" id="shipping-type-tabContent">
+                            <!-- start of tab-pane -->
+                            <div class="tab-pane py-4 fade active show" id="shipping-type-1" role="tabpanel" aria-labelledby="shipping-type-1">
+                                <!-- start of checkout-pack -->
+                                <div class="checkout-pack">
+                                    <div class="checkout-pack-header fa-num">
+                                        <div class="checkout-pack-title">
+                                            <span class="fs-7 text-muted">
+                                                مبلغ
+                                                مرسوله:
+                                            </span> <span>@FixedText.MoenyFormatter(DiscountCalculator.TotalShopingCart(Model.OrderDetails)) <span class="currency">تومان</span></span>
+                                        </div>
+                                        <div class="checkout-pack-detail">
+                                            <span>۳ کالا</span>
+                                            <span class="divider"></span>
+                                            <span>تامین کالا از ۱ روز کاری آینده</span>
+                                        </div>
+                                        <div class="checkout-pack-subtitle">
+                                            <i class="ri-truck-fill icon"></i>
+                                            ارسال عادی
+                                        </div>
+                                    </div>
+                                    <div class="checkout-pack-content">
+                                        <!-- Slider main container -->
+                                        <div class="swiper checkout-pack-swiper-slider mb-5 swiper-initialized swiper-horizontal swiper-pointer-events swiper-rtl">
+                                            <!-- Additional required wrapper -->
+                                            <div class="swiper-wrapper" id="swiper-wrapper-8e6f0cb755f4e719" aria-live="polite" style="transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;">
+                                                <!-- Slides -->
+                                                @{
+                                                    int counter = 0;
+                                                    foreach (var item in Model.OrderDetails)
+                                                    {
+                                                        <div class="@(@counter<=1?(counter==0?"swiper-slide swiper-slide-active":"swiper-slide swiper-slide-next"):"swiper-slide")" role="group" aria-label="@(counter+1) / @Model.OrderDetails.Count()" style="width: 135.667px; margin-left: 10px;">
+                                                            <div class="checkout-pack-item">
+                                                                <div class="checkout-pack-item-thumbnail">
+                                                                    <a href="#">
+                                                                        <img src="/images/ProductImages/@item.Product.Image" alt="">
+                                                                    </a>
+                                                                </div>
+                                                                <div class="checkout-pack-item-detail">
+                                                                    <div class="checkout-pack-item-title">
+                                                                        @item.Product.Title
+                                                                    </div>
+                                                                    <div class="checkout-pack-item-variant">
+                                                                        <span class="color" style="background-color: @item.Color.Hex;"></span>
+                                                                        <span class="ms-1">@item.Color.ColorName</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        counter++;
+                                                    }
+                                                }
+                                            </div>
+                                            <!-- If we need navigation buttons -->
+                                            <div class="swiper-button-prev swiper-button-lock swiper-button-disabled" tabindex="-1" role="button" aria-label="Previous slide" aria-controls="swiper-wrapper-8e6f0cb755f4e719" aria-disabled="true"></div>
+                                            <div class="swiper-button-next swiper-button-disabled swiper-button-lock" tabindex="-1" role="button" aria-label="Next slide" aria-controls="swiper-wrapper-8e6f0cb755f4e719" aria-disabled="true"></div>
+                                            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end of checkout-pack -->
+                            </div>
+                            <!-- end of tab-pane -->
+
+                        </div>
+                        <!-- end of tab-content -->
+                    </div>
+                </div>
+                <a href="#" class="link border-bottom-0">
+                    <i class="ri-arrow-right-s-fill"></i> بازگشت به شیوه ی
+                    ارسال
+                </a>
+            </div>
+            <div class="col-xl-3 col-lg-4">
+                <div class="ui-sticky ui-sticky-top">
+                    <!-- start of checkout-bill -->
+                    <div class="checkout-bill ui-box bg-white mb-5">
+                        <div class="checkout-bill-row">
+                            <div class="checkout-bill-row-label">قیمت کالاها (۴)</div>
+                            <div class="checkout-bill-row-value">
+                                <span class="fs-6">@FixedText.MoenyFormatter((double)Model.OrderSum)</span> <span class="currency">تومان</span>
+                            </div>
+                        </div>
+                        <div class="checkout-bill-row">
+                            <div class="checkout-bill-row-label">تخفیف کالاها</div>
+                            <div class="checkout-bill-row-value">
+                                <span class="fs-6 text-danger">@FixedText.MoenyFormatter(DiscountCalculator.PurchaseProfit(Model.OrderDetails))</span>
+                                <span class="currency text-danger">تومان</span>
+                            </div>
+                        </div>
+                        <div class="checkout-bill-row">
+                            <div class="checkout-bill-row-label">جمع سبد خرید</div>
+                            <div class="checkout-bill-row-value">
+                                <span class="fs-6">@FixedText.MoenyFormatter(DiscountCalculator.TotalShopingCart(Model.OrderDetails))</span> <span class="currency">تومان</span>
+                            </div>
+                        </div>
+                        <div class="checkout-bill-row checkout-bill-note">
+                            هزینه‌ی ارسال در ادامه بر اساس آدرس، زمان و نحوه‌ی ارسال انتخابی شما‌ محاسبه و به
+                            این مبلغ اضافه خواهد شد
+                        </div>
+                        <div class="checkout-bill-row checkout-bill-action">
+                            <button class="btn btn-block btn-primary" onclick="onclickPaymentHandler('@Model.Id')">پرداخت</button>
+                        </div>
+                        <div class="checkout-bill-row checkout-bill-footer">
+                            <div class="checkout-bill-row-label">
+                                <span class="d-flex">
+                                    <i class="ri-copper-coin-fill text-warning me-1"></i>
+                                    <span class="fs-7">امتیاز باشگاه مشتریان</span>
+                                </span>
+                            </div>
+                            <div class="checkout-bill-row-value">۱۵۰ <span class="fs-7 fw-bold text-muted">امتیاز</span></div>
+                        </div>
+                    </div>
+                    <!-- end of checkout-bill -->
+                    <!-- start of widget -->
+                    <div class="widget p-0">
+                        <div class="widget-content widget--free-shipping">
+                            <div class="free-shipping--detail">
+                                <div class="title">ارسال رایگان سفارش</div>
+                                <div class="subtitle">سفارش‌های بالای ۳۰۰ هزار تومان</div>
+                            </div>
+                            <div class="free-shipping--banner">
+                                <img src="./theme-assets/images/theme/free-shipping--banner.png" alt="ارسال رایگان سفارش">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end of widget -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+
+@section Scripts{
+    <script>
+        const onclickPaymentHandler = (orderId) => {
+
+            const paymentMethod = $("input[type='radio'][name='PaymentMethod']:checked").val();
+            console.log(paymentMethod)
+            if (paymentMethod == null || paymentMethod == undefined) {
+                alert("لطفا روش پرداخت را انتخاب کنید");
+                document.getElementById("ChosePaymentMehtod").scrollIntoView({ behavior: 'smooth' });
+                document.getElementById("ChosePaymentMehtod").style.border = "1px solid red"
+            } else {
+                location.pathname = `/payment/${orderId}/${paymentMethod}`
+
+            }
+
+
+        }
+
+
+    </script>
+}

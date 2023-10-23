@@ -16,7 +16,11 @@ namespace EShop.Application.ViewModels.Product.Color
         [Display(Name = "قیمت محصول")]
         [Required(ErrorMessage = "پر کردن {0} الزامی می باشد.")]
         public int Price { get; set; }
+        [Display(Name = "تعداد")]
+        [Required(ErrorMessage = "پر کردن {0} الزامی می باشد.")]
+        public int Count { get; set; }
         [Required]
+
         public int ProductId { get; set; }
     }
 }

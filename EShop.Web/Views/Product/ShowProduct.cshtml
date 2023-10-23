@@ -1,11 +1,9 @@
 ﻿@model EShop.Application.ViewModels.Product.ProductViewModel
 @using EShop.Application.Convertors
-
 @{
 
 }
 <main class="page-content">
-
     <div class="container">
         <!-- start of breadcrumb -->
         <nav class="mb-5" aria-label="breadcrumb">
@@ -49,7 +47,7 @@
                                         @{
                                             foreach (var gallery in Model.Gallery)
                                             {
-                                                <li data-fancybox="gallery-a" data-src="/images//ProductImages/@gallery.ProductImageUrl"><img src="/images//ProductImages/@gallery.ProductImageUrl" alt=""></li>
+                                                    <li data-fancybox="gallery-a" data-src="/images//ProductImages/@gallery.ProductImageUrl"><img src="/images//ProductImages/@gallery.ProductImageUrl" alt=""></li>
                                             }
                                         }
                                     </ul>
@@ -105,14 +103,14 @@
 
                                     foreach (var c in Model.Colors)
                                     {
-                                        <div class="product-variant-item">
-                                            <div class="custom-radio-circle">
-                                                <input type="radio" class="custom-radio-circle-input" name="productColor" id=@counter value=@c.Id @(c == Model.Colors.First() ? "checked" : "") onclick="colorChangeHandler('@c.Price', '@Model.Discount?.DiscountPercentage')">
-                                                <label for=@counter class="custom-radio-circle-label" data-variant-label=@c.ColorName>
-                                                    <span class="color" style="background-color: @c.Hex;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title=@c.ColorName aria-label=@c.ColorName></span>
-                                                </label>
+                                            <div class="product-variant-item">
+                                                <div class="custom-radio-circle">
+                                                    <input type="radio" class="custom-radio-circle-input" name="productColor" id=@counter value=@c.Id @(c == Model.Colors.First() ? "checked" : "") onclick="colorChangeHandler('@c.Price', '@Model.Discount?.DiscountPercentage','@c.Count')">
+                                                    <label for=@counter class="custom-radio-circle-label" data-variant-label=@c.ColorName>
+                                                        <span class="color" style="background-color: @c.Hex;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title=@c.ColorName aria-label=@c.ColorName></span>
+                                                    </label>
+                                                </div>
                                             </div>
-                                        </div>
                                         counter++;
                                     }
 
@@ -131,10 +129,10 @@
                                             var featuresList = Model.Features.Split("/").ToList();
                                             foreach (var feature in featuresList)
                                             {
-                                                <li>
-                                                    <span class="label">@feature.Split(":")[0]:</span>
-                                                    <span class="title">@feature.Split(":")[1]</span>
-                                                </li>
+                                                    <li>
+                                                        <span class="label">@feature.Split(":")[0]:</span>
+                                                        <span class="title">@feature.Split(":")[1]</span>
+                                                    </li>
                                             }
                                         }
                                     }
@@ -248,39 +246,44 @@
                                     @{
                                         if (Model.Discount != null && Model.Discount.EndDate > DateTime.Now && DateTime.Now > Model.Discount.StartDate && Model.Discount.IsActive)
                                         {
-                                            <div class="d-flex align-items-center">
-                                                <del class="price-old">@FixedText.MoenyFormatter(Model.Colors.First().Price)</del>
-                                                <span class="discount ms-2">%@Model.Discount.DiscountPercentage</span>
-                                            </div>
-                                            <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(((long)Model.Colors.First().Price * (long)(100 -Model.Discount.DiscountPercentage)) / 100)</span>
+                                                <div class="d-flex align-items-center">
+                                                    <del class="price-old">@FixedText.MoenyFormatter(Model.Colors.First().Price)</del>
+                                                    <span class="discount ms-2">%@Model.Discount.DiscountPercentage</span>
+                                                </div>
+                                                <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(((long)Model.Colors.First().Price * (long)(100 -Model.Discount.DiscountPercentage)) / 100)</span>
                                         }
                                         else if (ViewBag.globalDiscount.DiscountPercentage != 0 && ViewBag.globalDiscount.EndDate > DateTime.Now && DateTime.Now > ViewBag.globalDiscount.StartDate && ViewBag.globalDiscount.IsActive)
                                         {
-                                            <div class="d-flex align-items-center">
-                                                <del class="price-old">@FixedText.MoenyFormatter(Model.Colors.First().Price)</del>
-                                                <span class="discount ms-2">%@ViewBag.globalDiscount.DiscountPercentage</span>
-                                            </div>
-                                            <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(((long)Model.Colors.First().Price * (long)(100 -ViewBag.globalDiscount.DiscountPercentage)) / 100)</span>
+                                                <div class="d-flex align-items-center">
+                                                    <del class="price-old">@FixedText.MoenyFormatter(Model.Colors.First().Price)</del>
+                                                    <span class="discount ms-2">%@ViewBag.globalDiscount.DiscountPercentage</span>
+                                                </div>
+                                                <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(((long)Model.Colors.First().Price * (long)(100 -ViewBag.globalDiscount.DiscountPercentage)) / 100)</span>
                                         }
                                         else
                                         {
-                                            <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(Model.Colors.First().Price) </span>
+                                                <span id="addToCartPrice" class="price">@FixedText.MoenyFormatter(Model.Colors.First().Price) </span>
                                         }
                                     }
                                     <span class="currency">تومان</span>
                                 </div>
                             </div>
-                            <div class="product-seller-row product-remaining-in-stock">
-                                <span>
-                                    تنها <span class="mx-2">۱</span> عدد در انبار باقیست - پیش از
-                                    اتمام بخرید
-                                </span>
-                            </div>
+                            @*   <div class="product-seller-row product-remaining-in-stock">
+                            <span>
+                            تنها <span class="mx-2" id="countProduct"></span> عدد در انبار باقیست - پیش از
+                            اتمام بخرید
+                            </span>
+                            </div> *@
                         </div>
-                        <div class="product-seller--add-to-cart">
-                            <button class="btn btn-primary w-100" onclick="addToOrder()">
+                        <div class="product-seller--add-to-cart" id="addtoorderbtncontainer">
+
+
+
+                            <button class="btn btn-primary w-100" id="AddToOrderBTN" onclick="addToOrder()">
                                 افزودن به سبد خرید
                             </button>
+
+
                         </div>
                     </div>
                     <!-- end of product-seller-info -->
@@ -303,67 +306,90 @@
 
 @section Scripts{
     <script>
+
+
+        const addToOrder = () => {
+            // data - toast="" data - toast - type="success" data - toast - color="green" data - toast - position="topRight" data - toast - icon="ri-check-fill" data - toast - title="موفق!" data - toast - message="به سبد اضافه شد!"
+
+
+            const colorInput = Number(document.querySelector('input[name="productColor"]:checked').value)
+
+            $.ajax({
+                type: "GET",
+                url: `/add-to-cart/@Model.Id/${colorInput}`,
+                success: function (response) {
+
+                    showToast("success", "موفق!", "به سبد خرید اضافه شد", "green", "topCenter");
+
+                    // $("#reload_Cart_infor_top").submit();
+
+
+                    $.ajax({
+                        url: '/Order/ReloadUserCartInforTop', // آدرس عملیات دریافت اطلاعات جدید
+                        type: 'GET',
+                        success: function (data) {
+                            // بروزرسانی ViewComponent با اطلاعات جدید
+                            $('#UserOptionsComponent').html(data);
+                        }
+                    });
+                     
+                    
+
+
+
+
+                }
+            })
+
+        }
+
+
+
+
+
+        $(window).on('load', () => {
+            var colorInput = document.querySelector('input[name="productColor"]:checked').value
+
+            const chekcedColor = @Model.Colors.FirstOrDefault().Count;
+
+            if (chekcedColor < 1) {
+                document.getElementById("AddToOrderBTN").disabled = true
+            }
+
+
+        });
+
+        const countTag = document.getElementById("countProduct")
         const oldPrice = document.getElementById("old-price")
-        const priceElem = document.getElementById("addToCartPrice");
+        const priceElem = document.getElementById("addToCartPrice")
         const colors = []
-        const colorChangeHandler = (price, discountPercentage) => {
+
+
+
+
+        const colorChangeHandler = (price, discountPercentage, count) => {
 
             if (discountPercentage != 0) {
                 priceElem.innerHTML = ((Number(price) * Number(100 - discountPercentage)) / 100).toLocaleString();
+
+                const addToOrderbtn = document.getElementById("AddToOrderBTN");
+
+                if (count < 1) {
+                    document.getElementById("AddToOrderBTN").disabled = true
+                } else if (count >= 1) {
+                    document.getElementById("AddToOrderBTN").disabled = false
+
+                }
+
+
             } else {
                 priceElem.innerHTML = Number(price).toLocaleString();
             }
-
         }
 
 
-        // var successToast = () => {
-        //     // t = this
-        //     a = "success",
-        //         e = "",
-        //         i = "topCenter",
-        //         n = "موفق!",
-        //         o = "به سبد خرید شما اضافه شد",
-        //         p = "green",
-        //         s = "";
 
 
-        //     s = {
-        //         rtl: true,
-        //         class: "iziToast-" + a || "",
-        //         title: n || "Title",
-        //         message: o || "toast message",
-        //         animateInside: !1,
-        //         position: "topRight",
-        //         progressBar: !1,
-        //         icon: e,
-        //         timeout: 3200,
-        //         transitionIn: "fadeInLeft",
-        //         transitionOut: "fadeOut",
-        //         transitionInMobile: "fadeIn",
-        //         transitionOutMobile: "fadeOut",
-        //         color: p || "blue",
-        //     };
 
-        //     iziToast.show(s);
-        // }
-
-
-        const addToOrder = (e) => {
-            // data - toast="" data - toast - type="success" data - toast - color="green" data - toast - position="topRight" data - toast - icon="ri-check-fill" data - toast - title="موفق!" data - toast - message="به سبد اضافه شد!"
-            event.preventDefault();
-            const colorInput = Number(document.querySelector('input[name="productColor"]:checked').value)
-            // var xhttp = new XMLHttpRequest();
-            // xhttp.open("GET", "/add-to-order/@Model.Id/"+colorInput,true);
-            // xhttp.send();
-            $.ajax({
-                type: "GET",
-                url: `/add-to-order/@Model.Id/${colorInput}`,
-                success: function (response) {
-                    showToast("success", "موفق!", "به سبد خرید اضافه شد", "green", "topCenter")
-
-                },
-            })
-        }
     </script>
 }

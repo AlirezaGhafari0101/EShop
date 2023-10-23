@@ -9,10 +9,13 @@
 
 
 @{
-   
+
     int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
     UserViewModel user = await _userService.GetSideBarUserPanelDataAsync(userId);
+    double userBalanceWallet = await _userService.BalanceUserWalletAsyncService(userId);
+
+    
 }
 
 <div class="col-xl-3 col-lg-4 col-md-5 mb-md-0 mb-4">
@@ -37,7 +40,7 @@
                             <span class="label">کیف پول</span>
                             <span class="detail">
                                 <span class="d-block">
-                                    @FixedText.MoenyFormatter(await _userService.BalanceUserWalletAsyncService(userId)) <span class="currency fs-7 fw-bold">تومان</span>
+                                    @FixedText.MoenyFormatter(userBalanceWallet) <span class="currency fs-7 fw-bold">تومان</span>
                                 </span>
                                 <a asp-action="ChargeWallet" asp-controller="Wallet" class="link border-bottom-0 text-info fs-7 fw-bold">
                                     افزایش
@@ -71,7 +74,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="/userpanel/order/order-list">
                         <i class="nav-link-icon ri-file-list-3-line"></i>
                         سفارش
                         های من

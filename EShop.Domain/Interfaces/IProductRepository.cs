@@ -57,7 +57,7 @@ namespace EShop.Domain.Interfaces
         Task AddProductColorAsync(ProductColor color);
         Task UpdateProductColorAsync(ProductColor color);
         Task DeleteProductColorAsync(ProductColor color);
-        int GetFirstColorByProductIdAsync(int productId);
+        double GetFirstColorByProductIdAsync(int productId);
 
 
 

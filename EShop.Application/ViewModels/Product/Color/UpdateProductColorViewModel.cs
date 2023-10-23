@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EShop.Application.ViewModels.Product.Color
 {
-    public class UpdateProductColorViewModel:BaseViewModel
+    public class UpdateProductColorViewModel : BaseViewModel
     {
         [Display(Name = "اسم رنگ")]
         [Required(ErrorMessage = "پر کردن {0} الزامی می باشد.")]
@@ -21,7 +21,10 @@ namespace EShop.Application.ViewModels.Product.Color
         public string Hex { get; set; }
         [Display(Name = "قیمت محصول")]
         [Required(ErrorMessage = "پر کردن {0} الزامی می باشد.")]
-        public int Price { get; set; }
+        public double Price { get; set; }
+        [Display(Name = "تعداد")]
+        [Required(ErrorMessage = "پر کردن {0} الزامی می باشد.")]
+        public int Count { get; set; }
         public int ProductId { get; set; }
 
 

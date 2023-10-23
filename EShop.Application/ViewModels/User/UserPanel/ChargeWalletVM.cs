@@ -11,6 +11,7 @@ namespace EShop.Application.ViewModels.User.UserPanel
     {
         [Display(Name = "مبلغ")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        public int Amount { get; set; }
+        [Range(10000, double.MaxValue, ErrorMessage = "مقدار {0} وارد شده غیر مجاز می باشد")]
+        public double Amount { get; set; }
     }
 }

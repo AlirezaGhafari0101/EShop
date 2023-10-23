@@ -193,6 +193,7 @@ namespace EShop.Application.Services.Implementation
                     Price = c.Price,
                     ProductId = c.ProductId,
                     ColorName = c.ColorName,
+                    Count=c.count
 
                 }).ToList(),
                 Gallery = product.productGalleries.Select(gallery => new ProductGalleryViewModel
@@ -458,6 +459,7 @@ namespace EShop.Application.Services.Implementation
                 ProductId = pc.ProductId,
                 CreateDate = pc.CreateDate,
                 IsDelete = pc.IsDelete,
+                Count=pc.count
             }).ToList();
 
         }
@@ -474,6 +476,7 @@ namespace EShop.Application.Services.Implementation
                 CreateDate = productColor.CreateDate,
                 IsDelete = productColor.IsDelete,
                 ColorName = productColor.ColorName,
+                Count=productColor.count
             };
         }
 
@@ -485,6 +488,7 @@ namespace EShop.Application.Services.Implementation
                 Price = color.Price,
                 ProductId = color.ProductId,
                 ColorName = color.ColorName,
+                count=color.Count
 
             };
             await _productRepository.AddProductColorAsync(pColor);
@@ -497,6 +501,7 @@ namespace EShop.Application.Services.Implementation
             productColor.Hex = color.Hex;
             productColor.Price = color.Price;
             productColor.ColorName = color.ColorName;
+            productColor.count=color.Count;
             await _productRepository.UpdateProductColorAsync(productColor);
             await _productRepository.SaveChangeAsync();
 

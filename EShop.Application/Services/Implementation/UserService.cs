@@ -9,6 +9,8 @@ using EShop.Application.ViewModels.Ticket;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Users;
 using EShop.Domain.Models.Ticket;
+using EShop.Domain.Models.Wallet;
+using EShop.Application.ViewModels.Wallet;
 
 namespace EShop.Application.Services.Implementation
 {
@@ -181,7 +183,7 @@ namespace EShop.Application.Services.Implementation
         }
 
         #region Wallet
-        public async Task<int> BalanceUserWalletAsyncService(int userId)
+        public async Task<double> BalanceUserWalletAsyncService(int userId)
         {
             return await _userRepository.BalanceUeserWalletAsync(userId);
         }
@@ -200,7 +202,7 @@ namespace EShop.Application.Services.Implementation
             }).ToList();
         }
 
-        public async Task<int> ChargeWalletAsyncService(int userId, int amount, string description)
+        public async Task<int> ChargeWalletAsyncService(int userId, double amount, string description)
         {
             Wallet wallet = new Wallet()
             {
@@ -224,12 +226,12 @@ namespace EShop.Application.Services.Implementation
 
             return new WalletVM()
             {
+                Id = wallet.Id,
                 Amount = wallet.Amount,
                 TypeId = wallet.TypeId,
                 Description = wallet.Description,
                 CreateDate = wallet.CreateDate,
-                IsPay = wallet.IsPay,
-                TypeID = wallet.TypeId,
+                PaymentType = wallet.PaymentType,
 
 
             };
@@ -238,9 +240,7 @@ namespace EShop.Application.Services.Implementation
         public async Task IsPayWallet(int id)
         {
             Wallet wallet = await _userRepository.GetWalletByIdAsync(id);
-
             wallet.IsPay = true;
-
             await _userRepository.UpdateWallet(wallet);
             await _userRepository.SaveChangeAsync();
         }

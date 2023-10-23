@@ -14,10 +14,10 @@
     s = {
         rtl: true,
         class: "iziToast-" + a || "",
-        title: n || "Title",
-        message: o || "toast message",
+        title: n,
+        message: o,
         animateInside: !1,
-        position: "topRight",
+        position: i,
         progressBar: !1,
         icon: e,
         timeout: 3200,

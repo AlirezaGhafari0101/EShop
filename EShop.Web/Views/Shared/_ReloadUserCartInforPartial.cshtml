@@ -1,0 +1,200 @@
+﻿@model EShop.Application.ViewModels.Order.OrderVM
+@using System.Security.Claims;
+@using EShop.Application.Convertors
+@inject EShop.Application.Services.Interfaces.IUserService _userService
+@{
+    int userId = 0;
+    string userAvatar = "";
+    bool IsAdmin = false;
+    if (User.Identity.IsAuthenticated)
+    {
+        userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        userAvatar = User.FindFirstValue("UserAvatar").ToString();
+        IsAdmin = bool.Parse(User.FindFirstValue("IsAdmin").ToString());
+
+
+    }
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="user-options">
+        <div class="user-option user-option--account">
+            <a asp-action="Index" asp-controller="Home" asp-area="UserPanel" class="user-option-btn user-option-btn--account">
+                <i class="ri-user-fill icon"></i>
+                <i class="ri-arrow-down-s-fill icon fs-7 text-muted"></i>
+            </a>
+            <div class="user-option--dropdown user-option--dropdown-right">
+                <div class="profile-user-info ui-box">
+                    <div class="profile-detail">
+                        <div class="d-flex align-items-center">
+                            <div class="profile-avatar me-3">
+                                <a asp-action="Index" asp-controller="Home" asp-area="UserPanel">
+                                    <img src="/images/UserAvatar/@userAvatar" alt="avatar">
+                                </a>
+                            </div>
+                            <div class="profile-info">
+                                <a asp-action="Index" asp-controller="Home" asp-area="UserPanel" class="text-decoration-none text-dark fw-bold mb-2">
+                                    @User.Identity.Name
+                                </a>
+                                <div class="text-muted fs-7 fw-bold">۰۹xxxxxxxxx</div>
+                            </div>
+                        </div>
+                        <div class="user-options">
+                            <ul>
+                                <li>
+                                    <span class="label">کیف پول</span>
+                                    <span class="detail">
+                                        <span class="d-block">
+                                            @FixedText.MoenyFormatter(await _userService.BalanceUserWalletAsyncService(userId)) <span class="currency fs-7 fw-bold">تومان</span>
+                                        </span>
+                                        <a asp-action="ChargeWallet" asp-controller="Wallet"
+                                           class="link border-bottom-0 text-info fs-7 fw-bold">
+                                            افزایش
+                                            موجودی <i class="ri-arrow-left-s-line"></i>
+                                        </a>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="label">باشگاه مشتریان</span>
+                                    <span class="detail">
+                                        <span class="d-block">
+                                            ۰ <span class="score text-muted fs-7">امتیاز</span>
+                                        </span>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <ul class="nav nav-items-with-icon flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/userpanel/order/order-list">
+                                <i class="nav-link-icon ri-file-list-3-line"></i>
+                                سفارش
+                                های من
+                            </a>
+                        </li>
+
+                        @if (IsAdmin == true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-action="Index" asp-controller="Home" asp-area="Admin">
+                                    <i class="nav-link-icon ri-file-list-3-line"></i>
+                                    ورود به پنل ادمین
+                                </a>
+                            </li>
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="nav-link-icon ri-copper-coin-fill"></i>
+                                باشگاه مشتریان
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/LogOut">
+                                <i class="nav-link-icon ri-logout-box-r-line"></i>
+                                خروج
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="user-option">
+            <a href="#" class="user-option-btn user-option-btn--account">
+                <i class="ri-heart-3-fill icon"></i>
+                <span class="counter">۲</span>
+            </a>
+        </div>
+
+        <div class="user-option user-option--cart">
+            @if (Model != null)
+            {
+                <a href="/cart" class="user-option-btn user-option-btn--cart">
+                    <i class="ri-shopping-bag-2-fill icon"></i>
+                    <span class="user-item-text">
+                        <span class="title">سبد خرید شما</span>
+                        <span class="value fa-num">@FixedText.MoenyFormatter((double)Model.OrderSum) <span class="currency">تومان</span></span>
+                    </span>
+                    <span class="counter">@Model.OrderDetails.Count()</span>
+                </a>
+                <div class="mini-cart">
+                    <div class="mini-cart-header">
+                        <span class="mini-cart-products-count fa-num">@Model.OrderDetails.Count() کالا</span>
+                        <a href="/cart" class="btn btn-link px-0">
+                            مشاهده سبد خرید <i class="ri-arrow-left-s-fill"></i>
+                        </a>
+                    </div>
+                    <div class="mini-cart-products do-simplebar">
+
+
+                        @foreach (var item in Model.OrderDetails)
+                        {
+                            <div class="mini-cart-product">
+                                <div class="mini-cart-product-thumbnail">
+                                    <a href="#"><img src="/images/ProductImages/@item.Product?.Image" alt=""></a>
+                                </div>
+                                <div class="mini-cart-product-detail">
+                                    <div class="mini-cart-product-brand"><a href="#">@item.Product.Title</a></div>
+                                    <div class="mini-cart-product-title">
+                                        <a href="product-v1.html">
+                                            @item.Product.Description
+                                        </a>
+                                    </div>
+                                    <div class="mini-cart-purchase-info">
+                                        <div class="mini-cart-product-meta">
+                                            <span class="fa-num">@item.Count عدد</span>
+                                            <span class="color" style="background-color: @item.Color?.Hex"></span>
+                                        </div>
+                                        <div class="mini-cart-product-price fa-num">
+                                            @FixedText.MoenyFormatter(item.Color.Price) <span class="currency">تومان</span>
+                                        </div>
+                                    </div>
+                                    <button class="mini-cart-product-remove"></button>
+                                </div>
+                            </div>
+                        }
+
+
+
+
+                    </div>
+
+
+                    <div class="mini-cart-footer">
+                        <div class="mini-cart-total">
+                            <span class="mini-cart-total-label">مبلغ قابل پرداخت:</span>
+                            <span class="mini-cart-total-value fa-num">
+                                @FixedText.MoenyFormatter((double)Model.OrderSum) <span class="currency">تومان</span>
+                            </span>
+                        </div>
+                        <a href="#" class="btn btn-primary">ورود و ثبت سفارش</a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <a href="cart.html" class="user-option-btn user-option-btn--cart">
+                    <i class="ri-shopping-bag-2-fill icon"></i>
+
+
+                </a>
+            }
+        </div>
+
+
+    </div>
+}
+else
+{
+    <div class="signin-up-box">
+        <a href="/login">ورود</a>
+        |
+        <a href="/register">ثبت نام</a>
+    </div>
+
+}
+
+
+
+

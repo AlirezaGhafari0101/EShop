@@ -1,4 +1,5 @@
 ﻿using EShop.Domain.Models.Order;
+using EShop.Domain.Models.Users;
 
 namespace EShop.Domain.Interfaces
 {
@@ -17,7 +18,34 @@ namespace EShop.Domain.Interfaces
         Task<IEnumerable<OrderDetail>> GetAllOrderDetailsAsync();
         Task AddOrderDetailAsync(OrderDetail orderDetail);
         Task UpdateOrderDetailAsync(OrderDetail orderDetail);
+        Task<Order> GetUserOrderInforAsync(int id);
+        Task<OrderDetail> GetOrderDetailByIdAsync(int id);
+
+        Task DeleteOrderDetailAsync(OrderDetail orderDetail);
+
+        Task<IEnumerable<OrderDetail>> GetOrderDetailsForOrder(int id);
+
+
+
 
         #endregion
+
+
+
+        #region Admin
+        Task<IEnumerable<Order>> GetAllOrdersForAdminAsync();
+        Task<IEnumerable<OrderDetail>> GetOrderDetailsForAdminAsync(int orderId);
+        User GetOrderUser(int orderId);
+
+        #endregion
+
+
+
+        #region UserPanel
+        Task<IEnumerable<Order>> GetUserOrderListAsync(int userId);
+        Task<IEnumerable<OrderDetail>> GetUserOrderDetailsAsync(int orderId);
+        #endregion
+
+
     }
 }

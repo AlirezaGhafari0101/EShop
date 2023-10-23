@@ -1,5 +1,6 @@
 ﻿using EShop.Domain.Models.Users;
 using EShop.Domain.Models.Ticket;
+using EShop.Domain.Models.Wallet;
 
 namespace EShop.Domain.Interfaces
 {
@@ -54,7 +55,7 @@ namespace EShop.Domain.Interfaces
 
 
         #region Wallet
-        Task<int> BalanceUeserWalletAsync(int userId);
+        Task<double> BalanceUeserWalletAsync(int userId);
         Task<IEnumerable<Wallet>> GetAllUserWalletsAsync(int userId);
         Task ChargeWalletAsync(Wallet wallet);
         Task<Wallet> GetWalletByIdAsync(int id);

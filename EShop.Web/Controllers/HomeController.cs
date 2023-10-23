@@ -2,6 +2,7 @@
 using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels.ContactUs;
 using EShop.Application.ViewModels.User.UserPanel;
+using EShop.Application.ViewModels.Wallet;
 using Microsoft.AspNetCore.Mvc;
 using ZarinPal.Class;
 
@@ -47,7 +48,6 @@ namespace EShop.Web.Controllers
             {
                 return View(contactUsViewModel);
             }
-
             await _contactUsService.CreateQuestionServiceAsync(contactUsViewModel);
             ModelState.Clear();
             ViewBag.IsSended = true;
@@ -70,7 +70,7 @@ namespace EShop.Web.Controllers
                 string authority = HttpContext.Request.Query["Authority"];
                 var verification = await _payment.Verification(new DtoVerification
                 {
-                    Amount = wallet.Amount,
+                    Amount = (int)wallet.Amount,
                     MerchantId = "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
                     Authority = authority
                 }, Payment.Mode.sandbox);

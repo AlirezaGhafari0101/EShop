@@ -37,24 +37,7 @@ namespace EShop.Application.Convertors
             return DateTime.Now;
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public static string MoenyFormatter(int moneny)
+        public static string MoenyFormatter(double moneny)
         {
            
             string formattedNumber = moneny.ToString("N0");

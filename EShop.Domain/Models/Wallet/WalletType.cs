@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EShop.Domain.Models.Users
+namespace EShop.Domain.Models.Wallet
 {
     public class WalletType
     {

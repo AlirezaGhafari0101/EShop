@@ -4,6 +4,7 @@ using EShop.Domain.Models.Order;
 using EShop.Domain.Models.Products;
 using EShop.Domain.Models.Ticket;
 using EShop.Domain.Models.Users;
+using EShop.Domain.Models.Wallet;
 using Microsoft.EntityFrameworkCore;
 
 namespace EShop.Data.Context
@@ -54,6 +55,8 @@ namespace EShop.Data.Context
             modelBuilder.Entity<ProductColor>().HasQueryFilter(d => !d.IsDelete);
             modelBuilder.Entity<Ticket>().HasQueryFilter(d => !d.IsDelete);
             modelBuilder.Entity<TicketMessage>().HasQueryFilter(d => !d.IsDelete);
+            modelBuilder.Entity<Order>().HasQueryFilter(d => !d.IsDelete);
+            modelBuilder.Entity<OrderDetail>().HasQueryFilter(d => !d.IsDelete);
 
             modelBuilder.Entity<User>().HasMany<TicketMessage>(u => u.TicketMessages)
                             .WithOne(t => t.User)

@@ -2,6 +2,7 @@
 using EShop.Application.ViewModels.User;
 using EShop.Application.ViewModels.User.UserPanel;
 using EShop.Application.ViewModels.Ticket;
+using EShop.Application.ViewModels.Wallet;
 
 namespace EShop.Application.Services.Interfaces
 {
@@ -36,9 +37,9 @@ namespace EShop.Application.Services.Interfaces
 
 
         #region Wallet
-        Task<int> BalanceUserWalletAsyncService(int userId);
+        Task<double> BalanceUserWalletAsyncService(int userId);
         Task<IEnumerable<WalletVM>> GetAllUserWalletsAsyncService(int userId);
-        Task<int> ChargeWalletAsyncService(int userId, int amount, string description);
+        Task<int> ChargeWalletAsyncService(int userId, double amount, string description);
         Task<WalletVM> GetWalletByIdAsyncService(int id);
         Task IsPayWallet(int id);
         #endregion
