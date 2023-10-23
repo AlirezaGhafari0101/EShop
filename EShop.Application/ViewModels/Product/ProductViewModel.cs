@@ -52,6 +52,8 @@ namespace EShop.Application.ViewModels.Product
         [Required(ErrorMessage = "پر کردن {0} الزامی می باشد.")]
         public string Features { get; set; }
         public int? DiscountId { get; set; }
+        public double ProductRate { get; set; }
+        public int RatesCount { get; set; }
 
         [Display(Name = "دسته بندی")]
         [Required(ErrorMessage = " یک {0} انتخاب کنید  .")]
@@ -60,7 +62,10 @@ namespace EShop.Application.ViewModels.Product
         public DateTime CreatedDate { get; set; }
 
         public List<ProductColorViewModel> Colors { get; set; }
+        public List<UserFavourite.UserFavouriteViewModel>? UserFavourites { get; set; }
 
         public DiscountViewModel? Discount { get; set; }
+
+        public List<Comment.CommentViewModel>? Comments { get; set; }
     }
 }

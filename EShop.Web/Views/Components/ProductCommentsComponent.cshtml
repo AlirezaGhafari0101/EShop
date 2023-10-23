@@ -1,0 +1,71 @@
+﻿@model List<EShop.Application.ViewModels.Comment.CommentViewModel>
+@using EShop.Application.Convertors
+<div class="col-xl-9 col-lg-8 col-md-7 pt-5">
+    <!-- start of filter-comments -->
+    <div class="filter-comments mb-4">
+        <div class="filter-comments-title me-2">
+            <i class="ri-list-settings-fill me-1"></i>
+            <span>مرتب سازی دیدگاه ها بر اساس:</span>
+        </div>
+        <div class="filter-comments-options">
+           
+                <input id="productId" value="@Model.First().ProductId" type="hidden"/>
+            <button class="filter-comments-option active" id="new" name="orderByType" value="new" onclick="filterComments(event)">جدیدترین دیدگاه ها</button>
+            <button class="filter-comments-option" id="best" name="orderByType" value="best" onclick="filterComments(event)">مفیدترین دیدگاه ها</button>
+           
+        </div>
+    </div>
+    <!-- end of filter-comments -->
+    <!-- start of comments -->
+    <div class="comments" id="comment-container">
+
+        @{
+            if (Model != null && Model.Any(c => c.IsConfirmed))
+            {
+
+                foreach (var c in Model)
+                {
+
+                    if (c.IsConfirmed)
+                    {
+
+                                <!-- start of comment -->
+                                <div class="comment">
+                                    <div class="comment-header">
+                                        <span>@FixedText.FixDateToShamsi(c.CreateDate)</span>
+                                        <span>@c.UserName</span>
+                                    </div>
+                                    <div class="comment-body">
+                                        <p>
+                                            @c.Message
+                                        </p>
+
+                                    </div>
+                                    <div class="comment-footer">
+                                        <span class="me-2">آیا این دیدگاه برایتان مفید بود؟</span>
+                                        <button onclick="likeComment(event,'@c.Id', '@c.ProductId')" class="comment-like" id="like@(c.Id)">@c.LikeCounts</button>
+                                        <button onclick="dislikeComment(event,'@c.Id', '@c.ProductId')" class="comment-dislike" id="dislike@(c.Id)">@c.DislikeCounts</button>
+                                    </div>
+                                </div>
+                                <!-- end of comment -->
+                    }
+
+                }
+
+
+
+            }
+            else
+            {
+                        <div class="alert alert-warning">
+                            کامنتی برای نمایش وجود ندارد.
+                        </div>
+            }
+        }
+        <div class="mb-2">دیدگاه خود را درباره این کالا بیان کنید</div>
+      
+    </div>
+    <!-- end of comments -->
+</div>
+
+

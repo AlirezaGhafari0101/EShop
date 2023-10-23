@@ -26,6 +26,8 @@ namespace EShop.Ioc
             service.AddScoped<IUserService, UserService>();
 
             service.AddScoped<Payment, Payment>();
+
+            service.AddScoped<IUserFavouriteRepository, UserFavouriteRepository>();
         }
 
         public static void ContactUsServices(IServiceCollection service)
@@ -38,6 +40,8 @@ namespace EShop.Ioc
         {
             service.AddScoped<IProductRepository, ProductRepository>();
             service.AddScoped<IProductService, ProductService>();
+            service.AddScoped<IRateRepository, RateRepository>();
+            
         }
 
         public static void DiscountServices(IServiceCollection service)
@@ -58,6 +62,14 @@ namespace EShop.Ioc
             service.AddScoped<IOrderRepository, OrderRepository>();
             service.AddScoped<IOrderService, OrderService>();
         }
+
+        public static void CommentService(IServiceCollection service)
+        {
+            service.AddScoped<ICommentRepository, CommentRepository>();
+            service.AddScoped<ICommentService, CommentService>();
+            service.AddScoped<IUserCommentLikeOrDislikeRepository, UserCommentLikeOrDislikeRepository>();
+        }
+
 
         public static void WalletServices(IServiceCollection service)
         {

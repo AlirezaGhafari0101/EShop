@@ -73,8 +73,8 @@ namespace EShop.Application.Services.Implementation
                 IsDelete = false,
                 DiscountCode = discountModel.DiscountCode,
                 DiscountPercentage = discountModel.DiscountPercentage,
-                StartDate = FixedText.FixShamsiDateToAdDate(discountModel.StartDate),
-                EndDate = FixedText.FixShamsiDateToAdDate(discountModel.EndDate),
+                StartDate = discountModel.StartDate!=null ?  FixedText.FixShamsiDateToAdDate(discountModel.StartDate) : DateTime.Now,
+                EndDate = discountModel.EndDate != null ? FixedText.FixShamsiDateToAdDate(discountModel.StartDate) : DateTime.Now.AddDays(30),
                 IsActive=discountModel.IsActive,
                 CreateDate=DateTime.Now,   
             };

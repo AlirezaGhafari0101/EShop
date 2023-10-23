@@ -25,7 +25,7 @@ namespace EShop.Data.Repository
         
         public async Task<IEnumerable<Discount>> GetAllDiscountsForProductAsync()
         {
-            return await _ctx.Discounts.Where(d => d.DiscountCode != null).ToListAsync();
+            return await _ctx.Discounts.Where(d => d.DiscountCode != null && d.IsActive == true && d.EndDate > DateTime.Now).ToListAsync();
         }
 
         public async Task<Discount> GetDiscountByIdAsync(int id)

@@ -38,6 +38,7 @@ DependencyContainer.ProductServieces(builder.Services);
 DependencyContainer.DiscountServices(builder.Services);
 DependencyContainer.TicketServices(builder.Services);
 DependencyContainer.OrderServices(builder.Services);
+DependencyContainer.CommentService(builder.Services);
 DependencyContainer.WalletServices(builder.Services);
 #endregion
 

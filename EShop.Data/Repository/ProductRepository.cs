@@ -66,12 +66,22 @@ namespace EShop.Data.Repository
 
         public async Task<Product> GetProductByIdAsync(int id)
         {
-            return await _ctx.Products.Include(p => p.productGalleries).Include(p => p.Colors).Include(p => p.Discount).FirstOrDefaultAsync(p => p.Id == id);
+            return await _ctx.Products
+                .Include(p => p.productGalleries)
+                .Include(p => p.Colors)
+                .Include(p => p.Discount)
+                .Include(p => p.UserFavourites)
+                .Include(p => p.Comments)
+                .Include(p=>p.Rates)
+                .ThenInclude(c => c.User)
+                .Include(p => p.Comments)
+                .ThenInclude(p => p.UserCommentLikes)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<List<Product>> GetProductsByCategoryIdAsync(int categoryId)
         {
-            return await _ctx.Products.Where(p => p.CategoryId == categoryId).Include(p => p.Colors).Include(p => p.Discount).ToListAsync();
+            return await _ctx.Products.Where(p => p.CategoryId == categoryId).Include(p => p.Colors).Include(p => p.Discount).Include(p => p.UserFavourites).ToListAsync();
         }
 
         //public async Task<List<Category>> GetAllProductsByCategoryIdAsync(int categoryId)
@@ -82,9 +92,9 @@ namespace EShop.Data.Repository
 
         public async Task<List<int>> GetAllChildCategoryIDsByCategoryId(int categoryId)
         {
-            
 
-            var result = new List<int>() { categoryId};
+
+            var result = new List<int>() { categoryId };
             var categories = _ctx.Categories.ToList();
             foreach (var category in categories)
             {
@@ -130,6 +140,11 @@ namespace EShop.Data.Repository
         public async Task<bool> IsProductExistAsync(string title)
         {
             return await _ctx.Products.AnyAsync(p => p.Title == title);
+        }
+
+        public async Task<Product> GetProductImageAndTitleByIdAsync(int id)
+        {
+            return await _ctx.Products.FindAsync(id);
         }
         #endregion
 

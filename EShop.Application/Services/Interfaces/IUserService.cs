@@ -2,6 +2,9 @@
 using EShop.Application.ViewModels.User;
 using EShop.Application.ViewModels.User.UserPanel;
 using EShop.Application.ViewModels.Ticket;
+
+using EShop.Application.ViewModels.UserFavourite;
+using EShop.Domain.Models.Users;
 using EShop.Application.ViewModels.Wallet;
 
 namespace EShop.Application.Services.Interfaces
@@ -45,6 +48,15 @@ namespace EShop.Application.Services.Interfaces
         #endregion
 
 
+        #region UserFavourite
+
+        Task<List<AddUserFavouriteViewModel>> GetAllUserFavouriteServiceAsync();
+        //Task<UserFavouriteViewModel> GetUserFavouriteByIdServiceAsync(int id);
+        Task CreateUserFavouriteServiceAsync(AddUserFavouriteViewModel uf);
+        Task DeleteUserFavouriteServiceAsync(int productId, int userId);
+        Task<List<UserFavouriteViewModel>> GetUserFavouritesProductsServiceAsync(int userId);
+
+        #endregion
 
 
     }

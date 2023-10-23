@@ -8,19 +8,21 @@ using EShop.Application.ViewModels.User.UserPanel;
 using EShop.Application.ViewModels.Ticket;
 using EShop.Domain.Interfaces;
 using EShop.Domain.Models.Users;
-using EShop.Domain.Models.Ticket;
 using EShop.Domain.Models.Wallet;
 using EShop.Application.ViewModels.Wallet;
-
+using EShop.Domain.Models.Ticket;
+using EShop.Application.ViewModels.UserFavourite;
 namespace EShop.Application.Services.Implementation
 {
     public class UserService : IUserService
     {
         private IUserRepository _userRepository;
+        private IUserFavouriteRepository _userFavouriteRepository;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IUserFavouriteRepository userFavouriteRepository)
         {
             _userRepository = userRepository;
+            _userFavouriteRepository = userFavouriteRepository;
         }
 
         public async Task<bool> IsExistUserEmailService(string email)
@@ -247,7 +249,60 @@ namespace EShop.Application.Services.Implementation
 
         #endregion
 
+        #region UserFavourite
 
+        public async Task<List<AddUserFavouriteViewModel>> GetAllUserFavouriteServiceAsync()
+        {
+            var userFavourites = await _userFavouriteRepository.GetAllUserFavouriteAsync();
+            return userFavourites.Select(uf => new AddUserFavouriteViewModel
+            {
+                ProductId = uf.ProductId,
+                UserId = uf.UserId,
+            }).ToList();
+        }
+        //public async Task<UserFavouriteViewModel> GetUserFavouriteByIdServiceAsync(int id)
+        //{
+        //    var uf = await _userFavouriteRepository.GetUserFavouriteByIdAsync(id);
+        //    return new UserFavouriteViewModel
+        //    {
+        //        Id = uf.Id,
+        //        ProductId = uf.ProductId,
+        //        UserId = uf.UserId,
+        //    };
+        //}
+        public async Task CreateUserFavouriteServiceAsync(AddUserFavouriteViewModel uf)
+        {
+            var userFavourite = new UserFavourite
+            {
+                ProductId = uf.ProductId,
+                UserId = uf.UserId,
+                CreateDate = DateTime.Now,
+                IsDelete = false,
+            };
+            await _userFavouriteRepository.CreateUserFavouriteAsync(userFavourite);
+            await _userFavouriteRepository.SaveChangesAsync();
+        }
+        public async Task DeleteUserFavouriteServiceAsync(int productId, int userId)
+        {
+            var uf = await _userFavouriteRepository.GetUserFavouriteByProductIdAndUserIdAsync(productId, userId);
+            await _userFavouriteRepository.DeleteUserFavouriteAsync(uf);
+            await _userFavouriteRepository.SaveChangesAsync();
+        }
+
+       public async Task<List<UserFavouriteViewModel>> GetUserFavouritesProductsServiceAsync(int userId)
+        {
+            var favourites = await _userFavouriteRepository.GetUserFavouritesProductsAsync(userId);
+            return favourites.Select(uf => new UserFavouriteViewModel
+            {
+                Id = uf.Id,
+                ProductId= uf.ProductId,
+                ProductImageName=uf.Product.Image,
+                ProductTitle=uf.Product.Title,
+                ProductPrice=uf.Product.Colors.First().Price
+            }).ToList();
+        }
+
+        #endregion
 
     }
 }

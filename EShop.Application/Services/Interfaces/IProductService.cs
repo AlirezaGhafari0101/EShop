@@ -2,6 +2,8 @@
 using EShop.Application.ViewModels.Product.Category;
 using EShop.Application.ViewModels.Product.Color;
 using EShop.Application.ViewModels.Product.ProductGallery;
+using EShop.Application.ViewModels.Product.Rate;
+using EShop.Domain.Models.Rating;
 
 namespace EShop.Application.Services.Interfaces
 {
@@ -37,6 +39,8 @@ namespace EShop.Application.Services.Interfaces
         Task<bool> UpdateProductServiceAsync(EditProductViewModel model, int id);
 
         Task<bool> IsProductExistServiceAsync(string title);
+
+        Task<ProductViewModel> GetProductImageAndTitleByIdServiceAsync(int id);
 
         #endregion
 
@@ -74,6 +78,12 @@ namespace EShop.Application.Services.Interfaces
         Task DeleteSingleProductGalleryServiceAsync(int galleryId);
 
 
+        #endregion
+
+        #region rate
+        Task CreateRateServiceAsync(int productId, int userId, RatingScores ratingScores);
+
+        Task<double> CalculateAverageRateForProductAsync(int productId);
         #endregion
     }
 }

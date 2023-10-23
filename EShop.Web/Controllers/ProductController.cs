@@ -1,6 +1,8 @@
 ﻿using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels.Product.Category;
+using EShop.Domain.Models.Rating;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace EShop.Web.Controllers
 {
@@ -31,5 +33,13 @@ namespace EShop.Web.Controllers
             return View(product);
         }
 
+        [HttpPost("rate/{productId}")]
+        public async Task<IActionResult> AddRate(int productId, RatingScores scoreRatingElem)
+        {
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            await _productService.CreateRateServiceAsync(productId,userId, scoreRatingElem);
+            var avgScore = await _productService.CalculateAverageRateForProductAsync(productId);
+            return Json(new {isSuccess=true, averageScore=avgScore});
+        }
     }
 }

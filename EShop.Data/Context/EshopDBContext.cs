@@ -1,7 +1,9 @@
-﻿using EShop.Domain.Models.Discount;
+﻿using EShop.Domain.Models.Comment;
+using EShop.Domain.Models.Discount;
 using EShop.Domain.Models.Home;
 using EShop.Domain.Models.Order;
 using EShop.Domain.Models.Products;
+using EShop.Domain.Models.Rating;
 using EShop.Domain.Models.Ticket;
 using EShop.Domain.Models.Users;
 using EShop.Domain.Models.Wallet;
@@ -41,6 +43,11 @@ namespace EShop.Data.Context
         public DbSet<ProductColor> ProductColors { get; set; }
 
         public DbSet<Discount> Discounts { get; set; }
+        public DbSet<UserFavourite> UserFavourites { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<UserCommentLikeOrDislike> UserCommentLikesOrDislikes { get; set; }
+        public DbSet<Rate> Rates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -57,7 +64,7 @@ namespace EShop.Data.Context
             modelBuilder.Entity<TicketMessage>().HasQueryFilter(d => !d.IsDelete);
             modelBuilder.Entity<Order>().HasQueryFilter(d => !d.IsDelete);
             modelBuilder.Entity<OrderDetail>().HasQueryFilter(d => !d.IsDelete);
-
+            modelBuilder.Entity<Comment>().HasQueryFilter(d => !d.IsDelete);
             modelBuilder.Entity<User>().HasMany<TicketMessage>(u => u.TicketMessages)
                             .WithOne(t => t.User)
                             .HasForeignKey(t => t.SenderId)
@@ -76,6 +83,19 @@ namespace EShop.Data.Context
                 .HasForeignKey(t => t.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
+
+            modelBuilder.Entity<User>().HasMany<UserCommentLikeOrDislike>(u => u.UserCommentLikes)
+                .WithOne(ucl => ucl.User)
+                .HasForeignKey(ucl => ucl.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+
+            modelBuilder.Entity<Comment>().HasMany<UserCommentLikeOrDislike>(c => c.UserCommentLikes)
+                .WithOne(ucl => ucl.Comment)
+                .HasForeignKey(ucl => ucl.CommentId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+               
+               
         }
     }
 }
