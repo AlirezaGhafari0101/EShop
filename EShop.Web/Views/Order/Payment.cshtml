@@ -1,4 +1,5 @@
 ﻿@using EShop.Application.Convertors;
+@using EShop.Application.Extensions;
 @using EShop.Application.ViewModels.Wallet;
 @using EShop.Domain.Models.Wallet;
 @model EShop.Application.ViewModels.Order.OrderVM;
@@ -25,7 +26,8 @@
                                     <span class="label">
                                         <span class="icon"><i class="ri-wallet-3-fill"></i></span>
                                         <span class="detail">
-                                            <span class="title">@item</span>
+                                        
+                                            <span class="title">@EnumExtensions.GetEnumDisplayName(item)</span>
                                         </span>
                                     </span>
                                 </label>
