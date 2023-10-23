@@ -24,7 +24,7 @@ namespace EShop.Application.Services.Interfaces
         Task DeleteUserCommentDislikeServiceAsync(int commentId, int userId);
         Task<bool> FindCommentLikeExistServiceAsync(int commentId, int userId);
         Task<bool> FindCommentDislikeExistServiceAsync(int commentId, int userId);
-        Task<List<CommentViewModel>> GetAllCommentsForProductServiceAsync(int productId);
+        Task<List<CommentViewModel>> GetAllCommentsForProductServiceAsync(int productId, string orderByType = "new");
         Task<int> GetCommentLikesCountServiceAsync(int commentId);
         Task<int> GetCommentDislikesCountServiceAsync(int commentId);
         #endregion

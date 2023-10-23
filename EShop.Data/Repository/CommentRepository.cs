@@ -25,12 +25,28 @@ namespace EShop.Data.Repository
         }
         public async Task UpdateCommentAsync(Comment comment)
         {
-             _ctx.Comments.Update(comment);
+            _ctx.Comments.Update(comment);
         }
 
-        public async Task<List<Comment>> GetAllCommentsForProductAsync(int productId)
+        public async Task<IQueryable<Comment>> GetAllCommentsForProductAsync(int productId, string orderByType = "new")
         {
-            return await _ctx.Comments.Where(c => productId == c.ProductId).Include(c => c.UserCommentLikes).Include(c => c.User).ToListAsync();
+            IQueryable<Comment> result = _ctx.Comments
+                .Where(c => productId == c.ProductId)
+                .Include(c => c.UserCommentLikes)
+                .Include(c => c.User);
+
+            switch (orderByType)
+            {
+                case "new":
+                   result= result.OrderByDescending(c => c.CreateDate);
+                    break;
+                case "best":
+                   result= result.OrderByDescending(c => c.UserCommentLikes.Count(cl => cl.CommentLikeOrDislike == CommentLikeOrDislike.like));
+                    break;
+            }
+
+            return result;
+
         }
         public async Task<List<Comment>> GetAllCommentsAsync()
         {
@@ -45,5 +61,7 @@ namespace EShop.Data.Repository
         {
             await _ctx.SaveChangesAsync();
         }
+
+       
     }
 }

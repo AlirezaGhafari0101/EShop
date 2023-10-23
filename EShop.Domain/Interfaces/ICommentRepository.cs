@@ -11,7 +11,7 @@ namespace EShop.Domain.Interfaces
     {
         Task CreateCommentAsync(Comment comment);
         Task UpdateCommentAsync(Comment comment);
-        Task<List<Comment>> GetAllCommentsForProductAsync(int productId);
+        Task<IQueryable<Comment>> GetAllCommentsForProductAsync(int productId, string orderByType = "new");
         Task<List<Comment>> GetAllCommentsAsync();
         Task<Comment> GetCommentByIdAsync(int commentId);
         Task SaveChangesAsync();

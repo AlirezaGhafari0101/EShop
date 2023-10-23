@@ -116,16 +116,18 @@ namespace EShop.Application.Services.Implementation
             }
             return true;
         }
-        public async Task<List<CommentViewModel>> GetAllCommentsForProductServiceAsync(int productId)
+        public async Task<List<CommentViewModel>> GetAllCommentsForProductServiceAsync(int productId, string orderByType = "new")
         {
-            var comments = await _commentRepository.GetAllCommentsForProductAsync(productId);
+            var comments = await _commentRepository.GetAllCommentsForProductAsync(productId, orderByType);      
             return comments.Select(c => new CommentViewModel
             {
                 Id = c.Id,
                 IsConfirmed = c.IsConfirmed,
-                DislikeCounts = c.DislikeCounts,
-                LikeCounts = c.LikeCounts,
+                DislikeCounts = c.UserCommentLikes.Count(uc => uc.CommentLikeOrDislike == CommentLikeOrDislike.dislike),
+                CreateDate = c.CreateDate,
+                LikeCounts = c.UserCommentLikes.Count(uc => uc.CommentLikeOrDislike == CommentLikeOrDislike.like),
                 Message = c.Message,
+                ProductId=c.ProductId,
                 UserName=c.User.FirstName+ ' '+ c.User.LastName,
             }).ToList();
         }

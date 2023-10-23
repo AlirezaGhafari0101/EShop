@@ -41,8 +41,5 @@ namespace EShop.Web.Controllers
             var avgScore = await _productService.CalculateAverageRateForProductAsync(productId);
             return Json(new {isSuccess=true, averageScore=avgScore});
         }
-
-       
-
     }
 }

@@ -1,4 +1,5 @@
-﻿using EShop.Application.Convertors;
+﻿
+using EShop.Application.Convertors;
 using EShop.Application.Services.Interfaces;
 using EShop.Application.ViewModels.Comment;
 using EShop.Domain.Interfaces;
@@ -31,6 +32,13 @@ namespace EShop.Web.Controllers
         #endregion
 
         #region Actions
+
+        
+        public async Task<IActionResult> ReloadComments(int id, string orderByType = "new")
+        {
+            var comments = _commentService.GetAllCommentsForProductServiceAsync(id, orderByType);
+            return PartialView("_ProductComments", comments);
+        }
 
         [HttpGet("add-comment/{productId}")]
         public async Task<IActionResult> AddComment(int productId)
@@ -91,12 +99,13 @@ namespace EShop.Web.Controllers
 
         #region Reload and return Partial For showing comment with ajax
 
-        //[HttpGet("comment/reload/{productId}")]
-        //public async Task<IActionResult> ReloadCommentPartial(int productId)
-        //{
-        //    var comments = await _commentService.GetAllCommentsForProductServiceAsync(productId);
-        //    return PartialView("_CommentPartial", comments);
-        //}
+
+        [HttpPost("/comment/reload")]
+        public async Task<IActionResult> ReloadCommentPartial(string productId, string orderByType = "new")
+        {
+            var comments = await _commentService.GetAllCommentsForProductServiceAsync(Int32.Parse(productId) , orderByType);
+            return PartialView("_ProductCommentPartial", comments);
+        }
 
         #endregion
         #endregion
