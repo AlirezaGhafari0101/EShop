@@ -184,7 +184,7 @@ namespace EShop.Application.Services.Implementation
                 DiscountId = product.DiscountId,
                 Count = product.Count,
                 CreatedDate = product.CreateDate,
-                ProductRate = product.Rates.Average(p => (double)p.RateScore),
+                ProductRate = product.Rates.Any()? product.Rates.Average(p => (double)p.RateScore):0,
                 RatesCount= product.Rates.Count(),
                 Discount = product.Discount != null ? new DiscountViewModel()
                 {

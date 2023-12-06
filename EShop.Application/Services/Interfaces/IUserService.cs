@@ -2,10 +2,8 @@
 using EShop.Application.ViewModels.User;
 using EShop.Application.ViewModels.User.UserPanel;
 using EShop.Application.ViewModels.Ticket;
-
-using EShop.Application.ViewModels.UserFavourite;
-using EShop.Domain.Models.Users;
 using EShop.Application.ViewModels.Wallet;
+using EShop.Application.ViewModels.UserFavourite;
 
 namespace EShop.Application.Services.Interfaces
 {
@@ -45,18 +43,12 @@ namespace EShop.Application.Services.Interfaces
         Task<int> ChargeWalletAsyncService(int userId, double amount, string description);
         Task<WalletVM> GetWalletByIdAsyncService(int id);
         Task IsPayWallet(int id);
-        #endregion
-
-
-        #region UserFavourite
-
-        Task<List<AddUserFavouriteViewModel>> GetAllUserFavouriteServiceAsync();
-        //Task<UserFavouriteViewModel> GetUserFavouriteByIdServiceAsync(int id);
-        Task CreateUserFavouriteServiceAsync(AddUserFavouriteViewModel uf);
+        Task CreateUserFavouriteServiceAsync(AddUserFavouriteViewModel ufViewModel);
         Task DeleteUserFavouriteServiceAsync(int productId, int userId);
         Task<List<UserFavouriteViewModel>> GetUserFavouritesProductsServiceAsync(int userId);
-
         #endregion
+
+
 
 
     }

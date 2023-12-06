@@ -129,6 +129,8 @@ namespace EShop.Application.Services.Implementation
                 Message = c.Message,
                 ProductId=c.ProductId,
                 UserName=c.User.FirstName+ ' '+ c.User.LastName,
+                UserId=c.UserId,
+
             }).ToList();
         }
 

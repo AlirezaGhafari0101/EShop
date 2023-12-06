@@ -298,7 +298,7 @@ namespace EShop.Application.Services.Implementation
                 ProductId= uf.ProductId,
                 ProductImageName=uf.Product.Image,
                 ProductTitle=uf.Product.Title,
-                ProductPrice=uf.Product.Colors.First().Price
+                ProductPrice=(int)uf.Product.Colors.First().Price
             }).ToList();
         }
 

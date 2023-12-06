@@ -498,21 +498,21 @@
         // }
 
 
-        const addToOrder = (e) => {
-            // data - toast="" data - toast - type="success" data - toast - color="green" data - toast - position="topRight" data - toast - icon="ri-check-fill" data - toast - title="موفق!" data - toast - message="به سبد اضافه شد!"
-            event.preventDefault();
-            const colorInput = Number(document.querySelector('input[name="productColor"]:checked').value)
-            // var xhttp = new XMLHttpRequest();
-            // xhttp.open("GET", "/add-to-order/@Model.Id/"+colorInput,true);
-            // xhttp.send();
-            $.ajax({
-                type: "GET",
-                url: `/add-to-order/@Model.Id/${colorInput}`,
-                success: function (response) {
-                    showToast("success", "موفق!", "به سبد خرید اضافه شد", "green", "topCenter")
+        // const addToOrder = (e) => {
+        //     // data - toast="" data - toast - type="success" data - toast - color="green" data - toast - position="topRight" data - toast - icon="ri-check-fill" data - toast - title="موفق!" data - toast - message="به سبد اضافه شد!"
+        //     event.preventDefault();
+        //     const colorInput = Number(document.querySelector('input[name="productColor"]:checked').value)
+        //     // var xhttp = new XMLHttpRequest();
+        //     // xhttp.open("GET", "/add-to-order/@Model.Id/"+colorInput,true);
+        //     // xhttp.send();
+        //     $.ajax({
+        //         type: "GET",
+        //         url: `/add-to-order/@Model.Id/${colorInput}`,
+        //         success: function (response) {
+        //             showToast("success", "موفق!", "به سبد خرید اضافه شد", "green", "topCenter")
 
-                },
-            })
-        }
+        //         },
+        //     })
+        // }
     </script>
 }
